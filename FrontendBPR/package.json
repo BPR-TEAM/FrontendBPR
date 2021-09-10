@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxt",
-    "build": "nuxt build",
+    "build": "nuxt generate",
     "start": "nuxt start",
     "generate": "nuxt generate"
   },
@@ -15,5 +15,13 @@
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.12.1"
-  }
+  },
+  "routes": [],
+ "platformErrorOverrides": [
+   {
+    "errorType": "NotFound",
+    "serve": "/200.html",
+    "statusCode": 200
+   }
+ ]
 }
