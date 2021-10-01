@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <div class="wrapper">
-      <!-- <img src="../assets/images/homepage_background.png" alt="homepage_background"> -->
       <div class="brand-search-box">
         <div class="header-text">
           Design is the silent ambassador of your brand
@@ -20,19 +19,13 @@
                 placeholder="Search"
               />
                <div class="autocom-box">
-                 
-                  <li>Channel</li>
-                  <li>Blogger</li>
-                  <li>Bollywood</li>
-                  <li>Login Form in HTML & CSS</li>
-                  <li>How to start YouTube Channel</li>
-                 
-                  <!-- here list are inserted from javascript -->
+                  <!-- here it the list inserted from javascript -->
               </div>
             
           </div>
         </div>
       </div>
+      <div class="green-footer"></div>
     </div>
   </div>
 </template>
@@ -69,6 +62,65 @@ export default {
     "What does CSS stands for?",
 ];
     return{suggestions}
+  },
+
+  mounted(){
+    this.dynamicSearch();
+  },
+
+  methods:{
+    dynamicSearch(){
+    const searchWrapper = document.querySelector(".search-bar");
+    const inputBox = searchWrapper.querySelector("input");
+    const suggBox = searchWrapper.querySelector(".autocom-box");
+     
+      inputBox.onkeyup = (e) => {
+        let userData = e.target.value;
+        let dynamicArray = [];
+        if(e.key === "Backspace") {
+          if(userData ===""){
+            suggBox.classList.add("invisible");
+            }
+          }
+        else {
+          suggBox.classList.remove("invisible"); 
+          if(userData){
+            dynamicArray = this.suggestions.filter((data) => {
+              return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+            });
+
+
+            dynamicArray = dynamicArray.map((data) => {
+              return data = `<li class="item-list">${data}</li>`;
+            })
+
+              
+              this.showSuggestions(dynamicArray,inputBox,suggBox);
+          }
+        }
+     
+      }
+    },
+    
+    showSuggestions(list,inputBox,suggBox){
+    let listData;
+    if(!list.length){
+      
+      try{
+      userValue = inputBox.value;
+      listData = `<li class="item-list">${userValue}</li>`;
+      }catch(e){
+          listData = '';
+      }
+        
+    }else{
+      listData = list.join('');
+    }
+
+    
+    console.log(suggBox);
+    suggBox.innerHTML = listData;
+}//end of method
   }
 };
 </script>
@@ -83,15 +135,21 @@ export default {
 .container {
   margin: 0px !important;
   padding: 0px !important;
+  overflow-y:scroll;
+  height:100%;
+  // display: flex;
+  // flex-direction: column
 }
 
 .wrapper {
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
   position: absolute;
   width: 100%;
   height: 100%;
+  z-index:2;
 }
 
 .brand-search-box {
@@ -123,7 +181,7 @@ export default {
 
   .search-bar {
     margin-top: 32px !important;
-
+    
     .input {
       width: 405px;
       height: 48px;
@@ -140,29 +198,28 @@ export default {
   }
 
   .autocom-box{
-  padding: 0;
-  // opacity: 0;
-  // overflow-y: auto;
-  height: 100%;
+  overflow-y: scroll;
+  height:100%;
   z-index:99;
   background: #fff;
   border-radius:20px;
   margin-top:8px !important;
-  li{
-  list-style: none;
-  padding: 12px !important;
-  text-align: center;
-  font-family: "Poppins", "Sans serif";
-  width: 100%;
-  cursor: default;
-  border-radius:32px;
-  margin-top:10px !important;
-  margin-bottom:10px !important;
 
-      &:hover{
-        background: #efefef;
-      }
+  .active{
+    opacity: 1 !important;
+    pointer-events:auto;
+    display:block !important;
     }
   }
+
 }
+  .green-footer{
+    width: 100%;
+    height:500px;
+    background:#396C54;
+    position: absolute;
+    bottom:-500px;
+    margin-top:100px !important;
+    z-index:1
+  }
 </style>
