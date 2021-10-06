@@ -19,6 +19,7 @@ export default {
 html {
   overflow: scroll;
   overflow-x: hidden;
+  scrollbar-width: none;
   background: url("../assets/images/homepage_background.png") no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
