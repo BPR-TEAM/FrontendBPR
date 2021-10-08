@@ -1,11 +1,20 @@
 <template>
   <div>
-    <!-- <LoginModal ref="login" /> -->
-    <!-- <RegistrationModal ref="register" /> -->
-    <!-- <Note ref="note" /> -->
+    <LoginModal ref="login" />
+    <RegistrationModal ref="register" />
+    <Note ref="note" />
     <NewPlant ref="addplant" />
-    <div class="auth-btn" @click="openLogin()">
+    <div class="auth-btn" @click="openLogin('login')">
       <button class="interactive-button">Login</button>
+    </div>
+    <div class="auth-btn" @click="openLogin('register')">
+      <button class="interactive-button">Register</button>
+    </div>
+    <div class="auth-btn" @click="openLogin('note')">
+      <button class="interactive-button">Note</button>
+    </div>
+    <div class="auth-btn" @click="openLogin('addplant')">
+      <button class="interactive-button">Add</button>
     </div>
   </div>
 </template>
@@ -23,8 +32,8 @@ export default {
     NewPlant,
   },
   methods: {
-    openLogin() {
-      this.$refs["addplant"].open();
+    openLogin(modal) {
+      this.$refs[modal].open();
     },
   },
 };
