@@ -4,6 +4,7 @@
     <RegistrationModal ref="register" />
     <Note ref="note" />
     <NewPlant ref="addplant" />
+    <Tag />
     <div class="auth-btn" @click="openLogin('login')">
       <button class="interactive-button">Login</button>
     </div>
@@ -24,12 +25,14 @@ import LoginModal from "../components/Modals/Login.vue";
 import RegistrationModal from "../components/Modals/Register.vue";
 import Note from "../components/Modals/Note.vue";
 import NewPlant from "../components/Modals/NewPlant.vue";
+import Tag from "../components/Tag.vue";
 export default {
   components: {
     LoginModal,
     RegistrationModal,
     Note,
     NewPlant,
+    Tag,
   },
   methods: {
     openLogin(modal) {
