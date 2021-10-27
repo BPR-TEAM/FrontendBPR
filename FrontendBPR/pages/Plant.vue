@@ -164,6 +164,7 @@ export default {
     .plant-description {
       height: 80%;
       color: white;
+      width: 100%;
       font-family: Arial, Helvetica, sans-serif;
       position: relative;
       font-size: 22px;

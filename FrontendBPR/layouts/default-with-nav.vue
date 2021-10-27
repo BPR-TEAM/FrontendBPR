@@ -1,21 +1,19 @@
 <template>
-<div>
-  <client-only>
-      <Navbar/>
-      <nuxt/>
-  </client-only>
-</div>
+  <div>
+    <client-only>
+      <Navbar />
+      <nuxt />
+    </client-only>
+  </div>
 </template>
 
 <script>
-import Navbar from "../components/Navbar.vue"
+import Navbar from "../components/Navbar.vue";
 export default {
-    components: {
-        Navbar
-    }
-}
+  components: {
+    Navbar
+  }
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
