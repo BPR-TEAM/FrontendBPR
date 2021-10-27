@@ -130,7 +130,6 @@ export default {
     top: 180px;
     display: flex;
     width: 100%;
-    left: 10%;
 
     .plant-data {
       width: 100%;
