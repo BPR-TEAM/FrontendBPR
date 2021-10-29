@@ -64,7 +64,7 @@
 
 <script>
 export default {
-  props: ["text"],
+  props: ["text"]
 };
 </script>
 
@@ -78,8 +78,8 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  height: 37px !important;
-  width: 5% !important;
+  height: 40px !important;
+  width: 90px !important;
   // min-width: 3% !important;
   // max-width: 10% !important;
   background: #5d5d5d;
