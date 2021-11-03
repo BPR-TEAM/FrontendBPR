@@ -334,7 +334,7 @@ export default {
       "How to start Gaming Channel",
       "How to start YouTube Channel",
       "What does HTML stands for?",
-      "What does CSS stands for?",
+      "What does CSS stands for?"
     ];
     return { suggestions };
   },
@@ -349,7 +349,7 @@ export default {
       const inputBox = searchWrapper.querySelector("input");
       const suggBox = searchWrapper.querySelector(".autocom-box");
 
-      inputBox.onkeyup = (e) => {
+      inputBox.onkeyup = e => {
         let userData = e.target.value;
         let dynamicArray = [];
         if (e.key === "Backspace") {
@@ -359,13 +359,13 @@ export default {
         } else {
           suggBox.classList.remove("invisible");
           if (userData) {
-            dynamicArray = this.suggestions.filter((data) => {
+            dynamicArray = this.suggestions.filter(data => {
               return data
                 .toLocaleLowerCase()
                 .startsWith(userData.toLocaleLowerCase());
             });
 
-            dynamicArray = dynamicArray.map((data) => {
+            dynamicArray = dynamicArray.map(data => {
               return (data = `<li class="item-list">${data}</li>`);
             });
 
@@ -390,8 +390,8 @@ export default {
 
       console.log(suggBox);
       suggBox.innerHTML = listData;
-    }, //end of method
-  },
+    } //end of method
+  }
 };
 </script>
 

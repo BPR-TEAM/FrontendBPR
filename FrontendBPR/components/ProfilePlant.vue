@@ -98,7 +98,8 @@ export default {
   display: flex;
   position: absolute;
   width: 320px !important;
-  height: 277px;
+  height: 277px !important;
+
   font-family: "Poppins", "sans serif";
   color: white;
 

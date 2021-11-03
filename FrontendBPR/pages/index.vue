@@ -8,9 +8,9 @@
 import Hero from "../components/Hero.vue";
 export default {
   components: {
-    Hero,
+    Hero
   },
-  layout: "default-with-nav",
+  layout: "default-with-nav"
 };
 </script>
 

@@ -114,10 +114,10 @@
         <div class="my-plants">My plants</div>
         <div class="my-plants">Notes</div>
       </div>
-    </div>
-    <div class="myplants-container">
-      <div class="myplant" v-for="tag in tags" :key="tag.id">
-        <ProfilePlant />
+      <div class="myplants-container">
+        <div class="myplant" v-for="tag in tags" :key="tag.id">
+          <ProfilePlant />
+        </div>
       </div>
     </div>
   </div>
@@ -131,7 +131,7 @@ export default {
   },
   data() {
     return {
-      tags: [1, 2, 3, 4, 5, 6]
+      tags: [1, 2, 3, 4, 5, 6, 7, 8, 9]
     };
   },
   layout: "default-with-nav"
@@ -141,7 +141,7 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 .container {
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: column;
   font-family: "Poppins", "sans-serif";
@@ -231,15 +231,25 @@ export default {
 
   .myplants-container {
     display: flex;
+    flex-wrap: wrap;
     overflow: hidden;
     overflow-y: scroll;
-    // align-items: center;
-    // justify-content: center;
-    position: relative;
-    top: 1020px;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    height: 750px !important;
+    left: 20%;
+
+    margin: none !important;
+    padding: none !important;
+    position: relative !important;
+    top: 1200px !important;
 
     .myplant {
+      flex: 0 0 33.333333%;
       width: 320px !important;
+      height: 277px;
+      margin-bottom: 50px !important;
     }
   }
 }
