@@ -209,7 +209,7 @@ export default {
   border-top: 1px solid #3b3b3b;
   position: relative;
   top: 1000px;
-  left: 40%;
+  left: 700px;
   transform: translateY(0, -50%);
 }
 
@@ -222,7 +222,7 @@ export default {
     justify-content: center;
     position: relative;
     top: 1020px;
-    left: 10%;
+    left: 200px;
 
     .my-plants {
       margin-right: 10px !important;
@@ -243,6 +243,7 @@ export default {
     padding: none !important;
     position: relative !important;
     top: 1200px !important;
+    left: 350px;
 
     .myplant {
       flex: 0 0 33.333333%;
