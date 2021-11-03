@@ -145,6 +145,7 @@ export default {
   display: flex;
   flex-direction: column;
   font-family: "Poppins", "sans-serif";
+  width: 100%;
 }
 .user-data {
   color: white;
@@ -241,9 +242,10 @@ export default {
 
     margin: none !important;
     padding: none !important;
-    position: relative !important;
+    position: absolute !important;
     top: 1200px !important;
-    left: 350px;
+    left: 5%;
+    transform: translateY(0, -50%);
 
     .myplant {
       flex: 0 0 33.333333%;
