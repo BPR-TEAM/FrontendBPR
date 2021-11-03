@@ -71,6 +71,7 @@
             <div class="name-and-lastname">
               <input
                 type="text"
+                id="first-name"
                 class="first-name"
                 name="first-name"
                 placeholder="First Name"
@@ -78,12 +79,21 @@
               />
               <input
                 type="text"
+                id="last-name"
                 class="last-name"
                 name="last-name"
                 placeholder="Last Name"
                 ref="last-name"
               />
             </div>
+            <input
+              class="username"
+              type="username"
+              id="username"
+              name="username"
+              placeholder="Username"
+              ref="username"
+            />
             <input
               class="email"
               type="email"
@@ -100,8 +110,22 @@
               placeholder="Password"
               ref="password"
             />
+            <input class="birthday" type="date" id="birthday" name="birthday" />
 
-            <div class="register interactive-button">Sign Up</div>
+            <div class="country-dropdown">
+              <vue-select
+                id="country"
+                :options="items"
+                class="dropdown"
+                placeholder="Country"
+                :reduce="country => (selectedCountry = country)"
+              >
+              </vue-select>
+            </div>
+
+            <div class="register interactive-button" @click="register()">
+              Sign Up
+            </div>
           </div>
         </div>
         <div class="second-half">
@@ -127,10 +151,16 @@
 </template>
 
 <script>
+import vueSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
+import { countries } from "static/countries.js";
 export default {
   data() {
     return {
+      user: {},
       showModal: false,
+      selectedCountry: "",
+      items: countries.items
     };
   },
   methods: {
@@ -138,15 +168,49 @@ export default {
       this.showModal = true;
       const x = window.scrollX;
       const y = window.scrollY;
-      window.onscroll = function () {
+      window.onscroll = function() {
         window.scrollTo(x, y);
       };
     },
     close() {
       this.showModal = false;
-      window.onscroll = function () {};
+      window.onscroll = function() {};
     },
+
+    async register() {
+      var first = document.getElementById("first-name").value;
+      var last = document.getElementById("last-name").value;
+      var username = document.getElementById("username").value;
+      var pass = document.getElementById("password").value;
+      var emailValue = document.getElementById("email").value;
+      var birthdayValue = document.getElementById("birthday").value;
+      var countryValue = this.selectedCountry;
+
+      var user = {
+        firstName: first,
+        lastName: last,
+        username: username,
+        passwordHash: pass,
+        email: emailValue,
+        birthday: birthdayValue,
+        country: countryValue
+      };
+
+      try {
+        await this.$axios
+          .post("https://orangebush.azurewebsites.net/Auth/Register", user)
+          .catch(e => console.log(e.message));
+      } catch (e) {
+        // console.log(res.code);
+        // console.log(res.message);
+      }
+      console.log(user);
+      this.close();
+    }
   },
+  components: {
+    vueSelect
+  }
 };
 </script>
 
@@ -173,17 +237,35 @@ export default {
   display: flex;
 
   width: 895px;
-  height: 603px;
+  height: 703px;
   background-color: black;
 
   padding: 25px;
 
   .login-form {
     width: 100%;
-    height: 50%;
+    height: 80%;
     display: flex;
     flex-direction: column;
 
+    .birthday {
+      height: 48px;
+      width: 328px;
+      border: none;
+      text-align: left;
+      padding-left: 22px;
+      background: white;
+      outline: none !important;
+    }
+    .username {
+      height: 48px;
+      width: 328px;
+      border: none;
+      text-align: left;
+      padding-left: 22px;
+      background: white;
+      outline: none !important;
+    }
     .email {
       height: 48px;
       width: 328px;
@@ -202,6 +284,26 @@ export default {
       background: white;
       outline: none !important;
     }
+    .country-dropdown {
+      height: 28px !important;
+      width: 328px;
+      border: none;
+      text-align: left;
+      padding-left: 22px;
+      background: white;
+      outline: none !important;
+    }
+
+    // .country-dropdown {
+    //   height: 48px;
+    //   width: 328px;
+    //   border-radius: 11px;
+    //   border: 2px solid #3e3e3e;
+    //   text-align: left;
+    //   z-index: 99;
+    //   outline: none;
+    //   cursor: pointer;
+    // }
     .name-and-lastname {
       display: flex;
       .first-name {
@@ -228,13 +330,28 @@ export default {
       }
     }
 
+    .username {
+      position: relative;
+      left: 15%;
+      margin-top: 18px !important;
+    }
+    .birthday {
+      position: relative;
+      left: 15%;
+      margin-top: 18px !important;
+    }
     .email {
       position: relative;
       left: 15%;
-      margin-top: 18px;
+      margin-top: 18px !important;
     }
     .password {
-      margin-top: 18px;
+      margin-top: 18px !important;
+      position: relative;
+      left: 15%;
+    }
+    .country-dropdown {
+      margin-top: 18px !important;
       position: relative;
       left: 15%;
     }

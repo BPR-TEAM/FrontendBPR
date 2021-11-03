@@ -139,7 +139,7 @@
 export default {
   data() {
     return {
-      showModal: false,
+      showModal: false
     };
   },
   methods: {
@@ -147,15 +147,15 @@ export default {
       this.showModal = true;
       const x = window.scrollX;
       const y = window.scrollY;
-      window.onscroll = function () {
+      window.onscroll = function() {
         window.scrollTo(x, y);
       };
     },
     close() {
       this.showModal = false;
-      window.onscroll = function () {};
-    },
-  },
+      window.onscroll = function() {};
+    }
+  }
 };
 </script>
 
@@ -217,7 +217,7 @@ export default {
       left: 15%;
     }
     .password {
-      margin-top: 18px;
+      margin-top: 18px !important;
       position: relative;
       left: 15%;
     }
@@ -265,7 +265,7 @@ export default {
   display: flex;
   position: relative;
   left: 15%;
-  margin-top: 30px;
+  margin-top: 30px !important;
   .checkbox {
     width: 32px;
     height: 32px;

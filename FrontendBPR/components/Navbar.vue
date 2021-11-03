@@ -1,5 +1,7 @@
 <template>
   <div>
+    <LoginModal ref="login" />
+    <RegisterModal ref="register" />
     <nav
       ref="navbar"
       class="navbar"
@@ -17,7 +19,14 @@
         </div>
 
         <div class="auth-button">
-          <button class="interactive-button">Log In</button>
+          <button class="interactive-button" @click="openModal('login')">
+            Log In
+          </button>
+        </div>
+        <div class="auth-button">
+          <button class="interactive-button" @click="openModal('register')">
+            Register
+          </button>
         </div>
       </div>
     </nav>
@@ -25,7 +34,19 @@
 </template>
 
 <script>
-export default {};
+import LoginModal from "../components/Modals/Login.vue";
+import RegisterModal from "../components/Modals/Register.vue";
+export default {
+  components: {
+    LoginModal,
+    RegisterModal
+  },
+  methods: {
+    openModal(modal) {
+      this.$refs[modal].open();
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
