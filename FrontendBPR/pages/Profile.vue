@@ -238,7 +238,6 @@ export default {
     justify-content: center;
     width: 100% !important;
     height: 750px !important;
-    left: 20%;
 
     margin: none !important;
     padding: none !important;
