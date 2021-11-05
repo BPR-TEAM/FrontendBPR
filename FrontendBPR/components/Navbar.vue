@@ -16,8 +16,10 @@
           <nuxt-link class="navbar-item" to="/">About</nuxt-link>
           <nuxt-link class="navbar-item" to="/plant">Plants</nuxt-link>
           <nuxt-link class="navbar-item" to="/profile">Profile</nuxt-link>
+          <nuxt-link class="navbar-item" to="/advice">Advices</nuxt-link>
         </div>
-
+      </div>
+      <div class="authentication">
         <div class="auth-button">
           <button class="interactive-button" @click="openModal('login')">
             Log In
@@ -94,10 +96,16 @@ export default {
       margin: 30px !important;
     }
   }
-
+}
+.authentication {
+  display: flex;
+  position: relative;
+  right: 10px;
+  width: 300px;
   .auth-button {
-    width: 25%;
+    width: 50%;
     display: flex;
+    margin-right: 10px !important;
     justify-content: center;
     align-items: center;
   }

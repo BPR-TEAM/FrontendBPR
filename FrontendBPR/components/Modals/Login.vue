@@ -95,7 +95,7 @@
               <label class="keep-in">Keep me signed in</label>
             </div>
 
-            <div class="auth interactive-button">Sign In</div>
+            <div class="auth interactive-button" @click="login">Sign In</div>
           </div>
         </div>
         <div class="second-half">
@@ -154,6 +154,27 @@ export default {
     close() {
       this.showModal = false;
       window.onscroll = function() {};
+    },
+
+    async login() {
+      var pass = document.getElementById("password").value;
+      var emailValue = document.getElementById("email").value;
+
+      var user = {
+        passwordHash: pass,
+        email: emailValue
+      };
+
+      let authToken;
+      await this.$axios
+        .post("https://orangebush.azurewebsites.net/Auth/Login", user)
+        .then(response => {
+          authToken = response.data;
+          console.log(response.status);
+        })
+        .catch(e => console.log(e.status));
+
+      console.log(authToken);
     }
   }
 };
