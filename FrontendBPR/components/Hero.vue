@@ -349,27 +349,37 @@ export default {
       const inputBox = searchWrapper.querySelector("input");
       const suggBox = searchWrapper.querySelector(".autocom-box");
 
-      inputBox.onkeyup = e => {
+      inputBox.onkeyup = async e => {
         let userData = e.target.value;
+        let searchData;
         let dynamicArray = [];
         if (e.key === "Backspace") {
           if (userData === "") {
             suggBox.classList.add("invisible");
           }
         } else {
-          suggBox.classList.remove("invisible");
-          if (userData) {
-            dynamicArray = this.suggestions.filter(data => {
-              return data
-                .toLocaleLowerCase()
-                .startsWith(userData.toLocaleLowerCase());
-            });
+          let res = await this.$axios
+            .post(
+              `https://orangebush.azurewebsites.net/Plant/search?name=${userData}`,
+              []
+            )
+            .catch(e => console.log(e.status));
 
-            dynamicArray = dynamicArray.map(data => {
-              return (data = `<li class="item-list">${data}</li>`);
-            });
+          searchData = res.data;
+          console.log(searchData);
+          if (searchData) {
+            suggBox.classList.remove("invisible");
+            if (userData) {
+              dynamicArray = searchData.filter(data => {
+                return data.toLocaleLowerCase();
+              });
 
-            this.showSuggestions(dynamicArray, inputBox, suggBox);
+              dynamicArray = dynamicArray.map(data => {
+                return (data = `<li class="item-list">${data}</li>`);
+              });
+
+              this.showSuggestions(dynamicArray, inputBox, suggBox);
+            }
           }
         }
       };
