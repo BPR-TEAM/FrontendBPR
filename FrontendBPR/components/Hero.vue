@@ -340,7 +340,9 @@ export default {
             .catch(e => console.log(e.status));
 
           searchData = res.data;
-          console.log(searchData);
+
+          // console.log(searchData);
+
           if (searchData) {
             suggBox.classList.remove("invisible");
             if (userData) {
@@ -349,9 +351,12 @@ export default {
               });
 
               dynamicArray = dynamicArray.map(data => {
-                return (data = `<li class="item-list">${data}</li>`);
-              });
+                let arr = data.split(",");
+                data = arr[0] + " / " + arr[1];
 
+                console.log(data);
+                return (data = `<a href="/plant?id=${arr[2]}" class="item-list">${data}</a>`);
+              });
               this.showSuggestions(dynamicArray, inputBox, suggBox);
             }
           }
@@ -364,7 +369,7 @@ export default {
       if (!list.length) {
         try {
           userValue = inputBox.value;
-          listData = `<li class="item-list">${userValue}</li>`;
+          listData = `<a href="/plant" class="item-list">${userValue}</a>`;
         } catch (e) {
           listData = "";
         }
@@ -372,7 +377,6 @@ export default {
         listData = list.join("");
       }
 
-      console.log(suggBox);
       suggBox.innerHTML = listData;
     } //end of method
   }
@@ -391,8 +395,6 @@ export default {
   padding: 0px !important;
   overflow-y: scroll;
   height: 100%;
-  // display: flex;
-  // flex-direction: column
 }
 
 .wrapper {
@@ -460,6 +462,8 @@ export default {
     background: #fff;
     border-radius: 20px;
     margin-top: 8px !important;
+    display: flex;
+    flex-direction: column;
 
     .active {
       opacity: 1 !important;

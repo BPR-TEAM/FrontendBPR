@@ -13,8 +13,11 @@ $widescreen: 1216px;
   border-radius: 32px;
   margin-top: 10px !important;
   margin-bottom: 10px !important;
+  text-decoration: none;
+  color: black;
   &:hover {
     background: #efefef;
+    cursor: pointer;
   }
 }
 

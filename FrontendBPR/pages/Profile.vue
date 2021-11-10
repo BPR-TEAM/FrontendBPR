@@ -134,12 +134,17 @@ export default {
       tags: [1, 2, 3, 4, 5, 6, 7, 8, 9]
     };
   },
+
+  methods: {},
   layout: "default-with-nav"
 };
 </script>
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+* {
+  background-color: black !important;
+}
 .container {
   position: absolute;
   display: flex;

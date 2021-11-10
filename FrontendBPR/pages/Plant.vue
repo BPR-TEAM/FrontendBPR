@@ -2,7 +2,8 @@
   <div class="container">
     <div class="top-container">
       <div class="img-container">
-        <svg
+        <img :src="image" id="image" />
+        <!-- <svg
           id="Hero_Image_"
           data-name="Hero Image "
           xmlns="http://www.w3.org/2000/svg"
@@ -33,7 +34,7 @@
             height="600"
             fill="url(#pattern)"
           />
-        </svg>
+        </svg> -->
       </div>
       <div class="plant-data">
         <div class="tags">
@@ -41,7 +42,7 @@
           <div class="tag"><Tag text="Family" /></div>
           <div class="tag"><Tag text="Family" /></div>
         </div>
-        <div class="plant-name">Plant name</div>
+        <div class="plant-name">{{ plantName }}</div>
         <div class="plant-description">{{ description }}</div>
       </div>
     </div>
@@ -68,12 +69,20 @@
 
 <script>
 import Tag from "../components/Tag.vue";
+import VueSanitize from "vue-sanitize";
+
 export default {
   components: {
     Tag
   },
+
+  mounted() {
+    this.getPlant();
+  },
   data() {
     return {
+      plantName: "",
+      image: "",
       description:
         "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores etea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyamerat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatasanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temporinvidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stetclita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyamerat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatasanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temporinvidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stetclita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyamerat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatasanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temporinvidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stetclita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyamerat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatasanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temporinvidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stetclita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyamerat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatasanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod temporinvidunt ut labore et dolore",
 
@@ -110,6 +119,37 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    async getPlant() {
+      const paramId = this.$route.query.id;
+      await this.$axios
+        .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
+        .then(response => {
+          this.plantName = response.data.commonName;
+          this.description = response.data.description;
+
+          var blob = new Blob([response.data.image], { type: "image/png" }),
+            url = URL.createObjectURL(blob),
+            img = new Image();
+          console.log(this.image);
+          img.onload = function() {
+            URL.revokeObjectURL(this.src); // clean-up memory
+            document.body.appendChild(this); // add image to DOM
+
+            img.src = url;
+            console.log(blob);
+          };
+        });
+      // var urlCreator = window.URL || window.webkitURL;
+      // console.log(response.data);
+    }
+
+    // convertFromBlobToImage() {
+    //   var urlCreator = window.URL || window.webkitURL;
+    //   var imageUrl = urlCreator.createObjectURL(this.response);
+    //   document.querySelector("#image").src = imageUrl;
+    // }
   },
   layout: "default-with-nav"
 };
