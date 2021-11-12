@@ -14,7 +14,6 @@
         <div class="links">
           <nuxt-link class="navbar-item" to="/">Home</nuxt-link>
           <nuxt-link class="navbar-item" to="/">About</nuxt-link>
-          <nuxt-link class="navbar-item" to="/plant">Plants</nuxt-link>
           <nuxt-link class="navbar-item" to="/profile">Profile</nuxt-link>
           <nuxt-link class="navbar-item" to="/advice">Advices</nuxt-link>
         </div>
