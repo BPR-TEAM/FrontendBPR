@@ -355,7 +355,7 @@ export default {
                 data = arr[0] + " / " + arr[1];
 
                 console.log(data);
-                return (data = `<a href="/plant?id=${arr[2]}" class="item-list">${data}</a>`);
+                return (data = `<a href="/Plant_?id=${arr[2]}" class="item-list">${data}</a>`);
               });
               this.showSuggestions(dynamicArray, inputBox, suggBox);
             }
@@ -369,7 +369,7 @@ export default {
       if (!list.length) {
         try {
           userValue = inputBox.value;
-          listData = `<a href="/plant" class="item-list">${userValue}</a>`;
+          listData = `<a href="/Plant_" class="item-list">${userValue}</a>`;
         } catch (e) {
           listData = "";
         }
