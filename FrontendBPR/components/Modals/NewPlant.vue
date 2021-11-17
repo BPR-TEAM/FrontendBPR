@@ -71,7 +71,19 @@
                 name="add-plant"
                 placeholder="Name"
               />
-              <div class="register interactive-button">Save</div>
+              <div class="label">Tags</div>
+              <div class="white-box" ref="container">
+                <input
+                  type="text"
+                  class="add-tag"
+                  name="add-tag"
+                  label="Tags"
+                  placeholder="Add more tags..."
+                  v-on:keyup.enter="addTag()"
+                  v-model="tagName"
+                />
+              </div>
+              <div class="save interactive-button">Save</div>
             </div>
           </div>
         </div>
@@ -82,10 +94,16 @@
 </template>
 
 <script>
+import Vue from "vue";
+import Tag from "../Tag.vue";
 export default {
+  components: {
+    Tag
+  },
   data() {
     return {
       showModal: false,
+      tagName: ""
     };
   },
   methods: {
@@ -93,15 +111,24 @@ export default {
       this.showModal = true;
       const x = window.scrollX;
       const y = window.scrollY;
-      window.onscroll = function () {
+      window.onscroll = function() {
         window.scrollTo(x, y);
       };
     },
     close() {
       this.showModal = false;
-      window.onscroll = function () {};
+      window.onscroll = function() {};
     },
-  },
+
+    addTag() {
+      let ComponentClass = Vue.extend(Tag);
+      let instance = new ComponentClass({
+        propsData: { text: this.tagName }
+      });
+      instance.$mount();
+      this.$refs.container.appendChild(instance.$el);
+    }
+  }
 };
 </script>
 
@@ -143,7 +170,7 @@ export default {
     .add-container {
       .add-field {
         height: 48px;
-        width: 270px;
+        width: 100%;
         border: none;
         text-align: left;
         padding-left: 22px;
@@ -153,13 +180,39 @@ export default {
         left: 15%;
       }
     }
+
+    .label {
+      color: white;
+      position: relative;
+      left: 15%;
+      margin-top: 6px;
+    }
+
+    .white-box {
+      // display: flex;
+      // flex-direction: column;
+      width: 100%;
+      height: 250px;
+      padding: 0 22px 22px 22px;
+      background: white;
+      position: relative;
+      overflow: hidden;
+      left: 15%;
+      overflow-y: scroll;
+    }
+    .add-tag {
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none !important;
+    }
   }
 }
 
 .first-half {
   display: flex;
   flex-flow: column;
-  width: 50%;
+  width: 40%;
   z-index: 2;
 }
 
@@ -198,14 +251,14 @@ export default {
   }
 }
 
-.register {
+.save {
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  top: 10%;
+  top: 5%;
   left: 15%;
-  width: 328px;
+  width: 100%;
   cursor: pointer;
 }
 

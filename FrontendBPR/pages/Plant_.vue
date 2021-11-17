@@ -6,7 +6,7 @@
           :src="`data:image/png;base64,` + image"
           id="image"
           class="plant-image"
-          :alt="name"
+          :alt="plantName"
         />
       </div>
       <div class="plant-data">
@@ -137,11 +137,11 @@ export default {
 
       .tag {
         margin-left: 30px !important;
-        margin-right: 65px !important;
+        // margin-right: 65px !important;
       }
     }
     .img-container {
-      width: 683px;
+      width: 700px;
       height: 600px;
       .plant-image {
         width: 100%;
