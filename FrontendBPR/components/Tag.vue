@@ -76,8 +76,8 @@ export default {
   background: #5d5d5d;
   height: 40px !important;
   display: inline-block;
-  padding: 12px;
-  margin: 4px;
+  padding: 12px !important;
+  margin: 4px !important;
 }
 .tag-content {
   display: flex !important;
@@ -86,7 +86,6 @@ export default {
   align-items: center;
   justify-content: center;
   color: white;
-  // width: 50%;
   border: none;
   .sharp-sign {
     position: relative;
