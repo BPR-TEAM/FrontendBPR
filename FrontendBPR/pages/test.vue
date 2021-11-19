@@ -1,6 +1,7 @@
 <template>
   <div>
     <NewPlant ref="addplant" />
+    <Note ref="note" />
     <!-- <div class="lets-see" ref="container">
       <input type="text" v-model="tag" class="tag" placeholder="tag" />
       <button class="interactive-button" @click="generate()">Click me</button>
@@ -23,6 +24,9 @@
     <div class="auth-btn" @click="openLogin('addplant')">
       <button class="interactive-button">Add</button>
     </div> -->
+    <div class="auth-btn" @click="openLogin('note')">
+      <button class="interactive-button">Note</button>
+    </div>
     <div class="auth-btn" @click="openLogin('addplant')">
       <button class="interactive-button">Add</button>
     </div>

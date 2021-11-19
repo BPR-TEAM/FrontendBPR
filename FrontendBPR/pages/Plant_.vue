@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <NewPlant ref="new-plant" />
     <div class="top-container">
       <div class="img-container">
         <img
@@ -14,6 +15,71 @@
           <div class="tag"><Tag text="Species" /></div>
           <div class="tag"><Tag text="Family" /></div>
           <div class="tag"><Tag text="Family" /></div>
+
+          <div class="add-this">
+            <div>Add this plant</div>
+            <div class="add-this-button" @click="openModal()">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="58"
+                height="58"
+                viewBox="0 0 58 58"
+              >
+                <g
+                  id="Circle_Button"
+                  data-name="Circle Button"
+                  transform="translate(0 0.015)"
+                >
+                  <rect
+                    id="Area"
+                    width="58"
+                    height="58"
+                    rx="29"
+                    transform="translate(0 -0.015)"
+                    fill="#fff3c7"
+                  />
+                  <g id="Icon" transform="translate(16.857 16.842)">
+                    <rect
+                      id="Area-2"
+                      data-name="Area"
+                      width="24"
+                      height="24"
+                      transform="translate(0.143 0.143)"
+                      fill="#3d7a5d"
+                      opacity="0"
+                    />
+                    <g
+                      id="Icon-2"
+                      data-name="Icon"
+                      transform="translate(4.976 4.988)"
+                    >
+                      <line
+                        id="Line"
+                        y2="14"
+                        transform="translate(7.024 0.012)"
+                        fill="none"
+                        stroke="#3b3b3b"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                      />
+                      <line
+                        id="Line-2"
+                        data-name="Line"
+                        x2="14"
+                        transform="translate(0.024 7.012)"
+                        fill="none"
+                        stroke="#3b3b3b"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                      />
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
         </div>
         <div class="plant-name">{{ plantName }}</div>
         <div class="plant-description">{{ description }}</div>
@@ -43,10 +109,12 @@
 <script>
 import Tag from "../components/Tag.vue";
 import VueSanitize from "vue-sanitize";
+import NewPlant from "../components/Modals/NewPlant.vue";
 
 export default {
   components: {
-    Tag
+    Tag,
+    NewPlant
   },
 
   mounted() {
@@ -103,6 +171,10 @@ export default {
           this.description = response.data.description;
           this.image = response.data.image;
         });
+    },
+
+    openModal() {
+      this.$refs["new-plant"].open();
     }
   },
   layout: "default-with-nav"
@@ -118,6 +190,7 @@ export default {
 .container {
   position: relative;
   font-family: "Poppins", sans-serif;
+  // z-index: 1;
 
   .top-container {
     position: absolute;
@@ -138,6 +211,20 @@ export default {
       .tag {
         margin-left: 30px !important;
         // margin-right: 65px !important;
+      }
+
+      .add-this {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        float: flex-end;
+        color: white;
+        left: 80%;
+
+        .add-this-button {
+          margin-left: 5px !important;
+        }
       }
     }
     .img-container {

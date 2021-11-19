@@ -87,7 +87,87 @@
             </div>
           </div>
         </div>
-        <div class="second-half"></div>
+        <div class="second-half">
+          <div class="add-image">
+            <img
+              id="plant-preview"
+              src="~assets/images/new-plant-placeholder.png"
+              alt="plant-preview"
+            />
+          </div>
+          <div class="add-button" @click="openDirectory">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="52"
+              height="52"
+              viewBox="0 0 52 52"
+            >
+              <g
+                id="Circle_Button"
+                data-name="Circle Button"
+                transform="translate(0 0.015)"
+              >
+                <rect
+                  id="Area"
+                  width="52"
+                  height="52"
+                  rx="26"
+                  transform="translate(0 -0.015)"
+                  fill="#3d7a5d"
+                />
+                <g id="Icon" transform="translate(15.12 15.106)">
+                  <rect
+                    id="Area-2"
+                    data-name="Area"
+                    width="21"
+                    height="21"
+                    transform="translate(-0.121 -0.121)"
+                    fill="#3d7a5d"
+                    opacity="0"
+                  />
+                  <g
+                    id="Icon-2"
+                    data-name="Icon"
+                    transform="translate(4.32 4.32)"
+                  >
+                    <line
+                      id="Line"
+                      y2="12.452"
+                      transform="translate(6.226 0)"
+                      fill="none"
+                      stroke="#fff"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                    <line
+                      id="Line-2"
+                      data-name="Line"
+                      x2="12.452"
+                      transform="translate(0 6.226)"
+                      fill="none"
+                      stroke="#fff"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+
+            <!-- <img src="~assets/images/Circle button.svg" alt="" /> -->
+            <!-- <label class="custom-file-upload">
+              <input type="file" />
+            </label> -->
+          </div>
+          <input
+            type="file"
+            accept="image/*"
+            id="choose-file"
+            style="display:none;"
+          />
+        </div>
       </div>
     </transition>
   </div>
@@ -103,7 +183,11 @@ export default {
   data() {
     return {
       showModal: false,
-      tagName: ""
+      tagName: "",
+      addImage: "../assets/images/new-plant-placeholder.png",
+      blob: "",
+      tags: [],
+      request: ""
     };
   },
   methods: {
@@ -127,7 +211,43 @@ export default {
       });
       instance.$mount();
       this.$refs.container.appendChild(instance.$el);
-    }
+
+      this.tags.push(this.tagName);
+    },
+
+    openDirectory() {
+      let chooseFile = document.getElementById("choose-file");
+      chooseFile.click();
+      chooseFile.addEventListener("change", function() {
+        const files = chooseFile.files[0];
+        console.log(files);
+        if (files) {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(files);
+          fileReader.addEventListener("load", function() {
+            document.getElementById("plant-preview").style.display = "block";
+            document.getElementById("plant-preview").src = this.result;
+
+            const blob = new Blob([this.result]);
+
+            this.blob = blob;
+          });
+        }
+      });
+    },
+
+    async save() {}
+    // getImgData() {
+    //   const files = this.chooseFile.files[0];
+    //   if (files) {
+    //     const fileReader = new FileReader();
+    //     fileReader.readAsDataURL(files);
+    //     fileReader.addEventListener("load", function() {
+    //       document.getElementById("plant-preview").style.display = "block";
+    //       document.getElementById("plant-preview").src = this.result;
+    //     });
+    //   }
+    // }
   }
 };
 </script>
@@ -136,13 +256,17 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 @import "./assets/buttons.scss";
 .modal-overlay {
-  position: absolute;
+  position: relative;
+  width: 5000px;
+  height: 2000px;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 998;
-  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  background-color: gray;
+  opacity: 1;
+  pointer-events: none !important;
 }
 
 .modal {
@@ -217,17 +341,45 @@ export default {
 }
 
 .second-half {
-  width: 20%;
+  width: 50%;
   position: relative;
   align-self: center;
-  left: 10%;
-  z-index: 1;
-  pointer-events: none;
+  left: 8%;
+  // pointer-events: none;
+
+  .add-image {
+    width: 430px !important;
+    height: 100% !important;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .add-button {
+    position: absolute;
+    bottom: -17px;
+    right: -30px;
+    border: none !important;
+
+    &:hover {
+      cursor: pointer;
+    }
+    .add-plant-button {
+      // background: url("~assets/images/Circle button.svg") !important;
+      // background: green !important;
+      cursor: pointer;
+      border: none;
+      width: 38px;
+      height: 38px;
+      z-index: 3;
+    }
+  }
 }
 
 .title-and-sub {
   width: 100%;
-  height: 30%;
+  height: 20%;
 }
 .title {
   font-size: 32px;
