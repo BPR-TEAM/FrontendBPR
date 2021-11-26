@@ -69,6 +69,7 @@
                 type="text"
                 class="add-field"
                 name="add-plant"
+                v-model="plantName"
                 placeholder="Name"
               />
               <div class="label">Tags</div>
@@ -83,7 +84,9 @@
                   v-model="tagName"
                 />
               </div>
-              <div class="save interactive-button">Save</div>
+              <div class="save interactive-button" @click="savePlant()">
+                Save
+              </div>
             </div>
           </div>
         </div>
@@ -185,9 +188,12 @@ export default {
       showModal: false,
       tagName: "",
       addImage: "../assets/images/new-plant-placeholder.png",
-      blob: "",
+      blob: {},
       tags: [],
-      request: ""
+      request: "",
+      plantName: ""
+      // plantId: "2",
+      // authToken: "2"
     };
   },
   methods: {
@@ -212,7 +218,8 @@ export default {
       instance.$mount();
       this.$refs.container.appendChild(instance.$el);
 
-      this.tags.push(this.tagName);
+      let tagObj = { name: this.tagName };
+      this.tags.push(tagObj);
     },
 
     openDirectory() {
@@ -227,27 +234,51 @@ export default {
           fileReader.addEventListener("load", function() {
             document.getElementById("plant-preview").style.display = "block";
             document.getElementById("plant-preview").src = this.result;
-
-            const blob = new Blob([this.result]);
-
-            this.blob = blob;
           });
         }
       });
     },
 
-    async save() {}
-    // getImgData() {
-    //   const files = this.chooseFile.files[0];
-    //   if (files) {
-    //     const fileReader = new FileReader();
-    //     fileReader.readAsDataURL(files);
-    //     fileReader.addEventListener("load", function() {
-    //       document.getElementById("plant-preview").style.display = "block";
-    //       document.getElementById("plant-preview").src = this.result;
-    //     });
-    //   }
-    // }
+    async savePlant() {
+      const id = this.$route.query.id;
+      const token = "6=3TGNv8UJq0u/Cu7jW3AqYQ";
+      const image = document.getElementById("plant-preview").src;
+      const blob = new Blob([image]);
+      console.log(blob);
+      let request = {
+        plantId: id,
+        name: this.plantName,
+        image: image.split(",")[1]
+        // tags: this.tags
+      };
+
+      await this.$axios
+        .post(`https://orangebush.azurewebsites.net/Plant/MyPlant`, request, {
+          headers: {
+            token: token
+          }
+        })
+        .then(res => console.log(res.status))
+        .catch(e => console.log(e.message));
+
+      ////////////////////////////////
+      await this.$axios
+        .get(`https://orangebush.azurewebsites.net/Plant/MyPlant?id=${id}`, {
+          headers: {
+            token: token
+          }
+        })
+        .then(res => console.log(res.data));
+      // console.log(request);
+
+      //  await this.$axios
+      //         .post(
+      //           `https://orangebush.azurewebsites.net/Plant/search?name=${userData}`,
+      //           []
+      //         )
+      //         .catch(e => console.log(e.status));
+      // console.log(this.blob);
+    }
   }
 };
 </script>
@@ -264,14 +295,14 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 10;
-  background-color: gray;
-  opacity: 1;
+  background-color: rgba(0, 0, 0, 0.5);
   pointer-events: none !important;
 }
 
 .modal {
   font-family: "Poppins", "Sans serif";
   position: fixed;
+  border: 1px solid gray;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -350,6 +381,8 @@ export default {
   .add-image {
     width: 430px !important;
     height: 100% !important;
+    position: relative;
+    bottom: 18px;
     img {
       width: 100%;
       height: 100%;
@@ -358,8 +391,8 @@ export default {
 
   .add-button {
     position: absolute;
-    bottom: -17px;
-    right: -30px;
+    bottom: 0;
+    right: 0;
     border: none !important;
 
     &:hover {

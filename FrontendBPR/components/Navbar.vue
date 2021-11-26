@@ -60,7 +60,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: transparent !important;
-  // z-index: 3 !important;
+  z-index: 3 !important;
   position: absolute !important;
 }
 
