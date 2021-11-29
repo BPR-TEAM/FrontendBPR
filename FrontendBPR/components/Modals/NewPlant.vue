@@ -241,7 +241,7 @@ export default {
 
     async savePlant() {
       const id = this.$route.query.id;
-      const token = "6=3TGNv8UJq0u/Cu7jW3AqYQ";
+      const token = "2=ZGII4S2062j2Y8HGAQeg";
       const image = document.getElementById("plant-preview").src;
       const blob = new Blob([image]);
       console.log(blob);
@@ -249,7 +249,6 @@ export default {
         plantId: id,
         name: this.plantName,
         image: image.split(",")[1]
-        // tags: this.tags
       };
 
       await this.$axios
@@ -262,22 +261,14 @@ export default {
         .catch(e => console.log(e.message));
 
       ////////////////////////////////
+
       await this.$axios
-        .get(`https://orangebush.azurewebsites.net/Plant/MyPlant?id=${id}`, {
+        .get(`https://orangebush.azurewebsites.net/Plant/MyPlant/all`, {
           headers: {
             token: token
           }
         })
         .then(res => console.log(res.data));
-      // console.log(request);
-
-      //  await this.$axios
-      //         .post(
-      //           `https://orangebush.azurewebsites.net/Plant/search?name=${userData}`,
-      //           []
-      //         )
-      //         .catch(e => console.log(e.status));
-      // console.log(this.blob);
     }
   }
 };

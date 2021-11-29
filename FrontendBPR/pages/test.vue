@@ -2,6 +2,9 @@
   <div>
     <NewPlant ref="addplant" />
     <Note ref="note" />
+    <!-- <AdviceContainer /> -->
+    <!-- <NotesContainer /> -->
+    <MyPlants />
     <!-- <div class="lets-see" ref="container">
       <input type="text" v-model="tag" class="tag" placeholder="tag" />
       <button class="interactive-button" @click="generate()">Click me</button>
@@ -24,12 +27,12 @@
     <div class="auth-btn" @click="openLogin('addplant')">
       <button class="interactive-button">Add</button>
     </div> -->
-    <div class="auth-btn" @click="openLogin('note')">
+    <!-- <div class="auth-btn" @click="openLogin('note')">
       <button class="interactive-button">Note</button>
     </div>
     <div class="auth-btn" @click="openLogin('addplant')">
       <button class="interactive-button">Add</button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -41,6 +44,9 @@ import Note from "../components/Modals/Note.vue";
 import NewPlant from "../components/Modals/NewPlant.vue";
 import Tag from "../components/Tag.vue";
 import ProfilePlant from "../components/ProfilePlant.vue";
+import AdviceContainer from "../components/page-containers/AdviceContainer.vue";
+import NotesContainer from "../components/page-containers/NotesContainer.vue";
+import MyPlants from "../components/page-containers/MyPlants.vue";
 export default {
   data() {
     return {
@@ -53,7 +59,10 @@ export default {
     Note,
     NewPlant,
     Tag,
-    ProfilePlant
+    ProfilePlant,
+    AdviceContainer,
+    NotesContainer,
+    MyPlants
   },
   methods: {
     openLogin(modal) {

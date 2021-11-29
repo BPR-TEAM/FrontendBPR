@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="my-container">
     <div class="tag-container">
       <Tag class="tag" text="Family" />
       <Tag class="tag" text="Family" />
@@ -94,9 +94,9 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
-.container {
+.my-container {
   display: flex;
-  position: absolute;
+  position: relative;
   width: 320px !important;
   height: 277px !important;
 
@@ -143,6 +143,7 @@ export default {
   left: 120px;
   height: 100%;
   z-index: 99;
+  display: block;
 
   .tag {
     margin-bottom: 10px !important;

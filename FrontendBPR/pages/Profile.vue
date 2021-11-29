@@ -111,13 +111,15 @@
     <div class="items-line"></div>
     <div class="items">
       <div class="header-buttons">
-        <div class="my-plants">My plants</div>
-        <div class="my-plants">Notes</div>
-      </div>
-      <div class="myplants-container">
-        <div class="myplant" v-for="tag in tags" :key="tag.id">
-          <ProfilePlant />
+        <div class="my-plants" @click="changeComponent('MyPlants')">
+          My plants
         </div>
+        <div class="my-plants" @click="changeComponent('NotesContainer')">
+          Notes
+        </div>
+      </div>
+      <div class="plants-container">
+        <component class="component" v-bind:is="component"></component>
       </div>
     </div>
   </div>
@@ -129,13 +131,22 @@ export default {
   components: {
     ProfilePlant
   },
+  mounted() {
+    this.component = () => import(`../components/page-containers/MyPlants.vue`);
+  },
   data() {
     return {
-      tags: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      tags: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      component: ""
     };
   },
 
-  methods: {},
+  methods: {
+    changeComponent(name) {
+      this.component = () =>
+        import(`../components/page-containers/${name}.vue`);
+    }
+  },
   layout: "default-with-nav"
 };
 </script>
@@ -146,15 +157,16 @@ export default {
   background-color: black !important;
 }
 .container {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
+  position: relative;
+
+  display: block;
+  margin: 0 !important;
   font-family: "Poppins", "sans-serif";
   width: 100%;
 }
 .user-data {
   color: white;
-  position: absolute;
+  position: relative;
   top: 150px;
   left: 350px;
 
@@ -171,7 +183,7 @@ export default {
       padding: 22px !important;
       min-width: 555px;
       height: 490px;
-      background: #101010;
+      background: #101010 !important;
     }
 
     .profile-pic {
@@ -191,15 +203,17 @@ export default {
     position: relative;
     top: 50%;
     left: 90%;
+    background: transparent !important;
   }
 
   .profile-data {
     position: relative;
     top: 60%;
-
+    background: transparent !important;
     .data-item {
       margin-bottom: 8px !important;
       font-size: 18px;
+      background: transparent !important;
     }
   }
 
@@ -211,53 +225,49 @@ export default {
 }
 
 .items-line {
+  align-self: center;
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
   width: 715px;
   border-top: 1px solid #3b3b3b;
   position: relative;
-  top: 1000px;
-  left: 700px;
+  margin-top: 100px !important;
+  // top: 1000px;
+  // left: 700px;
+  left: 40%;
   transform: translateY(0, -50%);
 }
 
 .items {
+  width: 100%;
   color: white;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   .header-buttons {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    top: 1020px;
-    left: 200px;
+    left: 10%;
+    cursor: pointer;
+    // top: 1020px;
+    // left: 200px;
 
     .my-plants {
       margin-right: 10px !important;
     }
   }
 
-  .myplants-container {
+  .plants-container {
+    margin-top: 50px !important;
+    width: 100% !important;
     display: flex;
-    flex-wrap: wrap;
-    overflow: hidden;
-    overflow-y: scroll;
     align-items: center;
     justify-content: center;
-    width: 100% !important;
-    height: 750px !important;
-
-    margin: none !important;
-    padding: none !important;
-    position: absolute !important;
-    top: 1200px !important;
-    left: 5%;
-    transform: translateY(0, -50%);
-
-    .myplant {
-      flex: 0 0 33.333333%;
-      width: 320px !important;
-      height: 277px;
-      margin-bottom: 50px !important;
-    }
+    position: relative;
   }
 }
 </style>

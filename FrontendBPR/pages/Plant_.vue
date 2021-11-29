@@ -86,7 +86,16 @@
       </div>
     </div>
     <div class="advices">
-      <div class="header">Advice</div>
+      <div class="headers">
+        <div class="header" @click="changeComponent('AdviceContainer')">
+          Advice
+        </div>
+        <div class="header" @click="changeComponent('NotesContainer')">
+          Notes
+        </div>
+      </div>
+      <component class="component" v-bind:is="component"></component>
+      <!-- <div class="header">Advice</div>
       <div class="number-of-comm">16 comments</div>
       <div class="advices-container">
         <div v-for="advice in advices" :key="advice.id" class="advice-item">
@@ -101,16 +110,14 @@
           </div>
           <div class="description">{{ advice.description }}</div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
 import Tag from "../components/Tag.vue";
-import VueSanitize from "vue-sanitize";
 import NewPlant from "../components/Modals/NewPlant.vue";
-
 export default {
   components: {
     Tag,
@@ -118,62 +125,49 @@ export default {
   },
 
   mounted() {
-    this.getPlant();
+    this.component = () =>
+      import(`../components/page-containers/AdviceContainer.vue`);
   },
+
+  async fetch() {
+    let paramId = this.$route.query.id;
+    await this.$axios
+      .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
+      .then(response => {
+        this.plantName = response.data.commonName;
+        this.description = response.data.description;
+        this.image = response.data.image;
+      });
+  },
+
   data() {
     return {
       authToken: "",
       plantName: "",
       image: "",
       description: "",
-      advices: [
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua"
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
-        }
-      ]
+      component: ""
     };
   },
   methods: {
-    async getPlant() {
-      let paramId = this.$route.query.id;
-      await this.$axios
-        .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
-        .then(response => {
-          this.plantName = response.data.commonName;
-          this.description = response.data.description;
-          this.image = response.data.image;
-        });
-    },
+    // async getPlant() {
+    //   let paramId = this.$route.query.id;
+    //   await this.$axios
+    //     .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
+    //     .then(response => {
+    //       this.plantName = response.data.commonName;
+    //       this.description = response.data.description;
+    //       this.image = response.data.image;
+    //     });
+    // },
 
     openModal() {
       this.$refs["new-plant"].open();
+    },
+
+    changeComponent(name) {
+      this.component = () =>
+        import(`../components/page-containers/${name}.vue`);
     }
   },
   layout: "default-with-nav"
@@ -269,59 +263,22 @@ export default {
     left: 40%;
     transform: translateY(0, -50%);
 
+    .headers {
+      display: flex;
+      justify-content: center;
+    }
+
     .header {
+      margin: 0 10px !important;
       color: #fff3c7;
       text-align: center;
       position: relative;
       top: 10px;
+      cursor: pointer;
     }
 
-    .number-of-comm {
-      color: white;
-      position: relative;
-      top: 50px;
-    }
-  }
-
-  .advices-container {
-    overflow-y: scroll;
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    top: 150px;
-    height: 60%;
-  }
-  .profile {
-    display: flex;
-  }
-  .advice-item {
-    width: 100%;
-    height: 35%;
-    color: white;
-    position: relative;
-    display: flex;
-    flex-flow: column;
-    .profile-img {
-      width: 58px;
-      height: 58px;
-      img {
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .name {
-      position: relative;
-      left: 20px;
-    }
-    .posted {
-      position: relative;
-      left: 20px;
-    }
-    .description {
-      position: relative;
-      top: 20px;
+    .component {
+      margin-top: 50px !important;
     }
   }
 }
