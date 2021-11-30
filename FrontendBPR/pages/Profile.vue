@@ -131,13 +131,27 @@ export default {
   components: {
     ProfilePlant
   },
+
+  async fetch() {
+    this.token = this.getCookie("auth");
+    console.log(this.token);
+    await this.$axios
+      .get("https://orangebush.azurewebsites.net/profile", {
+        headers: {
+          token: this.token
+        }
+      })
+      .then(res => console.log(res));
+  },
   mounted() {
     this.component = () => import(`../components/page-containers/MyPlants.vue`);
   },
   data() {
     return {
       tags: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      component: ""
+      component: "",
+      token: "",
+      user: ""
     };
   },
 
@@ -145,6 +159,21 @@ export default {
     changeComponent(name) {
       this.component = () =>
         import(`../components/page-containers/${name}.vue`);
+    },
+    getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
     }
   },
   layout: "default-with-nav"

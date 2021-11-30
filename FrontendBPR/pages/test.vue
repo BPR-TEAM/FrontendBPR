@@ -1,42 +1,36 @@
 <template>
   <div>
-    <NewPlant ref="addplant" />
-    <Note ref="note" />
-    <!-- <AdviceContainer /> -->
-    <!-- <NotesContainer /> -->
-    <MyPlants />
-    <!-- <div class="lets-see" ref="container">
-      <input type="text" v-model="tag" class="tag" placeholder="tag" />
-      <button class="interactive-button" @click="generate()">Click me</button>
-    </div> -->
-    <!-- <LoginModal ref="login" />
-    <RegistrationModal ref="register" />
-    <Note ref="note" />
-    <NewPlant ref="addplant" /> -->
-    <!-- <Tag /> -->
-    <!-- <ProfilePlant /> -->
-    <!-- <div class="auth-btn" @click="openLogin('login')">
-      <button class="interactive-button">Login</button>
+    <button class="button" @click="addExperience">Add experience</button>
+    <div class="Chart">
+      <DoughnutExample
+        ref="skills_chart"
+        :chart-data="chartData"
+        :options="options"
+      >
+      </DoughnutExample>
+      <div v-for="(val, i) in currentDataSet" :key="i">
+        <input
+          type="range"
+          min="0"
+          max="8"
+          placeholder="name"
+          :value="currentDataSet[i]"
+          @input="updateAmount($event.target.value, i)"
+        />
+        <span> {{ currentDataSet[i] }} years </span>
+        <input
+          type="text"
+          :value="chartData.labels[i]"
+          @input="updateName($event.target.value, i)"
+        />
+        <button @click="remove(i)">remove</button>
+      </div>
     </div>
-    <div class="auth-btn" @click="openLogin('register')">
-      <button class="interactive-button">Register</button>
-    </div>
-    <div class="auth-btn" @click="openLogin('note')">
-      <button class="interactive-button">Note</button>
-    </div>
-    <div class="auth-btn" @click="openLogin('addplant')">
-      <button class="interactive-button">Add</button>
-    </div> -->
-    <!-- <div class="auth-btn" @click="openLogin('note')">
-      <button class="interactive-button">Note</button>
-    </div>
-    <div class="auth-btn" @click="openLogin('addplant')">
-      <button class="interactive-button">Add</button>
-    </div> -->
   </div>
 </template>
 
 <script>
+import DoughnutExample from "../components/Charts/DoughnutChart.vue";
 import Vue from "vue";
 import LoginModal from "../components/Modals/Login.vue";
 import RegistrationModal from "../components/Modals/Register.vue";
@@ -47,10 +41,28 @@ import ProfilePlant from "../components/ProfilePlant.vue";
 import AdviceContainer from "../components/page-containers/AdviceContainer.vue";
 import NotesContainer from "../components/page-containers/NotesContainer.vue";
 import MyPlants from "../components/page-containers/MyPlants.vue";
+import randomColor from "randomcolor";
+
+const options = {
+  responsive: true,
+  maintainAspectRatio: false,
+  animation: {
+    animateRotate: false
+  }
+};
 export default {
   data() {
     return {
-      tag: ""
+      options,
+      chartData: {
+        labels: ["skill1"],
+        datasets: [
+          {
+            backgroundColor: [randomColor()],
+            data: [1]
+          }
+        ]
+      }
     };
   },
   components: {
@@ -62,20 +74,44 @@ export default {
     ProfilePlant,
     AdviceContainer,
     NotesContainer,
-    MyPlants
+    MyPlants,
+    DoughnutExample
+  },
+
+  computed: {
+    currentDataSet() {
+      return this.chartData.datasets[0].data;
+    }
   },
   methods: {
     openLogin(modal) {
       this.$refs[modal].open();
     },
-
-    generate() {
-      let ComponentClass = Vue.extend(Tag);
-      let instance = new ComponentClass({
-        propsData: { text: this.tag }
-      });
-      instance.$mount();
-      this.$refs.container.appendChild(instance.$el);
+    updateChart() {
+      this.$refs.skills_chart.update();
+      console.log(this.chartData.datasets[0].data);
+    },
+    updateAmount(amount, index) {
+      this.chartData.datasets[0].data.splice(index, 1, amount);
+      this.updateChart();
+    },
+    updateName(text, index) {
+      this.chartData.labels.splice(index, 1, text);
+      this.updateChart();
+    },
+    addExperience() {
+      const currentDataset = this.chartData.datasets[0];
+      this.chartData.labels.push(`Skill ${currentDataset.data.length + 1}`);
+      currentDataset.data.push(0);
+      currentDataset.backgroundColor.push(randomColor());
+      this.updateChart();
+    },
+    remove(index) {
+      const currentDataset = this.chartData.datasets[0];
+      currentDataset.data.splice(index, 1);
+      this.chartData.labels.splice(index, 1);
+      currentDataset.backgroundColor.splice(index, 1);
+      this.updateChart();
     }
   }
 };
@@ -97,5 +133,10 @@ button {
 .lets-see {
   display: flex;
   // flex-direction: column;
+}
+
+.small {
+  width: 100%;
+  height: 1000px;
 }
 </style>

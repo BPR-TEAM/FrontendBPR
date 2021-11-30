@@ -174,6 +174,8 @@ export default {
         })
         .catch(e => console.log(e.status));
 
+      document.cookie = `auth=${authToken}`;
+      this.close();
       console.log(authToken);
     }
   }
