@@ -2,12 +2,14 @@
   <div>
     <button class="button" @click="addExperience">Add experience</button>
     <div class="Chart">
-      <DoughnutExample
+      <LineChart
         ref="skills_chart"
         :chart-data="chartData"
         :options="options"
+        :width="700"
+        :height="500"
       >
-      </DoughnutExample>
+      </LineChart>
       <div v-for="(val, i) in currentDataSet" :key="i">
         <input
           type="range"
@@ -30,7 +32,7 @@
 </template>
 
 <script>
-import DoughnutExample from "../components/Charts/DoughnutChart.vue";
+import LineChart from "../components/Charts/LineChart.vue";
 import Vue from "vue";
 import LoginModal from "../components/Modals/Login.vue";
 import RegistrationModal from "../components/Modals/Register.vue";
@@ -44,10 +46,36 @@ import MyPlants from "../components/page-containers/MyPlants.vue";
 import randomColor from "randomcolor";
 
 const options = {
-  responsive: true,
+  responsive: false,
   maintainAspectRatio: false,
   animation: {
     animateRotate: false
+  },
+  scales: {
+    y: {
+      ticks: {
+        color: "white",
+        font: {
+          size: 18
+        }
+      },
+      grid: {
+        color: "white",
+        lineWidth: 0.5
+      }
+    },
+    x: {
+      ticks: {
+        color: "white",
+        font: {
+          size: 18
+        }
+      },
+      grid: {
+        color: "white",
+        lineWidth: 0.5
+      }
+    }
   }
 };
 export default {
@@ -55,11 +83,19 @@ export default {
     return {
       options,
       chartData: {
-        labels: ["skill1"],
+        labels: ["day1", "day2", "day3", "day4", "day5", "day6"],
         datasets: [
           {
             backgroundColor: [randomColor()],
-            data: [1]
+            data: [10, 10, 10, 10, 10, 10],
+            // fill: true
+            borderColor: "rgb(76, 195, 192)"
+          },
+          {
+            backgroundColor: [randomColor()],
+            data: [0, 11, 10, 25, 17, 1, 10],
+            // fill: true,
+            borderColor: "rgb(75, 192, 192)"
           }
         ]
       }
@@ -75,7 +111,7 @@ export default {
     AdviceContainer,
     NotesContainer,
     MyPlants,
-    DoughnutExample
+    LineChart
   },
 
   computed: {
@@ -118,6 +154,9 @@ export default {
 </script>
 
 <style lang="scss">
+html {
+  background: black !important;
+}
 button {
   border: 1px solid black;
 

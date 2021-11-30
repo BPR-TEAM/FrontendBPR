@@ -116,8 +116,8 @@ export default {
     display: none;
   }
   /// flex-direction: column;
-  width: 715px;
-  height: 800px;
+  width: 715px !important;
+  height: 800px !important;
   background: black;
   font-family: "Poppins", sans-serif;
 }
