@@ -1,5 +1,9 @@
 <template>
   <div>
+    <NewDashboard ref="dashboard" />
+    <button class="interactive-button" @click="openModal('dashboard')">
+      Log In
+    </button>
     <!-- <button class="button" @click="addExperience">Add experience</button>
     <div class="Chart">
       <LineChart
@@ -38,6 +42,7 @@ import LoginModal from "../components/Modals/Login.vue";
 import RegistrationModal from "../components/Modals/Register.vue";
 import Note from "../components/Modals/Note.vue";
 import NewPlant from "../components/Modals/NewPlant.vue";
+import NewDashboard from "../components/Modals/NewDashboard.vue";
 import Tag from "../components/Tag.vue";
 import ProfilePlant from "../components/ProfilePlant.vue";
 import AdviceContainer from "../components/page-containers/AdviceContainer.vue";
@@ -80,26 +85,7 @@ const options = {
 };
 export default {
   data() {
-    return {
-      options,
-      chartData: {
-        labels: ["day1", "day2", "day3", "day4", "day5", "day6"],
-        datasets: [
-          {
-            backgroundColor: [randomColor()],
-            data: [10, 10, 10, 10, 10, 10],
-            // fill: true
-            borderColor: "rgb(76, 195, 192)"
-          },
-          {
-            backgroundColor: [randomColor()],
-            data: [0, 11, 10, 25, 17, 1, 10],
-            // fill: true,
-            borderColor: "rgb(75, 192, 192)"
-          }
-        ]
-      }
-    };
+    return {};
   },
   components: {
     LoginModal,
@@ -111,7 +97,8 @@ export default {
     AdviceContainer,
     NotesContainer,
     MyPlants,
-    LineChart
+    LineChart,
+    NewDashboard
   },
 
   computed: {
@@ -120,6 +107,9 @@ export default {
     }
   },
   methods: {
+    openModal(modal) {
+      this.$refs[modal].open();
+    }
     // openLogin(modal) {
     //   this.$refs[modal].open();
     // },
@@ -152,18 +142,8 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
-html {
-  background: black !important;
-}
-button {
-  border: 1px solid black;
-
-  &:active {
-    background-color: red;
-  }
-}
+@import "../assets/buttons.scss";
 
 .tag {
   border: 1px solid black;

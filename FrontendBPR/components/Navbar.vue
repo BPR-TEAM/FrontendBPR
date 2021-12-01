@@ -62,6 +62,7 @@ export default {
   background-color: transparent !important;
   z-index: 3 !important;
   position: absolute !important;
+  animation: fade 900ms ease-out;
 }
 
 .links-and-name {
@@ -107,6 +108,15 @@ export default {
     margin-right: 10px !important;
     justify-content: center;
     align-items: center;
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>

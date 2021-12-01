@@ -398,6 +398,7 @@ export default {
 }
 
 .wrapper {
+  animation: drop 1000ms;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -412,6 +413,7 @@ export default {
 }
 
 .brand-search-box {
+  animation: fade 900ms ease-in;
   width: 860px;
   height: 285px;
   .header-text {
@@ -473,6 +475,7 @@ export default {
   }
 }
 .green-footer {
+  // animation: rise 1000ms ease-in;
   width: 100%;
   height: 500px;
   background: #396c54;
@@ -543,6 +546,31 @@ export default {
     font-size: 18;
     font-weight: 500;
     margin-bottom: 24px !important;
+  }
+}
+
+@keyframes drop {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes rise {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>

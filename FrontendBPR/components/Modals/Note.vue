@@ -120,7 +120,7 @@
 export default {
   data() {
     return {
-      showModal: false,
+      showModal: false
     };
   },
   methods: {
@@ -128,15 +128,15 @@ export default {
       this.showModal = true;
       const x = window.scrollX;
       const y = window.scrollY;
-      window.onscroll = function () {
+      window.onscroll = function() {
         window.scrollTo(x, y);
       };
     },
     close() {
       this.showModal = false;
-      window.onscroll = function () {};
-    },
-  },
+      window.onscroll = function() {};
+    }
+  }
 };
 </script>
 
@@ -185,6 +185,7 @@ export default {
         outline: none !important;
         position: relative;
         left: 15%;
+        resize: none;
       }
     }
   }
