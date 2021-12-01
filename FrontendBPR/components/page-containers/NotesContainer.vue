@@ -120,6 +120,7 @@ export default {
   height: 800px !important;
   background: black;
   font-family: "Poppins", sans-serif;
+  animation: note-slide 300ms;
 }
 
 .note {
@@ -164,6 +165,15 @@ export default {
 
   .add-button {
     margin-left: 5px !important;
+  }
+}
+
+@keyframes note-slide {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-0);
   }
 }
 </style>

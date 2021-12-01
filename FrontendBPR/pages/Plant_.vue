@@ -230,6 +230,7 @@ export default {
     .img-container {
       width: 700px;
       height: 600px;
+      animation: img-fade 500ms;
       .plant-image {
         width: 100%;
         height: 100%;
@@ -287,6 +288,16 @@ export default {
     .component {
       margin-top: 50px !important;
     }
+  }
+}
+
+@keyframes img-fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 </style>

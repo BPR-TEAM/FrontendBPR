@@ -72,6 +72,7 @@ export default {
   height: 800px;
   background: black;
   font-family: "Poppins", sans-serif;
+  animation: advice-slide 300ms;
 }
 
 .number-of-comments {
@@ -107,6 +108,15 @@ export default {
   .posted {
     position: relative;
     left: 20px;
+  }
+}
+
+@keyframes advice-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
   }
 }
 </style>

@@ -120,5 +120,21 @@ export default {
   height: 800px !important;
   background: black;
   font-family: "Poppins", sans-serif;
+  animation: graph-fade 500ms;
+}
+
+@keyframes graph-fade {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 </style>
