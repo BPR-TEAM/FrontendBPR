@@ -1,7 +1,7 @@
 <template>
   <div>
-    <NewDashboard ref="dashboard" />
-    <button class="interactive-button" @click="openModal('dashboard')">
+    <NewBoard ref="board" />
+    <button class="interactive-button" @click="openModal('board')">
       Log In
     </button>
     <!-- <button class="button" @click="addExperience">Add experience</button>
@@ -43,6 +43,7 @@ import RegistrationModal from "../components/Modals/Register.vue";
 import Note from "../components/Modals/Note.vue";
 import NewPlant from "../components/Modals/NewPlant.vue";
 import NewDashboard from "../components/Modals/NewDashboard.vue";
+import NewBoard from "../components/Modals/NewBoard.vue";
 import Tag from "../components/Tag.vue";
 import ProfilePlant from "../components/ProfilePlant.vue";
 import AdviceContainer from "../components/page-containers/AdviceContainer.vue";
@@ -98,7 +99,8 @@ export default {
     NotesContainer,
     MyPlants,
     LineChart,
-    NewDashboard
+    NewDashboard,
+    NewBoard
   },
 
   computed: {
