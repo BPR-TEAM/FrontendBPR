@@ -7,7 +7,7 @@
     </div>
     <div class="plant-details">
       <div class="plant-image">
-        <img src="../assets/images/yoda.jpg" alt="myplant" />
+        <img src="../assets/images/advice_plant.png" alt="myplant" />
       </div>
       <div class="names">
         <div class="given-name">Given name</div>

@@ -5,7 +5,7 @@
       <div class="user">
         <div class="user-container">
           <div class="profile-pic">
-            <img src="../assets/images/yoda.jpg" alt="" />
+            <img src="~assets/images/new-plant-placeholder.png" alt="" />
           </div>
           <div class="profile-data">
             <div class="data-item">Mark Robinson</div>

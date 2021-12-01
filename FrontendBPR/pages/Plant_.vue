@@ -88,10 +88,13 @@
     <div class="advices">
       <div class="headers">
         <div class="header" @click="changeComponent('AdviceContainer')">
-          Advice
+          Advices
         </div>
         <div class="header" @click="changeComponent('NotesContainer')">
           Notes
+        </div>
+        <div class="header" @click="changeComponent('OverviewContainer')">
+          Overview
         </div>
       </div>
       <component class="component" v-bind:is="component"></component>

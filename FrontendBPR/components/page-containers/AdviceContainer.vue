@@ -4,7 +4,7 @@
     <div v-for="advice in advices" :key="advice.id" class="advice-item">
       <div class="profile">
         <div class="profile-img">
-          <img src="~assets/images/yoda.jpg" alt="" />
+          <img src="~assets/images/new-plant-placeholder.png" alt="" />
         </div>
         <div class="profile-data">
           <div class="name">{{ advice.name }}</div>

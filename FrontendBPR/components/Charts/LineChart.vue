@@ -3,7 +3,7 @@ import { Line } from "vue-chartjs";
 
 export default {
   extends: Line,
-  props: ["chartData", "options"],
+  props: ["chartData", "options", "plugins"],
   methods: {
     update() {
       this.$data._chart.update();

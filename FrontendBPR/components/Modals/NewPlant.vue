@@ -241,7 +241,7 @@ export default {
 
     async savePlant() {
       const id = this.$route.query.id;
-      const token = "2=ZGII4S2062j2Y8HGAQeg";
+      const token = this.getCookie("auth");
       const image = document.getElementById("plant-preview").src;
       const blob = new Blob([image]);
       console.log(blob);
@@ -269,6 +269,21 @@ export default {
           }
         })
         .then(res => console.log(res.data));
+    },
+    getCookie(cname) {
+      let name = cname + "=";
+      let decodedCookie = decodeURIComponent(document.cookie);
+      let ca = decodedCookie.split(";");
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == " ") {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
     }
   }
 };
