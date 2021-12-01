@@ -12,7 +12,7 @@
       </div>
       <div class="plant-data">
         <div class="tags">
-          <div class="tag"><Tag text="Species" /></div>
+          <div class="first-tag"><Tag text="Species" /></div>
           <div class="tag"><Tag text="Family" /></div>
           <div class="tag"><Tag text="Family" /></div>
 
@@ -204,8 +204,12 @@ export default {
       display: flex;
       // position: relative;
 
+      .first-tag {
+        margin-left: 40px !important;
+      }
       .tag {
-        margin-left: 30px !important;
+        margin-left: 10px !important;
+        // margin-right: 65px !important;
         // margin-right: 65px !important;
       }
 

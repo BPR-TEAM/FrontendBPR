@@ -25,8 +25,12 @@ const options = {
   },
   plugins: {
     title: {
-      text: "Chart Title",
-      color: "#fff3c7"
+      text: "Temperature",
+      color: "#fff3c7",
+      display: true,
+      font: {
+        size: 18
+      }
     }
   },
   scales: {
