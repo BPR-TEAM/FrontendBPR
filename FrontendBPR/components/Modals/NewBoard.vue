@@ -81,7 +81,7 @@
             </div>
           </div>
         </div>
-        <div class="second-half"></div>
+        <div class="second-half">{{ text }}</div>
       </div>
     </transition>
   </div>
@@ -89,6 +89,9 @@
 
 <script>
 export default {
+  props: {
+    text: String
+  },
   data() {
     return {
       showModal: false,
@@ -284,6 +287,7 @@ export default {
 .second-half {
   width: 60%;
   align-self: center;
+  color: white;
 }
 
 .title-and-sub {

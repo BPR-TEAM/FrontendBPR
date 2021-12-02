@@ -1,9 +1,11 @@
 <template>
   <div>
-    <NewBoard ref="board" />
+    <NewBoard ref="board" :text="text" />
     <button class="interactive-button" @click="openModal('board')">
       Log In
     </button>
+    <br /><br />
+    <Dropdown title="Type of graph" :items="graphs" />
     <!-- <button class="button" @click="addExperience">Add experience</button>
     <div class="Chart">
       <LineChart
@@ -37,6 +39,7 @@
 
 <script>
 import LineChart from "../components/Charts/LineChart.vue";
+import Dropdown from "../components/Dropdowns/Dropdown.vue";
 import Vue from "vue";
 import LoginModal from "../components/Modals/Login.vue";
 import RegistrationModal from "../components/Modals/Register.vue";
@@ -86,7 +89,20 @@ const options = {
 };
 export default {
   data() {
-    return {};
+    return {
+      text: "Ceaw koe",
+      graphs: [
+        {
+          title: "Line Graph"
+        },
+        {
+          title: "Bar Graph"
+        },
+        {
+          title: "Radar Graph"
+        }
+      ]
+    };
   },
   components: {
     LoginModal,
@@ -100,7 +116,8 @@ export default {
     MyPlants,
     LineChart,
     NewDashboard,
-    NewBoard
+    NewBoard,
+    Dropdown
   },
 
   computed: {
