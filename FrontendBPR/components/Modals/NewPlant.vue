@@ -263,7 +263,7 @@ export default {
             {
               headers: {
                 "x-functions-key":
-                  "rX/NQ9CmxM9raLBxM/Fd8sLPsbqqG8lBBQeFmGEKnsGoaZIPWB/xkA=="
+                  "mcEgRN9y2gGsEmcxXEu7p/WRB5PDBAsVIJxLFza8fS0RvEB0M5VXRg=="
               }
             }
           )
