@@ -227,7 +227,7 @@ export default {
       chooseFile.click();
       chooseFile.addEventListener("change", function() {
         const files = chooseFile.files[0];
-        console.log(files);
+        // console.log(files);
         if (files) {
           const fileReader = new FileReader();
           fileReader.readAsDataURL(files);
@@ -244,31 +244,52 @@ export default {
       const token = this.getCookie("auth");
       const image = document.getElementById("plant-preview").src;
       const blob = new Blob([image]);
-      console.log(blob);
+      // console.log(blob);
       let request = {
         plantId: id,
         name: this.plantName,
         image: image.split(",")[1]
       };
 
-      await this.$axios
-        .post(`https://orangebush.azurewebsites.net/Plant/MyPlant`, request, {
-          headers: {
-            token: token
-          }
-        })
-        .then(res => console.log(res.status))
-        .catch(e => console.log(e.message));
+      let body = {
+        Image: image.split(",")[1]
+      };
+
+      try {
+        await this.$axios
+          .post(
+            "http://flowerpredictionfunc.azurewebsites.net/api/predictImage/{image}",
+            body,
+            {
+              headers: {
+                "x-functions-key":
+                  "rX/NQ9CmxM9raLBxM/Fd8sLPsbqqG8lBBQeFmGEKnsGoaZIPWB/xkA=="
+              }
+            }
+          )
+          .then(res => console.log(res));
+      } catch (e) {
+        console.error(e);
+      }
+
+      // await this.$axios
+      //   .post(`https://orangebush.azurewebsites.net/Plant/MyPlant`, request, {
+      //     headers: {
+      //       token: token
+      //     }
+      //   })
+      //   .then(res => console.log(res.status))
+      //   .catch(e => console.log(e.message));
 
       ////////////////////////////////
 
-      await this.$axios
-        .get(`https://orangebush.azurewebsites.net/Plant/MyPlant/all`, {
-          headers: {
-            token: token
-          }
-        })
-        .then(res => console.log(res.data));
+      // await this.$axios
+      //   .get(`https://orangebush.azurewebsites.net/Plant/MyPlant/all`, {
+      //     headers: {
+      //       token: token
+      //     }
+      //   })
+      //   .then(res => console.log(res.data));
     },
     getCookie(cname) {
       let name = cname + "=";

@@ -1,11 +1,16 @@
 <template>
   <div>
     <NewBoard ref="board" :text="text" />
+    <NewPlant ref="new" />
     <button class="interactive-button" @click="openModal('board')">
       Log In
     </button>
     <br /><br />
     <Dropdown title="Type of graph" :items="graphs" />
+    <br /><br />
+    <button class="interactive-button" @click="openModal('new')">
+      Image Prediction
+    </button>
     <!-- <button class="button" @click="addExperience">Add experience</button>
     <div class="Chart">
       <LineChart
@@ -128,7 +133,8 @@ export default {
   methods: {
     openModal(modal) {
       this.$refs[modal].open();
-    }
+    },
+    sendRequest() {}
     // openLogin(modal) {
     //   this.$refs[modal].open();
     // },

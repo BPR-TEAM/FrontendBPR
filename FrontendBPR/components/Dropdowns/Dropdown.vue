@@ -3,7 +3,7 @@
     <div class="title" @click="openDropdown()">
       <div>{{ title }}</div>
       <svg
-        id="Icon"
+        id="Icon-drop"
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"
@@ -39,7 +39,18 @@
 export default {
   data() {
     return {
-      isOpen: false
+      isOpen: false,
+      graphs: [
+        {
+          title: "Line Graph"
+        },
+        {
+          title: "Bar Graph"
+        },
+        {
+          title: "Radar Graph"
+        }
+      ]
     };
   },
   props: ["title", "items"],
@@ -47,7 +58,7 @@ export default {
   methods: {
     openDropdown() {
       this.isOpen = !this.isOpen;
-      let icon = document.getElementById("Icon");
+      let icon = document.getElementById("Icon-drop");
       if (this.isOpen) {
         icon.style.transform = "rotate(180deg)";
       } else {
@@ -86,6 +97,7 @@ export default {
   border: none;
   padding: 0;
   cursor: pointer;
+  color: black !important;
 
   svg.active {
     transform: rotate(90deg) scaleX(-1);
@@ -102,7 +114,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   animation: fade 100ms ease-out;
-
+  color: black;
   .menu-item {
     padding: 12px;
     cursor: pointer;

@@ -81,16 +81,22 @@
             </div>
           </div>
         </div>
-        <div class="second-half">{{ text }}</div>
+        <div class="second-half">
+          <Dropdown title="Type of graph" :items="addedPlants" />
+        </div>
       </div>
     </transition>
   </div>
 </template>
 
 <script>
+import Dropdown from "../Dropdowns/Dropdown.vue";
 export default {
   props: {
     text: String
+  },
+  components: {
+    Dropdown
   },
   data() {
     return {
@@ -112,7 +118,8 @@ export default {
           givenName: "Given Name",
           plantName: "Plant Name"
         }
-      ]
+      ],
+      addedPlants: []
     };
   },
   methods: {
@@ -135,10 +142,12 @@ export default {
         checkMark.classList.remove("checked");
         checkMark.style.backgroundColor = "#aaaaaa";
         img.style.opacity = 0.5;
+        this.addedPlants.splice(i, 1);
       } else {
         checkMark.classList.add("checked");
         checkMark.style.backgroundColor = "#fbf7ea";
         img.style.opacity = 1;
+        this.addedPlants.push(this.plants[i]);
       }
     }
   }
