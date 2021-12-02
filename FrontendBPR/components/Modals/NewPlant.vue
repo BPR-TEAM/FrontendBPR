@@ -258,7 +258,7 @@ export default {
       try {
         await this.$axios
           .post(
-            "https://flowerpredictionfunc.azurewebsites.net/api/predictImage/{image}",
+            "https://flowerpredictfunc.azurewebsites.net/api/predictImage/{image}",
             body,
             {
               headers: {
