@@ -2,12 +2,17 @@
   <div>
     <LoginModal ref="login" />
     <RegisterModal ref="register" />
-    <nav
+    <div
       ref="navbar"
       class="navbar"
       role="navigation"
       aria-label="Main navigation"
     >
+      <div class="hamburger">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
       <div class="links-and-name">
         <div class="website-name">Orange Bush</div>
 
@@ -31,7 +36,7 @@
           </button>
         </div>
       </div>
-    </nav>
+    </div>
   </div>
 </template>
 
@@ -56,8 +61,8 @@ export default {
 @import "../assets/buttons.scss";
 .navbar {
   display: flex;
-  min-width: 100%;
-  min-height: 80px;
+  width: 100%;
+  height: 80px;
   align-items: center;
   justify-content: center;
   background-color: transparent !important;
@@ -118,6 +123,55 @@ export default {
   }
   100% {
     opacity: 1;
+  }
+}
+
+//TODO:MOBILE VERSION
+
+.hamburger {
+  position: absolute;
+  // top: 0.75rem;
+  right: 1rem;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  .line {
+    height: 3px;
+    width: 100%;
+    background-color: #fbf7ea;
+    border-radius: 10px !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar {
+    display: flex;
+    width: 100vw;
+    height: 80px;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent !important;
+    z-index: 3 !important;
+    position: absolute !important;
+    animation: fade 900ms ease-out;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .links {
+    display: none !important;
+    // width: 100%;
+    .navbar-item {
+      display: none;
+    }
+  }
+
+  .website-name {
+    width: 100% !important;
   }
 }
 </style>

@@ -441,7 +441,7 @@ export default {
 
   .search-bar {
     margin-top: 32px !important;
-
+    z-index: 999;
     .input {
       width: 405px;
       height: 48px;
@@ -460,7 +460,7 @@ export default {
   .autocom-box {
     overflow-y: scroll;
     height: 100%;
-    z-index: 99;
+    z-index: 999;
     background: #fff;
     border-radius: 20px;
     margin-top: 8px !important;
@@ -471,6 +471,7 @@ export default {
       opacity: 1 !important;
       pointer-events: auto;
       display: block !important;
+      z-index: 99;
     }
   }
 }
@@ -482,7 +483,7 @@ export default {
   position: absolute;
   bottom: -500px;
   margin-top: 100px !important;
-  z-index: 1;
+  // z-index: 1 !important;
 
   .orange-bush-footer {
     position: absolute;
@@ -571,6 +572,104 @@ export default {
   }
   100% {
     opacity: 1;
+  }
+}
+
+//TODO MOBILE VERSION
+@media (max-width: $mobile) {
+  .brand-search-box {
+    width: 300px;
+    height: 200px;
+
+    .header-text {
+      font-size: 40px;
+      text-align: left;
+    }
+
+    .sub-text {
+      width: 100%;
+    }
+  }
+  .input {
+    width: 255px !important;
+    align-self: flex-start;
+  }
+
+  .autocom-box {
+    width: 90%;
+    text-align: center;
+  }
+
+  .green-footer {
+    // display: block;
+    height: 1000px;
+    flex-direction: column;
+    position: absolute;
+    top: 80vh;
+    .footer-brand {
+      font-size: 24px !important;
+    }
+    .orange-bush-footer {
+      left: 0;
+      top: 10vh;
+      width: 100% !important;
+      text-align: center;
+      // height: 90%;
+
+      .footer-brand {
+        position: relative;
+        top: 5vh;
+      }
+
+      .footer-subtext {
+        width: 100%;
+        padding: 2rem !important;
+      }
+    }
+
+    .links-and-resources {
+      display: block !important;
+
+      width: 100vw;
+      position: relative;
+      height: 100%;
+      .resources {
+        left: 30vh;
+        top: 50vh;
+      }
+      .services {
+        left: 10vh;
+        top: 50vh;
+      }
+      .products {
+        left: 10vh;
+        top: 100vh;
+      }
+      .title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #fbf7ea;
+        margin-bottom: 24px !important;
+      }
+
+      .link-item {
+        color: #fbf7ea;
+        font-size: 18;
+        font-weight: 500;
+        margin-bottom: 24px !important;
+      }
+    }
+
+    .icons {
+      display: flex;
+      justify-content: center;
+      margin-top: 0px !important;
+      position: relative;
+      top: 100vh;
+      .icon-item {
+        margin-right: 0px !important;
+      }
+    }
   }
 }
 </style>

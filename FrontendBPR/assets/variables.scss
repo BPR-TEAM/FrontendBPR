@@ -15,9 +15,16 @@ $widescreen: 1216px;
   margin-bottom: 10px !important;
   text-decoration: none;
   color: black;
+  z-index: inherit;
   &:hover {
     background: #efefef;
     cursor: pointer;
+  }
+}
+
+@media (max-width: $mobile) {
+  .item-list {
+    width: 90%;
   }
 }
 
