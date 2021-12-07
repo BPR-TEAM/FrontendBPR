@@ -16,6 +16,7 @@
           <nuxt-link class="navbar-item" to="/">About</nuxt-link>
           <nuxt-link class="navbar-item" to="/profile">Profile</nuxt-link>
           <nuxt-link class="navbar-item" to="/advice">Advices</nuxt-link>
+          <nuxt-link class="navbar-item" to="/dashboards">Dashboard</nuxt-link>
         </div>
       </div>
       <div class="authentication">

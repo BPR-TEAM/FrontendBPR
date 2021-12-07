@@ -15,24 +15,6 @@ export default {
 </script>
 
 <style lang="scss">
-html {
-  overflow: scroll;
-  overflow-x: hidden;
-  scrollbar-width: none;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  background: black;
-
-  width: 100vw;
-  height: 100vh;
-}
-
-::-webkit-scrollbar {
-  width: 0; /* Remove scrollbar space */
-  background: transparent; /* Optional: just make scrollbar invisible */
-}
 * {
   margin: 0px !important;
   padding: 0px !important;

@@ -191,7 +191,8 @@ export default {
   display: block;
   margin: 0 !important;
   font-family: "Poppins", "sans-serif";
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 .user-data {
   color: white;
@@ -275,6 +276,7 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
   .header-buttons {
     display: flex;
     align-items: center;
