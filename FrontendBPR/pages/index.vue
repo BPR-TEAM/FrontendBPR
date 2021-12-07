@@ -24,6 +24,9 @@ html {
   -o-background-size: cover;
   background-size: cover;
   background: black;
+
+  width: 100vw;
+  height: 100vh;
 }
 
 ::-webkit-scrollbar {
