@@ -13,8 +13,13 @@
         v-for="dashboard in dashboards"
         :key="dashboard.name"
       >
-        <Tag :text="dashboard.name" />
-        <div class="dashboard-description">{{ dashboard.description }}</div>
+        <div class="overlay">
+          <nuxt-link class="overlay-link" to="/PlantDashboard"></nuxt-link>
+        </div>
+        <div class="content-container">
+          <Tag class="dashboard-name" :text="dashboard.name" />
+          <div class="dashboard-description">{{ dashboard.description }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -91,8 +96,10 @@ export default {
   padding-right: 10px !important;
   // margin-right: -12px !important;
 
-  .dashboard-item {
+  .content-container {
     padding: 12px !important;
+  }
+  .dashboard-item {
     flex: 1 1 25%;
     margin: 0 50px 30px 0 !important;
     width: 340px !important;
@@ -103,6 +110,26 @@ export default {
     .dashboard-description {
       position: absolute;
       left: 15px;
+    }
+
+    .overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      opacity: 0.1;
+      z-index: 3;
+      transition: 0.5s;
+      .overlay-link {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+      }
+      &:hover {
+        transition: 0.5s;
+        opacity: 0.4;
+        background-color: rgba(0, 0, 0, 1);
+      }
     }
   }
 }

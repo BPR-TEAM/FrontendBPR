@@ -96,6 +96,7 @@
               id="plant-preview"
               src="~assets/images/new-plant-placeholder.png"
               alt="plant-preview"
+              class="new-plant-image"
             />
           </div>
           <div class="add-button" @click="openDirectory">
@@ -243,18 +244,45 @@ export default {
       const id = this.$route.query.id;
       const token = this.getCookie("auth");
       const image = document.getElementById("plant-preview").src;
+      const imageToConvert = document.getElementById("plant-preview");
       const blob = new Blob([image]);
-      // console.log(blob);
+
       let request = {
         plantId: id,
         name: this.plantName,
         image: image.split(",")[1]
       };
+      // var bytes = [];
+      // bytes.push(this.convertImage(imageToConvert));
+      // console.log;
+      // var bytesv2 = [];
+      // var imgBase = image.split(",")[1];
+      // for (var i = 0; i < imgBase.length; ++i) {
+      //   var code = imgBase.charCodeAt(i);
+      //   bytes.push(code >>> 8);
+      //   bytes.push(code & 0xff);
+      // }
 
+      //TODO
+      // let dataToSend = this.convertImage(imageToConvert);
+      // dataToSend = dataToSend.substring(1);
+      // dataToSend = dataToSend.substring(1);
+
+      // dataToSend = dataToSend.replace(/{/g, ",");
+      // dataToSend = dataToSend.replace(/}/g, ",");
+
+      // let arr = dataToSend.split(",");
+      // for (let i = 0; i < arr.length; i++) {
+      //   bytes.push(Number(arr[i]));
+      // }
+
+      console.log(image.split(",")[1]);
       let body = {
-        Image: image.split(",")[1]
+        Image: image,
+        Label: this.plantName,
+        ImageFileName: this.plantName
       };
-
+      // console.log(body.Image);
       try {
         await this.$axios
           .post(
@@ -267,11 +295,14 @@ export default {
               }
             }
           )
-          .then(res => console.log(res));
+          .then(res => {
+            console.log(res.data.predictedLabel);
+            this.close();
+          });
       } catch (e) {
         console.error(e);
       }
-
+      //TODO
       // await this.$axios
       //   .post(`https://orangebush.azurewebsites.net/Plant/MyPlant`, request, {
       //     headers: {
@@ -305,6 +336,36 @@ export default {
         }
       }
       return "";
+    },
+    convertImage(image) {
+      const canvas = this.drawImageToCanvas(image);
+      const ctx = canvas.getContext("2d");
+
+      let result = [];
+      for (let y = 0; y < canvas.height; y++) {
+        result.push([]);
+        for (let x = 0; x < canvas.width; x++) {
+          let data = ctx.getImageData(x, y, 1, 1).data;
+          result[y].push(data[0]);
+          result[y].push(data[1]);
+          result[y].push(data[2]);
+        }
+      }
+
+      return this.convertArray(result);
+    },
+
+    drawImageToCanvas(image) {
+      const canvas = document.createElement("canvas");
+      canvas.width = image.width;
+      canvas.height = image.height;
+      canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
+      return canvas;
+    },
+    convertArray(array) {
+      return JSON.stringify(array)
+        .replace(/\[/g, "{")
+        .replace(/\]/g, "}");
     }
   }
 };
@@ -407,10 +468,11 @@ export default {
 
   .add-image {
     width: 430px !important;
-    height: 100% !important;
-    position: relative;
-    bottom: 18px;
-    img {
+    height: 330px !important;
+
+    .new-plant-image {
+      position: relative;
+      object-fit: cover;
       width: 100%;
       height: 100%;
     }
