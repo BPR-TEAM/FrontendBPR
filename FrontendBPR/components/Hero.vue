@@ -643,7 +643,7 @@ export default {
       }
       .products {
         left: 10vh;
-        top: 100vh;
+        top: 90vh;
       }
       .title {
         font-size: 20px;

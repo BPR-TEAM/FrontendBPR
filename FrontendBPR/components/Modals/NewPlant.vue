@@ -252,7 +252,7 @@ export default {
         name: this.plantName,
         image: image.split(",")[1]
       };
-      // var bytes = [];
+      var bytes = [];
       // bytes.push(this.convertImage(imageToConvert));
       // console.log;
       // var bytesv2 = [];
@@ -264,21 +264,20 @@ export default {
       // }
 
       //TODO
-      // let dataToSend = this.convertImage(imageToConvert);
-      // dataToSend = dataToSend.substring(1);
-      // dataToSend = dataToSend.substring(1);
+      let dataToSend = this.convertImage(imageToConvert);
+      dataToSend = dataToSend.substring(1);
+      dataToSend = dataToSend.substring(1);
 
-      // dataToSend = dataToSend.replace(/{/g, ",");
-      // dataToSend = dataToSend.replace(/}/g, ",");
+      dataToSend = dataToSend.replace(/{/g, ",");
+      dataToSend = dataToSend.replace(/}/g, ",");
 
-      // let arr = dataToSend.split(",");
-      // for (let i = 0; i < arr.length; i++) {
-      //   bytes.push(Number(arr[i]));
-      // }
+      let arr = dataToSend.split(",");
+      for (let i = 0; i < arr.length; i++) {
+        bytes.push(Number(arr[i]));
+      }
 
-      console.log(image.split(",")[1]);
       let body = {
-        Image: image,
+        Image: bytes,
         Label: this.plantName,
         ImageFileName: this.plantName
       };
@@ -296,7 +295,7 @@ export default {
             }
           )
           .then(res => {
-            console.log(res.data.predictedLabel);
+            console.log(res);
             this.close();
           });
       } catch (e) {
