@@ -8,7 +8,7 @@
       role="navigation"
       aria-label="Main navigation"
     >
-      <div class="hamburger" @click="openMenu()">
+      <div class="hamburger">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
@@ -17,7 +17,6 @@
         <div class="website-name">Orange Bush</div>
 
         <div class="links">
-          <!-- <nuxt-link class="navbar-item login" to="/">Login</nuxt-link> -->
           <nuxt-link class="navbar-item" to="/">Home</nuxt-link>
           <nuxt-link class="navbar-item" to="/">About</nuxt-link>
           <nuxt-link class="navbar-item" to="/profile">Profile</nuxt-link>
@@ -52,24 +51,6 @@ export default {
   methods: {
     openModal(modal) {
       this.$refs[modal].open();
-    },
-
-    openMenu() {
-      const navbarLinks = document.getElementsByClassName("links")[0];
-      const hamburgerLines = document.getElementsByClassName("line");
-      const navbarItems = document.getElementsByClassName("navbar-item");
-      const overlay = document.getElementsByClassName("mobile-overlay")[0];
-
-      navbarLinks.classList.toggle("active");
-      overlay.classList.toggle("active");
-
-      hamburgerLines.forEach(line => {
-        line.classList.toggle("active");
-      });
-
-      navbarItems.forEach(navbarItem => {
-        navbarItem.classList.toggle("active");
-      });
     }
   }
 };
@@ -112,18 +93,13 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-
     .navbar-item {
       font-size: 16px;
       color: #fbf7ea;
       font-weight: 500;
       font-family: "Poppins", sans-serif;
       text-decoration: none;
-    }
-
-    .login {
-      // visibility: hidden;
-      display: none;
+      margin: 30px !important;
     }
   }
 }
@@ -174,13 +150,12 @@ export default {
     display: flex;
     width: 100vw;
     height: 80px;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     background-color: transparent !important;
     z-index: 3 !important;
     position: absolute !important;
     animation: fade 900ms ease-out;
-    flex-direction: column;
   }
 
   .hamburger {
@@ -188,46 +163,15 @@ export default {
   }
 
   .links {
-    // display: none !important;
-    width: 100%;
-    display: none;
-    flex-direction: column;
-    // justify-content: flex-end;
-    align-items: flex-end !important;
-    position: relative;
-    top: 15vh;
-    right: 1rem;
-
+    display: none !important;
+    // width: 100%;
     .navbar-item {
       display: none;
-      justify-content: flex-end;
-      margin: 0.4rem 0 0 0 !important;
-      width: 100%;
-      height: 20px;
-
-      .active {
-        display: flex;
-      }
-    }
-
-    .active {
-      display: flex;
-    }
-    .login {
-      display: flex !important;
     }
   }
 
   .website-name {
     width: 100% !important;
-  }
-}
-
-@media (min-width: 1000px) {
-  .links {
-    .navbar-item {
-      padding: 30px !important;
-    }
   }
 }
 </style>

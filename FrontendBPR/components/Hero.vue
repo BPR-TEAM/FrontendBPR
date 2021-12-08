@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <div class="mobile-overlay"></div>
     <div class="wrapper">
       <div class="brand-search-box">
         <div class="header-text">
@@ -442,7 +441,7 @@ export default {
 
   .search-bar {
     margin-top: 32px !important;
-    z-index: 998;
+    z-index: 999;
     .input {
       width: 405px;
       height: 48px;
@@ -576,24 +575,8 @@ export default {
   }
 }
 
-.mobile-overlay {
-  display: none;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  transition: 0.5s;
-  opacity: 1;
-  background-color: rgba(0, 0, 0, 1);
-  z-index: 999;
-}
 //TODO MOBILE VERSION
 @media (max-width: $mobile) {
-  // .mobile-overlay {
-  //   .active {
-  //     display: initial !important;
-  //   }
-  // }
-
   .brand-search-box {
     width: 300px;
     height: 200px;
