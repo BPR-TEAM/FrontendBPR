@@ -143,6 +143,7 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 @import "./assets/buttons.scss";
+@import "../node_modules/bulma/sass/utilities/mixins.sass";
 .modal-overlay {
   position: absolute;
   top: 0;
@@ -268,5 +269,67 @@ export default {
 .slide-enter,
 .slide-leave-to {
   transform: translateY(-50%) translateX(100vw);
+}
+
+//TODO MOBILE
+.modal {
+  @include until($tablet) {
+    width: 100vw;
+    height: 100vh;
+    .first-half {
+      width: inherit;
+      height: inherit;
+    }
+
+    .title-and-sub {
+      height: 15vh !important;
+    }
+
+    .title {
+      top: 5vh;
+      left: 10%;
+    }
+
+    .sub-text {
+      top: 12vh;
+    }
+
+    // .note-form {
+    //   width: 40vh !important;
+    // }
+    .cancel-sign {
+      left: 40vh !important;
+      z-index: 10;
+    }
+    .note-field {
+      height: 60vh !important;
+      left: 0 !important;
+      width: 48vh !important;
+    }
+
+    .second-half {
+      display: none;
+    }
+
+    .register {
+      left: 0 !important;
+      width: 48vh !important;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .modal {
+    .note-field {
+      height: 60vh;
+      left: 0;
+      width: 40vh;
+    }
+
+    .register {
+      left: 0;
+      width: 40vh;
+    }
+  }
 }
 </style>

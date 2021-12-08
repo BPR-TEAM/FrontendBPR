@@ -217,6 +217,7 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 @import "./assets/buttons.scss";
+@import "../node_modules/bulma/sass/utilities/mixins.sass";
 .modal-overlay {
   position: absolute;
   top: 0;
@@ -430,5 +431,72 @@ export default {
 .slide-enter,
 .slide-leave-to {
   transform: translateY(-50%) translateX(100vw);
+}
+
+//TODO MOBILE
+.modal {
+  @include until($tablet) {
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    .first-half {
+      width: inherit;
+      height: inherit;
+      z-index: 1;
+    }
+
+    .title-and-sub {
+      height: 20vh;
+    }
+    .title {
+      width: 60vw;
+      top: 2vh;
+      left: 10%;
+    }
+
+    .sub-text {
+      top: 18vh;
+    }
+
+    .cancel-sign {
+      left: 80vw;
+      top: 2vh;
+      z-index: 2;
+    }
+
+    .name-and-lastname {
+      flex-direction: column;
+    }
+
+    .first-name,
+    .last-name,
+    .email,
+    .password {
+      left: 8vw !important;
+      width: 85vw !important;
+      margin-top: 18px !important;
+    }
+
+    .username,
+    .birthday,
+    .country-dropdown {
+      display: none;
+    }
+
+    .register {
+      left: 8vw !important;
+      width: 85vw !important;
+
+      height: 48px !important;
+    }
+
+    .second-half {
+      width: 100vw;
+      // height: 35vh;
+      position: absolute;
+      bottom: 0;
+      z-index: 0;
+    }
+  }
 }
 </style>

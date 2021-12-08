@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="hero-container">
     <div class="wrapper">
       <div class="brand-search-box">
         <div class="header-text">
@@ -386,11 +386,12 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/variables.scss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+@import "../node_modules/bulma/sass/utilities/mixins.sass";
 * {
   margin: 0 !important;
 }
 
-.container {
+.hero-container {
   margin: 0px !important;
   padding: 0px !important;
   overflow-y: scroll;
@@ -602,7 +603,7 @@ export default {
 
   .green-footer {
     // display: block;
-    height: 1000px;
+    height: 150vh;
     flex-direction: column;
     position: absolute;
     top: 80vh;

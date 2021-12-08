@@ -8,7 +8,7 @@
       role="navigation"
       aria-label="Main navigation"
     >
-      <div class="hamburger">
+      <div class="hamburger" @click="openMenu()">
         <span class="line"></span>
         <span class="line"></span>
         <span class="line"></span>
@@ -17,11 +17,11 @@
         <div class="website-name">Orange Bush</div>
 
         <div class="links">
-          <nuxt-link class="navbar-item" to="/">Home</nuxt-link>
-          <nuxt-link class="navbar-item" to="/">About</nuxt-link>
-          <nuxt-link class="navbar-item" to="/profile">Profile</nuxt-link>
-          <nuxt-link class="navbar-item" to="/advice">Advices</nuxt-link>
-          <nuxt-link class="navbar-item" to="/dashboards">Dashboard</nuxt-link>
+          <nuxt-link class="nav-item" to="/">Home</nuxt-link>
+          <nuxt-link class="nav-item" to="/">About</nuxt-link>
+          <nuxt-link class="nav-item" to="/profile">Profile</nuxt-link>
+          <nuxt-link class="nav-item" to="/advice">Advices</nuxt-link>
+          <nuxt-link class="nav-item" to="/dashboards">Dashboard</nuxt-link>
         </div>
       </div>
       <div class="authentication">
@@ -51,6 +51,18 @@ export default {
   methods: {
     openModal(modal) {
       this.$refs[modal].open();
+    },
+    openMenu() {
+      const navbarLinks = document.getElementsByClassName("links")[0];
+      const hamburgerLines = document.getElementsByClassName("line");
+      const navbarItems = document.getElementsByClassName("nav-item");
+      // const overlay = document.getElementsByClassName("mobile-overlay")[0];
+
+      navbarLinks.classList.toggle("active");
+      // overlay.classList.toggle("active");
+      navbarItems.forEach(navbarItem => {
+        navbarItem.classList.toggle("active");
+      });
     }
   }
 };
@@ -59,6 +71,7 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 @import "../assets/buttons.scss";
+@import "../node_modules/bulma/sass/utilities/mixins.sass";
 .navbar {
   display: flex;
   width: 100%;
@@ -93,7 +106,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    .navbar-item {
+    .nav-item {
       font-size: 16px;
       color: #fbf7ea;
       font-weight: 500;
@@ -107,13 +120,25 @@ export default {
   display: flex;
   position: relative;
   right: 10px;
-  width: 300px;
+  width: 10vw;
+  z-index: 99;
   .auth-button {
     width: 50%;
     display: flex;
     margin-right: 10px !important;
     justify-content: center;
     align-items: center;
+  }
+  @include until($tablet) {
+    .auth-button {
+      width: 80px !important;
+      height: 30px !important;
+      margin-bottom: 12px !important;
+    }
+    position: absolute;
+    display: block;
+    top: 12vh;
+    left: 10vw;
   }
 }
 
@@ -145,8 +170,9 @@ export default {
   }
 }
 
-@media (max-width: 400px) {
-  .navbar {
+.navbar {
+  @include until($tablet) {
+    flex-direction: column;
     display: flex;
     width: 100vw;
     height: 80px;
@@ -156,22 +182,41 @@ export default {
     z-index: 3 !important;
     position: absolute !important;
     animation: fade 900ms ease-out;
-  }
-
-  .hamburger {
-    display: flex;
-  }
-
-  .links {
-    display: none !important;
-    // width: 100%;
-    .navbar-item {
-      display: none;
+    .hamburger {
+      display: flex;
     }
-  }
+    .links-and-name {
+      height: 10vh !important;
+    }
+    .links {
+      width: 20vh;
+      visibility: hidden;
+      pointer-events: none;
+      flex-direction: column;
+      align-items: flex-end !important;
 
-  .website-name {
-    width: 100% !important;
+      position: absolute;
+      top: 10vh;
+      // left: 30vw;
+      right: 5vw;
+      .active {
+        visibility: visible;
+        pointer-events: all;
+      }
+
+      .nav-item {
+        // justify-content: flex-end;
+        margin: 0.4rem 0 0 0 !important;
+        // width: 10%;
+        height: 20px;
+      }
+    }
+
+    .website-name {
+      width: 50% !important;
+      position: absolute;
+      top: 5vh;
+    }
   }
 }
 </style>

@@ -19,4 +19,9 @@ export default {
   margin: 0px !important;
   padding: 0px !important;
 }
+
+.index-container {
+  height: 100vh;
+  width: 100%;
+}
 </style>

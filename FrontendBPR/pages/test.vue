@@ -2,7 +2,10 @@
   <div>
     <NewBoard ref="board" :text="text" />
     <NewPlant ref="new" />
-    <button class="interactive-button" @click="openModal('board')">
+    <LoginModal ref="login" />
+    <RegistrationModal ref="registration" />
+    <Note ref="note" />
+    <button class="interactive-button" @click="openModal('registration')">
       Log In
     </button>
     <br /><br />
@@ -169,6 +172,9 @@ export default {
 </script>
 <style lang="scss">
 @import "../assets/buttons.scss";
+html {
+  background: white !important;
+}
 
 .tag {
   border: 1px solid black;

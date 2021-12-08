@@ -1,3 +1,5 @@
+@import "../node_modules/bulma/sass/utilities/mixins.sass";
+
 .interactive-button {
   width: 144px;
   height: 48px;
@@ -8,10 +10,9 @@
   font-weight: 500;
   border: none;
   padding: 0;
-}
 
-@media (max-width: 400px) {
-  .interactive-button {
-    display: none;
+  @include until($tablet) {
+    width: 80px !important;
+    height: 30px;
   }
 }
