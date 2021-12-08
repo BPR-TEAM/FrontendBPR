@@ -71,7 +71,7 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 @import "../assets/buttons.scss";
-@import "../node_modules/bulma/sass/utilities/mixins.sass";
+@import "~bulma/sass/utilities/mixins.sass";
 .navbar {
   display: flex;
   width: 100%;

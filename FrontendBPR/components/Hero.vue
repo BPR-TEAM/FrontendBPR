@@ -386,7 +386,7 @@ export default {
 <style lang="scss" scoped>
 @import "../assets/variables.scss";
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
-@import "../node_modules/bulma/sass/utilities/mixins.sass";
+@import "~bulma/sass/utilities/mixins.sass";
 * {
   margin: 0 !important;
 }
