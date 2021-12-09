@@ -133,7 +133,9 @@ export default {
   border-radius: 12px;
   height: 30%;
   background: #4a4a4a;
-  position: relative;
+  position: inherit;
+  left: inherit;
+  top: inherit;
   display: flex;
   .text {
     font-size: 20px;
