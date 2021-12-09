@@ -305,9 +305,9 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: relative;
     top: 20vh;
-    left: 8vw;
+    left: 5vw;
   }
 }
 </style>
