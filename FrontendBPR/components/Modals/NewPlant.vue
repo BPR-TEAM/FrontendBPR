@@ -373,6 +373,7 @@ export default {
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 @import "./assets/buttons.scss";
+@import "~bulma/sass/utilities/mixins.sass";
 .modal-overlay {
   position: relative;
   width: 5000px;
@@ -559,5 +560,74 @@ export default {
 .slide-enter,
 .slide-leave-to {
   transform: translateY(-50%) translateX(100vw);
+}
+
+//TODO MOBILE
+
+.modal-overlay {
+  @include until($tablet) {
+    display: none;
+  }
+}
+.modal {
+  @include until($tablet) {
+    width: 100vw !important;
+    height: 100vh !important;
+    flex-direction: column;
+    .first-half {
+      width: 100vw !important;
+    }
+    .second-half {
+      width: 100vw !important;
+    }
+
+    .title {
+      width: 60vw;
+      top: 2vh;
+      left: 10%;
+    }
+
+    .cancel-sign {
+      left: 80vw;
+      top: 2vh;
+      z-index: 2;
+    }
+
+    .add-form {
+      width: 85vw !important;
+
+      .add-field,
+      .label,
+      .white-box,
+      .save {
+        left: 0 !important;
+      }
+
+      .white-box {
+        height: 30vh;
+      }
+
+      .save {
+        width: 100% !important;
+        top: 30vh;
+        height: 48px !important;
+      }
+    }
+
+    .add-image {
+      width: 50vw !important;
+      height: 20vh !important;
+      position: absolute;
+      bottom: 0;
+      top: 7vh;
+      right: 15vw;
+    }
+    .add-button {
+      position: relative !important;
+      top: 5vh !important;
+      left: 30vw;
+      z-index: 10;
+    }
+  }
 }
 </style>
