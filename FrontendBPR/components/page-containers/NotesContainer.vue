@@ -111,8 +111,8 @@ export default {
   scrollbar-width: none;
   overflow-y: scroll;
   position: inherit;
-  top: inherit;
-  left: inherit;
+  // top: inherit;
+  // left: inherit;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -134,7 +134,6 @@ export default {
   border-radius: 12px;
   height: 30%;
   background: #4a4a4a;
-  position: inherit;
 
   display: flex;
   .text {
