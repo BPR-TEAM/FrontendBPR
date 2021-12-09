@@ -110,8 +110,9 @@ export default {
   ms-overflow-style: none;
   scrollbar-width: none;
   overflow-y: scroll;
-  position: absolute;
-
+  position: inherit;
+  top: inherit;
+  left: inherit;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -134,8 +135,7 @@ export default {
   height: 30%;
   background: #4a4a4a;
   position: inherit;
-  left: inherit;
-  top: inherit;
+
   display: flex;
   .text {
     font-size: 20px;
