@@ -1,8 +1,8 @@
 @import "~bulma/sass/utilities/mixins.sass";
 
 .interactive-button {
-  width: 144px;
-  height: 48px;
+  width: 144px !important;
+  height: 48px !important;
   border-radius: 28px;
   background: #fff3c7;
   font-family: "Poppins", sans-serif;

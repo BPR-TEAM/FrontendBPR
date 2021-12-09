@@ -1,6 +1,7 @@
 <template>
   <div>
-    <AdviceContainer />
+    <NotesContainer />
+    <!-- <AdviceContainer /> -->
     <!-- <NewBoard ref="board" :text="text" />
     <NewPlant ref="new" />
     <LoginModal ref="login" />

@@ -1,5 +1,53 @@
 <template>
   <div class="container">
+    <div class="add-new-note">
+      <div class="add-new">Add a new note</div>
+      <div class="add-sign">
+        <svg
+          id="Circle_Button"
+          data-name="Circle Button"
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 48 48"
+        >
+          <rect id="Area" width="48" height="48" rx="24" fill="#fff3c7" />
+          <g id="Icon" transform="translate(14 14)">
+            <rect
+              id="Area-2"
+              data-name="Area"
+              width="20"
+              height="20"
+              fill="#3d7a5d"
+              opacity="0"
+            />
+            <g id="Icon-2" data-name="Icon" transform="translate(1.29 2.499)">
+              <line
+                id="Line"
+                y2="11.667"
+                transform="translate(8.71 1.668)"
+                fill="none"
+                stroke="#0f0e0d"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.667"
+              />
+              <line
+                id="Line-2"
+                data-name="Line"
+                x2="11.667"
+                transform="translate(2.877 7.501)"
+                fill="none"
+                stroke="#0f0e0d"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.667"
+              />
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
     <div class="note" v-for="note in notes" :key="note.id">
       <div class="date">{{ note.date }}</div>
       <div class="note-container">
@@ -124,8 +172,21 @@ export default {
   animation: note-slide 300ms;
 }
 
+.add-new-note {
+  color: white;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .add-sign {
+    margin-left: 0.4rem !important;
+    cursor: pointer;
+  }
+}
+
 .note {
   align-self: center;
+  position: relative;
 }
 .note-container {
   padding: 32px !important;
@@ -144,9 +205,11 @@ export default {
 
   .edit {
     position: absolute;
-    margin: 0 10px 0 20px !important;
-    bottom: 0;
-    right: 0;
+    // margin: 0 10px 0 20px !important;
+    // top: 100% !important;
+    bottom: 2%;
+    right: 2%;
+    height: 48px;
   }
 }
 
@@ -156,13 +219,12 @@ export default {
 }
 
 .add-new {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  float: flex-end;
-  color: white;
-  left: 35%;
+  // position: relative;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+
+  // left: 35%;
 
   .add-button {
     margin-left: 5px !important;

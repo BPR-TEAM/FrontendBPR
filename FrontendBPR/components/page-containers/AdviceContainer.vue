@@ -1,6 +1,17 @@
 <template>
   <div class="container">
     <div class="number-of-comments">{{ advices.length }} Comments</div>
+    <div class="add-advice-container">
+      <textarea
+        id="note"
+        class="note-field"
+        name="note"
+        rows="100"
+        cols="85"
+        placeholder="Write an advice for other users..."
+      />
+      <div class="submit interactive-button">Submit</div>
+    </div>
     <div v-for="advice in advices" :key="advice.id" class="advice-item">
       <div class="profile">
         <div class="profile-img">
@@ -175,6 +186,7 @@ export default {
 
 <style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+@import "./assets/buttons.scss";
 .container {
   ms-overflow-style: none;
   scrollbar-width: none;
@@ -189,6 +201,34 @@ export default {
   background: black;
   font-family: "Poppins", sans-serif;
   animation: advice-slide 300ms;
+}
+
+.add-advice-container {
+  width: 100%;
+
+  .note-field {
+    height: 260px;
+    // width: 100% !important;
+    border: none;
+    text-align: left;
+    // padding-right: 22px;
+    background: white;
+    outline: none !important;
+    position: relative;
+
+    resize: none;
+  }
+
+  .submit {
+    width: 144px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: 75%;
+    z-index: 10;
+  }
 }
 
 .number-of-comments {
@@ -244,7 +284,7 @@ export default {
 
   .up-sign,
   .down-sign {
-    padding: 4px 18px 4px 4px;
+    padding: 4px 18px 4px 4px !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,7 +292,7 @@ export default {
 }
 
 .upvotes {
-  margin: 0 50px 0 0;
+  margin: 0 50px 0 0 !important;
 }
 
 @keyframes advice-slide {

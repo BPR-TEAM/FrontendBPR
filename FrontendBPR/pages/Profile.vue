@@ -207,9 +207,7 @@ export default {
     nameWithFirstCapitalized(name) {
       return name.charAt(0).toUpperCase() + name.slice(1);
     },
-    // async sendImage() {
-    //   await this.openDirectory().then(res => console.log(res));
-    // },
+
     openDirectory() {
       let chooseFile = document.getElementById("choose-file");
       const cookie = this.getCookie("auth");
