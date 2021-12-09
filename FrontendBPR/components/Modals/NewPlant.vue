@@ -590,7 +590,7 @@ export default {
     .cancel-sign {
       left: 80vw;
       top: 2vh;
-      z-index: 2;
+      z-index: 10;
     }
 
     .add-form {
