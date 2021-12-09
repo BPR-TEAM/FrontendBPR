@@ -266,12 +266,12 @@ export default {
   // justify-content: center;
   width: 715px;
   border-top: 1px solid #3b3b3b;
-  position: absolute;
+  position: relative;
   margin-top: 100px !important;
   // top: 1000px;
   // left: 700px;
   left: 32vw;
-  top: 72vh;
+  top: 10vh;
   z-index: 10;
 }
 
