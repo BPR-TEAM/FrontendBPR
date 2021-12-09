@@ -1,6 +1,7 @@
 <template>
   <div>
-    <NewBoard ref="board" :text="text" />
+    <AdviceContainer />
+    <!-- <NewBoard ref="board" :text="text" />
     <NewPlant ref="new" />
     <LoginModal ref="login" />
     <RegistrationModal ref="registration" />
@@ -13,7 +14,7 @@
     <br /><br />
     <button class="interactive-button" @click="openModal('new')">
       Image Prediction
-    </button>
+    </button> -->
     <!-- <button class="button" @click="addExperience">Add experience</button>
     <div class="Chart">
       <LineChart

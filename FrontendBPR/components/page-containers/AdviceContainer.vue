@@ -12,6 +12,112 @@
         </div>
       </div>
       <div class="description">{{ advice.description }}</div>
+      <div class="rating-container">
+        <div class="upvotes">
+          <div class="up-sign">
+            <svg
+              id="Icon_"
+              data-name="Icon "
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+            >
+              <rect
+                id="Area_ICON:feather_heart_SIZE:MEDIUM_STYLE:STYLE1_"
+                data-name="Area [ICON:feather/heart][SIZE:MEDIUM][STYLE:STYLE1]"
+                width="20"
+                height="20"
+                fill="#fcfcfc"
+                opacity="0"
+              />
+              <g id="Icon" transform="translate(-1 -1)">
+                <circle
+                  id="Path"
+                  cx="8.333"
+                  cy="8.333"
+                  r="8.333"
+                  transform="translate(2.667 2.667)"
+                  fill="none"
+                  stroke="#fbf7ea"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.667"
+                />
+                <path
+                  id="Path-2"
+                  data-name="Path"
+                  d="M13.333,10,10,6.667,6.667,10"
+                  transform="translate(1 1)"
+                  fill="none"
+                  stroke="#fbf7ea"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.667"
+                />
+                <line
+                  id="Line"
+                  y1="6.667"
+                  transform="translate(11 7.667)"
+                  fill="none"
+                  stroke="#fbf7ea"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.667"
+                />
+              </g>
+            </svg>
+          </div>
+          <div>{{ advice.noUpvotes }}</div>
+        </div>
+        <div class="downvotes">
+          <div class="down-sign">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18.333"
+              height="18.333"
+              viewBox="0 0 18.333 18.333"
+            >
+              <g id="Icon" transform="translate(-1.833 -1.833)">
+                <circle
+                  id="Path"
+                  cx="8.333"
+                  cy="8.333"
+                  r="8.333"
+                  transform="translate(2.667 2.667)"
+                  fill="none"
+                  stroke="#fbf7ea"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.667"
+                />
+                <path
+                  id="Path-2"
+                  data-name="Path"
+                  d="M6.667,10,10,13.333,13.333,10"
+                  transform="translate(1 1)"
+                  fill="none"
+                  stroke="#fbf7ea"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.667"
+                />
+                <line
+                  id="Line"
+                  y2="6.667"
+                  transform="translate(11 7.667)"
+                  fill="none"
+                  stroke="#fbf7ea"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.667"
+                />
+              </g>
+            </svg>
+          </div>
+          <div>{{ advice.noDownvotes }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,31 +131,41 @@ export default {
           name: "Name",
           posted: "5 hours ago",
           description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua"
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua",
+          noUpvotes: 16,
+          noDownvotes: 12
         },
         {
           name: "Name",
           posted: "5 hours ago",
           description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
+          noUpvotes: 16,
+          noDownvotes: 12
         },
         {
           name: "Name",
           posted: "5 hours ago",
           description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
+          noUpvotes: 16,
+          noDownvotes: 12
         },
         {
           name: "Name",
           posted: "5 hours ago",
           description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
+          noUpvotes: 16,
+          noDownvotes: 12
         },
         {
           name: "Name",
           posted: "5 hours ago",
           description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero"
+            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
+          noUpvotes: 16,
+          noDownvotes: 12
         }
       ]
     };
@@ -109,6 +225,34 @@ export default {
     position: relative;
     left: 20px;
   }
+}
+
+.rating-container {
+  width: 100%;
+  position: relative;
+  display: flex !important;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin: 20px 0 0 0 !important;
+}
+.upvotes,
+.downvotes {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  // padding: 10px;
+
+  .up-sign,
+  .down-sign {
+    padding: 4px 18px 4px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.upvotes {
+  margin: 0 50px 0 0;
 }
 
 @keyframes advice-slide {

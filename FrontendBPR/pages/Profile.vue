@@ -220,12 +220,14 @@ export default {
       width: 250px;
       height: 250px;
       float: right;
+      background-color: transparent !important;
     }
 
     img {
       width: 100%;
       height: 100%;
       border-radius: 50%;
+      background-color: transparent;
     }
   }
 
@@ -233,7 +235,10 @@ export default {
     position: relative;
     top: 50%;
     left: 90%;
-    background: transparent !important;
+    background-color: transparent !important;
+    svg {
+      background-color: transparent !important;
+    }
   }
 
   .profile-data {
@@ -261,12 +266,13 @@ export default {
   // justify-content: center;
   width: 715px;
   border-top: 1px solid #3b3b3b;
-  position: relative;
+  position: absolute;
   margin-top: 100px !important;
   // top: 1000px;
   // left: 700px;
-  left: 40%;
-  transform: translateY(0, -50%);
+  left: 32vw;
+  top: 72vh;
+  z-index: 10;
 }
 
 .items {
@@ -282,7 +288,8 @@ export default {
     align-items: center;
     justify-content: center;
     position: relative;
-    left: 10%;
+    left: 5vw;
+    top: 10vh;
     cursor: pointer;
     // top: 1020px;
     // left: 200px;
@@ -294,11 +301,13 @@ export default {
 
   .plants-container {
     margin-top: 50px !important;
-    width: 100% !important;
+    width: 85vw !important;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
+    position: absolute;
+    top: 20vh;
+    left: 8vw;
   }
 }
 </style>

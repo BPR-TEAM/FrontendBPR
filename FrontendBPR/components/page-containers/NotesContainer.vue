@@ -171,6 +171,10 @@ export default {
 @keyframes note-slide {
   0% {
     transform: translateX(100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.3;
   }
   100% {
     transform: translateX(-0);

@@ -33,10 +33,11 @@ export default {
   }
   /// flex-direction: column;
   position: inherit;
-  left: 15%;
+  left: inherit;
 
   background: black;
   font-family: "Poppins", sans-serif;
+  animation: from-above 300ms;
 }
 
 .myplants-container {
@@ -52,6 +53,22 @@ export default {
     width: 320px;
     height: 277px;
     margin-bottom: 50px !important;
+  }
+}
+
+@keyframes from-above {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>
