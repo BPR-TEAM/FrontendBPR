@@ -5,15 +5,28 @@
       <div class="user">
         <div class="user-container">
           <div class="profile-pic">
-            <img src="~assets/images/new-plant-placeholder.png" alt="" />
+            <img
+              id="profile-pic"
+              v-if="user.image === null"
+              src="~assets/images/new-plant-placeholder.png"
+              alt="user_profile_pic"
+            />
+            <img
+              v-else
+              :src="user.image"
+              alt="user_profile_pic"
+              id="profile-pic"
+            />
           </div>
           <div class="profile-data">
-            <div class="data-item">Mark Robinson</div>
-            <div class="data-item">mark.robinson@gmail.com</div>
-            <div class="data-item">Democratic Republic of Congo</div>
-            <div class="data-item">04/05/1942</div>
+            <div class="data-item">
+              {{ user.fullName }}
+            </div>
+            <div class="data-item">{{ user.email }}</div>
+            <div class="data-item">{{ user.country }}</div>
+            <div class="data-item">{{ user.birthday }}</div>
           </div>
-          <div class="edit">
+          <div class="edit" @click="openDirectory()">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="55"
@@ -73,6 +86,12 @@
                 </g>
               </g>
             </svg>
+            <input
+              type="file"
+              accept="image/*"
+              id="choose-file"
+              style="display:none;"
+            />
           </div>
         </div>
         <div class="left-image">
@@ -138,11 +157,20 @@ export default {
     await this.$axios
       .get("https://orangebush.azurewebsites.net/profile", {
         headers: {
-          token: this.token
+          _token: this.token
         }
       })
-      .then(res => console.log(res));
+      .then(res => {
+        this.user = res.data;
+        this.user.fullName = `${this.nameWithFirstCapitalized(
+          this.user.firstName
+        )} ${this.nameWithFirstCapitalized(this.user.lastName)}`;
+        this.user.birthday = this.user.birthday.split("T")[0];
+        this.user.image = "data:image;base64," + this.user.image;
+        console.log(this.user.image);
+      });
   },
+
   mounted() {
     this.component = () => import(`../components/page-containers/MyPlants.vue`);
   },
@@ -174,6 +202,50 @@ export default {
         }
       }
       return "";
+    },
+
+    nameWithFirstCapitalized(name) {
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    },
+    // async sendImage() {
+    //   await this.openDirectory().then(res => console.log(res));
+    // },
+    openDirectory() {
+      let chooseFile = document.getElementById("choose-file");
+      const cookie = this.getCookie("auth");
+      chooseFile.click();
+      chooseFile.addEventListener("change", function() {
+        let userImage;
+        const files = chooseFile.files[0];
+        // console.log(files);
+        if (files) {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(files);
+          fileReader.addEventListener("load", function() {
+            document.getElementById("profile-pic").style.display = "block";
+            document.getElementById("profile-pic").src = this.result;
+
+            userImage = this.result.split(",")[1];
+
+            let firstChar = "'";
+            let lastChar = "'";
+            userImage = firstChar.concat(userImage);
+            userImage = userImage.concat(lastChar);
+            console.log(userImage);
+            try {
+              var xhr = new XMLHttpRequest();
+              xhr.open(
+                "POST",
+                "https://orangebush.azurewebsites.net/profile",
+                true
+              );
+              xhr.setRequestHeader("Content-Type", "application/json");
+              xhr.setRequestHeader("_token", cookie);
+              xhr.send(userImage);
+            } catch (e) {}
+          });
+        }
+      });
     }
   },
   layout: "default-with-nav"
