@@ -53,7 +53,7 @@
     <div class="note" v-for="note in notes" :key="note.id">
       <div class="date">{{ note.date }}</div>
       <div class="note-container">
-        <div class="text">{{ note.noteText }}</div>
+        <div class="text">{{ note.text }}</div>
         <div class="edit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -127,29 +127,42 @@ export default {
   },
   async fetch() {
     this.token = getCookie("auth");
+    let route = $nuxt.$route.path;
+
+    if (route === "/profile") {
+      try {
+        await this.$axios
+          .get("https://orangebush.azurewebsites.net/profile/notes", {
+            headers: { _token: this.token }
+          })
+          .then(res => {
+            this.notes = res.data;
+            console.log(this.notes);
+          });
+      } catch (e) {}
+    }
   },
-  props: ["noteText"],
   data() {
     return {
       token: "",
       notes: [
         {
-          noteText:
+          text:
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem",
           date: "04/04/1997"
         },
         {
-          noteText:
+          text:
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem",
           date: "04/04/1997"
         },
         {
-          noteText:
+          text:
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem",
           date: "04/04/1997"
         },
         {
-          noteText:
+          text:
             "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Loremod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Loremod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Loremod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Loremod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem",
           date: "04/04/1997"
         }

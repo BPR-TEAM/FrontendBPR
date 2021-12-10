@@ -171,15 +171,6 @@ export default {
         this.user.birthday = this.user.birthday.split("T")[0];
         this.user.image = "data:image;base64," + this.user.image;
       });
-
-    await this.$axios
-      .get("https://orangebush.azurewebsites.net/profile/notes", {
-        headers: { _token: this.token }
-      })
-      .then(res => {
-        this.note = res.data[0].text;
-        console.log(this.note);
-      });
   },
 
   mounted() {
@@ -191,7 +182,7 @@ export default {
       component: "",
       token: "",
       user: "",
-      note: ""
+      notes: []
     };
   },
 

@@ -7,11 +7,16 @@
     </div>
     <div class="plant-details">
       <div class="plant-image">
-        <img src="../assets/images/advice_plant.png" alt="myplant" />
+        <img
+          v-if="image === '' || image === null"
+          src="../assets/images/advice_plant.png"
+          alt="myplant"
+        />
+        <img v-else :src="'data:image/png;base64,' + image" alt="myplant" />
       </div>
       <div class="names">
-        <div class="given-name">Given name</div>
-        <div class="plant-name">Plant name</div>
+        <div class="given-name">{{ name }}</div>
+        <div class="plant-name">{{ commonName }}</div>
       </div>
       <div class="delete">
         <svg
@@ -86,6 +91,7 @@
 <script>
 import Tag from "../components/Tag.vue";
 export default {
+  props: ["name", "commonName", "image"],
   components: {
     Tag
   }

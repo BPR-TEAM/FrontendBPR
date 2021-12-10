@@ -1,8 +1,13 @@
 <template>
   <div class="container">
     <div class="myplants-container">
-      <div class="myplant" v-for="tag in tags" :key="tag.id">
-        <ProfilePlant />
+      <div class="myplant" v-for="plant in plants" :key="plant.id">
+        <ProfilePlant
+          :name="plant.name"
+          :commonName="plant.commonName"
+          :image="plant.image"
+          ref="profile-plant"
+        />
       </div>
     </div>
   </div>
@@ -10,14 +15,49 @@
 
 <script>
 import ProfilePlant from "../ProfilePlant.vue";
+import { getCookie } from "../../static/cookie.js";
 export default {
   components: {
     ProfilePlant
   },
+  async fetch() {
+    let authToken = getCookie("auth");
+    await this.$axios
+      .get("https://orangebush.azurewebsites.net/Plant/MyPlant/all", {
+        headers: {
+          token: authToken
+        }
+      })
+      .then(res => {
+        this.plants = res.data;
+        console.log(res);
+      });
+
+    // this.getPlants(this.plants);
+  },
   data() {
     return {
-      tags: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+      tags: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      plants: []
     };
+  },
+
+  methods: {
+    // getPlants(plants) {
+    //   plants.forEach(
+    //     plant =>
+    //       async function() {
+    //         await this.$axios
+    //           .get(
+    //             `https://orangebush.azurewebsites.net/Plant?id=${plant.plantId}`
+    //           )
+    //           .then(response => {
+    //             // plant.commonName = response.data.commonName;
+    //             console.log(response.data);
+    //           });
+    //       }
+    //   );
+    // }
   }
 };
 </script>

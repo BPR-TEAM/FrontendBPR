@@ -252,74 +252,16 @@ export default {
         name: this.plantName,
         image: image.split(",")[1]
       };
-      var bytes = [];
-      // bytes.push(this.convertImage(imageToConvert));
-      // console.log;
-      // var bytesv2 = [];
-      // var imgBase = image.split(",")[1];
-      // for (var i = 0; i < imgBase.length; ++i) {
-      //   var code = imgBase.charCodeAt(i);
-      //   bytes.push(code >>> 8);
-      //   bytes.push(code & 0xff);
-      // }
 
       //TODO
-      let dataToSend = this.convertImage(imageToConvert);
-      dataToSend = dataToSend.substring(1);
-      dataToSend = dataToSend.substring(1);
-
-      dataToSend = dataToSend.replace(/{/g, ",");
-      dataToSend = dataToSend.replace(/}/g, ",");
-
-      let arr = dataToSend.split(",");
-      for (let i = 0; i < arr.length; i++) {
-        bytes.push(Number(arr[i]));
-      }
-
-      let body = {
-        Image: bytes,
-        Label: this.plantName,
-        ImageFileName: this.plantName
-      };
-      // console.log(body.Image);
-      try {
-        await this.$axios
-          .post(
-            "https://flowerpredictionfunc.azurewebsites.net/api/flowerpredictfunction",
-            body,
-            {
-              headers: {
-                "x-functions-key":
-                  "mcEgRN9y2gGsEmcxXEu7p/WRB5PDBAsVIJxLFza8fS0RvEB0M5VXRg=="
-              }
-            }
-          )
-          .then(res => {
-            console.log(res);
-            this.close();
-          });
-      } catch (e) {
-        console.error(e);
-      }
-      //TODO
-      // await this.$axios
-      //   .post(`https://orangebush.azurewebsites.net/Plant/MyPlant`, request, {
-      //     headers: {
-      //       token: token
-      //     }
-      //   })
-      //   .then(res => console.log(res.status))
-      //   .catch(e => console.log(e.message));
-
-      ////////////////////////////////
-
-      // await this.$axios
-      //   .get(`https://orangebush.azurewebsites.net/Plant/MyPlant/all`, {
-      //     headers: {
-      //       token: token
-      //     }
-      //   })
-      //   .then(res => console.log(res.data));
+      await this.$axios
+        .post(`https://orangebush.azurewebsites.net/Plant/MyPlant`, request, {
+          headers: {
+            token: token
+          }
+        })
+        .then(res => console.log(res.status))
+        .catch(e => console.log(e.message));
     },
     getCookie(cname) {
       let name = cname + "=";
