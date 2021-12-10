@@ -355,10 +355,10 @@ export default {
   position: relative;
   .header-buttons {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    // align-items: center;
+    // justify-content: center;
     position: relative;
-    left: 5vw;
+    left: 2vw;
     top: 10vh;
     cursor: pointer;
     // top: 1020px;
