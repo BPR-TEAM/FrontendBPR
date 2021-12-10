@@ -2,7 +2,7 @@
   <div class="container">
     <Note class="note-modal" ref="note" style="position:absolute;" />
 
-    <div class="add-new-note">
+    <div class="add-new-note" v-if="!checkIfProfile()">
       <div class="add-new">Add a new note</div>
       <div class="add-sign" @click="openNote()">
         <svg
@@ -173,6 +173,12 @@ export default {
   methods: {
     openNote() {
       this.$refs["note"].open();
+    },
+
+    checkIfProfile() {
+      let route = $nuxt.$route.path;
+
+      if (route === "/profile") return true;
     }
   }
 };
