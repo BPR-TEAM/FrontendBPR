@@ -9,8 +9,11 @@
         rows="100"
         cols="85"
         placeholder="Write an advice for other users..."
+        v-model="adviceText"
       />
-      <div class="submit interactive-button">Submit</div>
+      <div class="submit interactive-button" @click="submitAdvice()">
+        Submit
+      </div>
     </div>
     <div v-for="advice in advices" :key="advice.id" class="advice-item">
       <div class="profile">
@@ -134,6 +137,7 @@
 </template>
 
 <script>
+import { getCookie } from "../../static/cookie.js";
 export default {
   data() {
     return {
@@ -178,8 +182,42 @@ export default {
           noUpvotes: 16,
           noDownvotes: 12
         }
-      ]
+      ],
+      adviceText: "",
+      plantTags: []
     };
+  },
+
+  methods: {
+    async submitAdvice() {
+      console.log(this.adviceText);
+      let plantId = this.$route.query.id;
+      let userToken = getCookie("auth");
+
+      const headers = {
+        token: userToken
+      };
+
+      let req = {
+        description: this.adviceText,
+        tag: {
+          name: "Family"
+        }
+      };
+      try {
+        await this.$axios
+          .post(
+            `https://orangebush.azurewebsites.net/Advice?plantId=${plantId}`,
+            req,
+            {
+              headers: {
+                token: userToken
+              }
+            }
+          )
+          .then(res => console.log(res));
+      } catch (e) {}
+    }
   }
 };
 </script>
@@ -228,6 +266,7 @@ export default {
     position: relative;
     left: 75%;
     z-index: 10;
+    cursor: pointer;
   }
 }
 

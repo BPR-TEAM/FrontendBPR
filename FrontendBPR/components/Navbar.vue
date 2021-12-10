@@ -119,11 +119,11 @@ export default {
 .authentication {
   display: flex;
   position: relative;
-  right: 10px;
-  width: 10vw;
+  right: 5vw;
+  width: 20vw;
   z-index: 99;
   .auth-button {
-    width: 50%;
+    width: 100%;
     display: flex;
     margin-right: 10px !important;
     justify-content: center;

@@ -1,8 +1,10 @@
 <template>
   <div class="container">
+    <Note class="note-moda" ref="note" style="position:absolute;" />
+
     <div class="add-new-note">
       <div class="add-new">Add a new note</div>
-      <div class="add-sign">
+      <div class="add-sign" @click="openNote()">
         <svg
           id="Circle_Button"
           data-name="Circle Button"
@@ -117,7 +119,11 @@
 </template>
 
 <script>
+import Note from "../Modals/Note.vue";
 export default {
+  components: {
+    Note
+  },
   data() {
     return {
       notes: [
@@ -178,7 +184,11 @@ export default {
   justify-content: flex-end;
   align-items: center;
 
+  .add-new {
+    z-index: 12;
+  }
   .add-sign {
+    z-index: 10;
     margin-left: 0.4rem !important;
     cursor: pointer;
   }

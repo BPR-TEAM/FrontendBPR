@@ -220,7 +220,7 @@ export default {
         align-items: center;
         float: flex-end;
         color: white;
-        left: 80%;
+        left: 40vw;
 
         .add-this-button {
           margin-left: 5px !important;
@@ -228,7 +228,7 @@ export default {
       }
     }
     .img-container {
-      width: 700px;
+      width: 40vw;
       height: 600px;
       animation: img-fade 500ms;
       .plant-image {
@@ -248,9 +248,9 @@ export default {
     }
 
     .plant-description {
-      height: 80%;
+      height: 50vh;
       color: white;
-      width: 100%;
+      width: 60vw;
       font-family: Arial, Helvetica, sans-serif;
       position: relative;
       font-size: 22px;
@@ -267,9 +267,8 @@ export default {
     width: 715px;
     border-top: 1px solid #3b3b3b;
     position: absolute;
-    top: 1000px;
-    left: 40%;
-    transform: translateY(0, -50%);
+    top: 100vh;
+    left: 35vw;
 
     .headers {
       display: flex;

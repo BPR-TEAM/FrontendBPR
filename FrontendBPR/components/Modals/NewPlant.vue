@@ -540,6 +540,7 @@ export default {
   position: absolute;
   left: 90%;
   cursor: pointer;
+  top: 5%;
 }
 
 .fade-enter-active,

@@ -236,7 +236,7 @@ export default {
   transform: translate(-50%, -50%);
   z-index: 999;
   display: flex;
-
+  border: 1px solid gray;
   width: 895px;
   height: 703px;
   background-color: black;
@@ -411,6 +411,7 @@ export default {
   position: absolute;
   left: 90%;
   cursor: pointer;
+  top: 5%;
 }
 
 .fade-enter-active,
