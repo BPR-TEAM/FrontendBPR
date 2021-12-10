@@ -18,10 +18,14 @@
     <div v-for="advice in advices" :key="advice.id" class="advice-item">
       <div class="profile">
         <div class="profile-img">
-          <img src="~assets/images/new-plant-placeholder.png" alt="" />
+          <img
+            v-if="advice.creatorImage === ''"
+            src="~assets/images/new-plant-placeholder.png"
+          />
+          <img v-else :src="`data:image;base64,` + advice.creatorImage" />
         </div>
         <div class="profile-data">
-          <div class="name">{{ advice.name }}</div>
+          <div class="name">{{ advice.creatorName }}</div>
           <div class="posted">{{ advice.posted }}</div>
         </div>
       </div>
@@ -82,7 +86,7 @@
               </g>
             </svg>
           </div>
-          <div>{{ advice.noUpvotes }}</div>
+          <div>{{ advice.likes }}</div>
         </div>
         <div class="downvotes">
           <div class="down-sign">
@@ -129,7 +133,7 @@
               </g>
             </svg>
           </div>
-          <div>{{ advice.noDownvotes }}</div>
+          <div>{{ advice.dislikes }}</div>
         </div>
       </div>
     </div>
@@ -139,6 +143,29 @@
 <script>
 import { getCookie } from "../../static/cookie.js";
 export default {
+  async fetch() {
+    let userToken = getCookie("auth");
+    let paramId = this.$route.query.id;
+    await this.$axios
+      .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
+      .then(response => {
+        this.plant = response.data;
+        console.log(`${response.status} ${response.statusText}`);
+      });
+
+    try {
+      await this.$axios
+        .get(`https://orangebush.azurewebsites.net/Advice?plantId=${paramId}`, {
+          headers: {
+            token: userToken
+          }
+        })
+        .then(res => {
+          this.advices = res.data;
+          console.log(res);
+        });
+    } catch (e) {}
+  },
   data() {
     return {
       advices: [
@@ -184,7 +211,8 @@ export default {
         }
       ],
       adviceText: "",
-      plantTags: []
+      plantTags: [],
+      plant: ""
     };
   },
 
@@ -192,6 +220,7 @@ export default {
     async submitAdvice() {
       console.log(this.adviceText);
       let plantId = this.$route.query.id;
+
       let userToken = getCookie("auth");
 
       const headers = {
@@ -200,9 +229,7 @@ export default {
 
       let req = {
         description: this.adviceText,
-        tag: {
-          name: "Family"
-        }
+        tagId: this.plant.tags[0].id
       };
       try {
         await this.$axios
@@ -267,6 +294,7 @@ export default {
     left: 75%;
     z-index: 10;
     cursor: pointer;
+    margin-bottom: 1rem !important;
   }
 }
 
@@ -295,6 +323,8 @@ export default {
   .profile {
     display: flex;
     margin-bottom: 10px !important;
+    // justify-content: center;
+    align-items: center;
   }
   .name {
     position: relative;
@@ -303,6 +333,11 @@ export default {
   .posted {
     position: relative;
     left: 20px;
+  }
+
+  .description {
+    // justify-content: center;
+    padding: 0.5rem !important;
   }
 }
 

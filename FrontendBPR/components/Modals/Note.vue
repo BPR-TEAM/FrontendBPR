@@ -74,9 +74,12 @@
                   rows="100"
                   cols="50"
                   placeholder="What are you thinking about ?..."
+                  v-model="note"
                 />
               </div>
-              <div class="register interactive-button">Save</div>
+              <div class="register interactive-button" @click="saveNote()">
+                Save
+              </div>
             </div>
           </div>
         </div>
@@ -117,11 +120,19 @@
 </template>
 
 <script>
+import { getCookie } from "../../static/cookie.js";
 export default {
   data() {
     return {
-      showModal: false
+      showModal: false,
+      note: "",
+      token: "",
+      paramId: ""
     };
+  },
+  created() {
+    this.paramId = this.$route.query.id;
+    this.token = getCookie("auth");
   },
   methods: {
     open() {
@@ -135,6 +146,22 @@ export default {
     close() {
       this.showModal = false;
       window.onscroll = function() {};
+    },
+    async saveNote() {
+      let req = {
+        text: this.note,
+        plantId: this.paramId
+      };
+
+      try {
+        await this.$axios
+          .post("https://orangebush.azurewebsites.net/profile/note", req, {
+            headers: {
+              _token: this.token
+            }
+          })
+          .then(res => console.log(`${res.status} ${res.statusText}`));
+      } catch (e) {}
     }
   }
 };

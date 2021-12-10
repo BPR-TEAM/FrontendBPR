@@ -149,7 +149,8 @@ export default {
       plantName: "",
       image: "",
       description: "",
-      component: ""
+      component: "",
+      plantTagId: ""
     };
   },
   methods: {
@@ -187,7 +188,7 @@ export default {
   position: relative;
   font-family: "Poppins", sans-serif;
   // z-index: 1;
-
+  animation: fade 500ms;
   .top-container {
     position: absolute;
     top: 180px;
@@ -295,6 +296,18 @@ export default {
     opacity: 0;
   }
 
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes drop {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
   100% {
     opacity: 1;
   }

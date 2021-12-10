@@ -1,5 +1,12 @@
 <template>
   <div class="hero-container">
+    <div class="background-image">
+      <img
+        src="../assets/images/homepage_background.png"
+        alt=""
+        class="background"
+      />
+    </div>
     <div class="wrapper">
       <div class="brand-search-box">
         <div class="header-text">
@@ -396,10 +403,20 @@ export default {
   padding: 0px !important;
   overflow-y: scroll;
   height: 100%;
+
+  .background-image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    .background {
+      width: inherit;
+      height: inherit;
+    }
+  }
+  animation: drop 1000ms;
 }
 
 .wrapper {
-  animation: drop 1000ms;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -408,8 +425,8 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 2;
-  background: url("../assets/images/homepage_background.png") no-repeat center
-    center;
+  // background: url("../assets/images/homepage_background.png") no-repeat center
+  //   center;
   background-size: cover;
 }
 

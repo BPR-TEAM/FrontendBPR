@@ -67,12 +67,21 @@ html {
   margin: 0px !important;
   width: 100% !important;
 }
+@keyframes drop {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
 .container {
   font-family: "Poppins", "sans serif";
   display: flex;
   flex-flow: column;
   width: 100% !important;
   position: absolute;
+  animation: drop 500ms;
 }
 
 .advice-container {

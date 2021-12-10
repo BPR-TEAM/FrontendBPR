@@ -4,6 +4,17 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+  loadingIndicator: {
+    name: "circle",
+    color: "purple",
+    background: "black"
+  },
+
+  cli: {
+    badgeMessages: ["Website is up and ready"],
+    bannerColor: "yellow"
+  },
+
   // Target: https://go.nuxtjs.dev/config-target
   target: "static",
 

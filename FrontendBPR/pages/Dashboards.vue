@@ -70,6 +70,8 @@ export default {
   color: white;
   position: relative;
   left: 5vw;
+  height: 100vh;
+  animation: drop 500ms;
 }
 
 .title {
@@ -131,6 +133,15 @@ export default {
         background-color: rgba(0, 0, 0, 1);
       }
     }
+  }
+}
+
+@keyframes drop {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 </style>

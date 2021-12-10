@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Note class="note-moda" ref="note" style="position:absolute;" />
+    <Note class="note-modal" ref="note" style="position:absolute;" />
 
     <div class="add-new-note">
       <div class="add-new">Add a new note</div>
@@ -120,12 +120,18 @@
 
 <script>
 import Note from "../Modals/Note.vue";
+import { getCookie } from "../../static/cookie.js";
 export default {
   components: {
     Note
   },
+  async fetch() {
+    this.token = getCookie("auth");
+  },
+  props: ["noteText"],
   data() {
     return {
+      token: "",
       notes: [
         {
           noteText:

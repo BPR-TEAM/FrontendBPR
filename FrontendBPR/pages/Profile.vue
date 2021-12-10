@@ -145,11 +145,14 @@
 </template>
 
 <script>
+import { authenticated } from "../middleware/authenticated.js";
 import ProfilePlant from "../components/ProfilePlant.vue";
 export default {
   components: {
     ProfilePlant
   },
+
+  middleware: authenticated,
 
   async fetch() {
     this.token = this.getCookie("auth");
@@ -167,7 +170,15 @@ export default {
         )} ${this.nameWithFirstCapitalized(this.user.lastName)}`;
         this.user.birthday = this.user.birthday.split("T")[0];
         this.user.image = "data:image;base64," + this.user.image;
-        console.log(this.user.image);
+      });
+
+    await this.$axios
+      .get("https://orangebush.azurewebsites.net/profile/notes", {
+        headers: { _token: this.token }
+      })
+      .then(res => {
+        this.note = res.data[0].text;
+        console.log(this.note);
       });
   },
 
@@ -179,7 +190,8 @@ export default {
       tags: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       component: "",
       token: "",
-      user: ""
+      user: "",
+      note: ""
     };
   },
 
