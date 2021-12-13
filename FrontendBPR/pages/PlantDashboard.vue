@@ -3,8 +3,8 @@
     <NewBoard ref="newBoard" :plants="plants" />
     <div class="content">
       <div class="name-of-dashboard">
-        <div class="name">#Backyard</div>
-        <div class="description">Description</div>
+        <div class="name">#{{ dashboardData.name }}</div>
+        <div class="description">{{ dashboardData.description }}</div>
         <div class="add-new-board" @click="openModal()">
           <div class="add-new">Add a new board</div>
           <div class="add-sign">
@@ -232,22 +232,25 @@ export default {
   layout: "default-with-nav",
   async fetch() {
     let authToken = getCookie("auth");
+    let id = this.$route.query.id;
 
     await this.$axios
-      .get("https://orangebush.azurewebsites.net/Plant/MyPlant/all", {
+      .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
         headers: {
           token: authToken
         }
       })
       .then(res => {
-        this.plants = res.data;
-        console.log(res);
+        this.dashboardData = res.data;
+        this.plants = res.data.userPlants;
+        console.log(this.dashboardData);
       });
   },
   data() {
     return {
       graphs: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-      plants: []
+      plants: [],
+      dashboardData: ""
     };
   },
   methods: {

@@ -7,6 +7,7 @@
     <LoginModal ref="login" />
     <RegistrationModal ref="registration" />
     <Note ref="note" />
+    <MeasurementsCont ref="measurements" />
     <button class="interactive-button" @click="openModal('board')">
       Log In
     </button>
@@ -63,6 +64,7 @@ import AdviceContainer from "../components/page-containers/AdviceContainer.vue";
 import NotesContainer from "../components/page-containers/NotesContainer.vue";
 import MyPlants from "../components/page-containers/MyPlants.vue";
 import randomColor from "randomcolor";
+import MeasurementsCont from "../components/page-containers/MeasurementsCont.vue";
 
 const options = {
   responsive: false,
@@ -127,7 +129,8 @@ export default {
     LineChart,
     NewDashboard,
     NewBoard,
-    Dropdown
+    Dropdown,
+    MeasurementsCont
   },
 
   computed: {

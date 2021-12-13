@@ -573,6 +573,11 @@ export default {
   0% {
     transform: translateY(-100%);
   }
+
+  90% {
+    transform: translateY(10%);
+  }
+
   100% {
     transform: translateY(0);
   }

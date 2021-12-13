@@ -69,10 +69,17 @@ export default {
         datasets: [
           {
             backgroundColor: "rgb(76, 195, 192)",
-            label: "Ideal value",
+            label: "Min value",
             data: [10, 10, 10, 10, 10, 10],
             // fill: true
             borderColor: "rgb(76, 195, 192)"
+          },
+          {
+            backgroundColor: "rgb(24, 175, 189)",
+            label: "Max value",
+            data: [30, 30, 30, 30, 30, 30],
+            // fill: true
+            borderColor: "rgb(24, 175, 189)"
           },
           {
             backgroundColor: "#fff3c7",

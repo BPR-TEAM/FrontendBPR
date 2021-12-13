@@ -125,14 +125,20 @@
             </div>
 
             <!-- <transition name="slide" appear> -->
-            <div class="menu" v-if="isGraphOpen">
+
+            <div class="menu" v-if="isGraphOpen && isSelected">
               <div class="menu-item" @click="graphType = 'Line'">
-                <div class="item">Line graph</div>
+                <div class="item" @click="closeGraphDropdown('Line')">
+                  Line graph
+                </div>
               </div>
               <div class="menu-item" @click="graphType = 'Bar'">
-                <div class="item">Bar graph</div>
+                <div class="item" @click="closeGraphDropdown('Bar')">
+                  Bar graph
+                </div>
               </div>
             </div>
+
             <!-- </transition> -->
           </div>
           <!-- Dropdown for measurements -->
@@ -172,13 +178,21 @@
             <div class="menu measure" v-if="isMeasurementOpen">
               <div
                 class="menu-item"
-                v-for="measurement in measurements"
+                v-for="measurement in addPlant.measurementsDefinitions"
                 :key="measurement.id"
               >
-                <div class="item">{{ measurement }}</div>
+                <div
+                  class="item"
+                  @click="closeMeasurementDropdown(measurement)"
+                >
+                  {{ measurement }}
+                </div>
               </div>
             </div>
             <!-- </transition> -->
+          </div>
+          <div class="interactive-button create" @click="createBoard()">
+            Create
           </div>
         </div>
       </div>
@@ -188,6 +202,7 @@
 
 <script>
 import Dropdown from "../Dropdowns/Dropdown.vue";
+import { getCookie } from "../../static/cookie";
 export default {
   props: ["plants"],
   components: {
@@ -195,26 +210,13 @@ export default {
   },
   data() {
     return {
+      isSelected: false,
       graphType: "",
+      measurementType: "",
       currentElement: "",
       currentImg: "",
       showModal: false,
       addPlant: {},
-      measurements: [
-        "PH",
-        "Air Humidity",
-        "Soil Humidity",
-        "CO2",
-        "Temperature",
-        "Air pressure",
-        "Elevation",
-        "Soil Nitrogen",
-        "Soil Sulphur",
-        "Soil Potassium",
-        "Soil Magnesium",
-        "Soil Calcium",
-        "Soil Phosphorus"
-      ],
       isGraphOpen: false,
       isMeasurementOpen: false,
       graphs: [
@@ -223,9 +225,6 @@ export default {
         },
         {
           title: "Bar Graph"
-        },
-        {
-          title: "Radar Graph"
         }
       ]
     };
@@ -252,14 +251,17 @@ export default {
         checkMark.style.backgroundColor = "#aaaaaa";
         img.style.opacity = 0.5;
         this.addPlant = {};
+
+        this.isSelected = !this.isSelected;
       } else {
+        this.isSelected = !this.isSelected;
         checkMark.classList.add("checked");
         checkMark.style.backgroundColor = "#fbf7ea";
         img.style.opacity = 1;
         this.addPlant = this.plants[i];
-
         console.log(this.addPlant);
         if (i === 0) {
+          this.isSelected = !this.isSelected;
           this.currentElement = document.getElementById("check" + i);
           this.currentImg = document.getElementById("img" + i);
 
@@ -299,6 +301,40 @@ export default {
       } else {
         icon.style.transform = "rotate(360deg)";
       }
+    },
+
+    closeMeasurementDropdown(type) {
+      this.isMeasurementOpen = !this.isMeasurementOpen;
+
+      this.measurementType = type;
+    },
+    closeGraphDropdown(type) {
+      this.isGraphOpen = !this.isGraphOpen;
+      this.graphType = type;
+    },
+
+    async createBoard() {
+      let auth = getCookie("auth");
+      let id = this.$route.query.id;
+      let type_ = `${this.graphType},${this.measurementType}`;
+      let req = {
+        plantId: this.addPlant.plantId,
+        dashboardId: id,
+        type: type_
+      };
+
+      console.log(req);
+
+      try {
+        await this.$axios
+          .post("https://orangebush.azurewebsites.net/Dashboard/board", req, {
+            headers: {
+              token: auth
+            }
+          })
+          .then(res => console.log(res.data))
+          .error(res => console.log(res));
+      } catch (e) {}
     }
   }
 };
@@ -374,7 +410,7 @@ export default {
   flex-flow: column;
   width: 50%;
   align-self: center;
-  height: 350px !important;
+  height: 100%;
   ms-overflow-style: none;
   scrollbar-width: none;
   overflow-y: scroll;
@@ -451,18 +487,33 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  .create {
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70% !important;
+    position: absolute;
+    top: 90%;
+    cursor: pointer;
+    .interactive-button {
+      width: 100% !important;
+    }
+  }
 }
 
 .title-and-sub {
   width: 100%;
   height: 30%;
+  position: relative;
 }
 .title {
   font-size: 32px;
   color: #fbf7ea;
   font-weight: bold;
   position: absolute;
-  top: 5%;
+  top: 10%;
   left: 10%;
 }
 
@@ -471,7 +522,7 @@ export default {
   color: #fbf7ea;
   font-weight: bold;
   position: absolute;
-  top: 12%;
+  top: 30%;
   left: 10%;
 
   .create-account {
@@ -568,7 +619,8 @@ export default {
 }
 .measure {
   overflow-y: scroll;
-  height: 180px;
+  // height: 180px;
+  z-index: 10;
 }
 
 .measurement {

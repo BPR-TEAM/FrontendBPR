@@ -71,6 +71,7 @@
               name="name"
               placeholder="Name"
               ref="name"
+              v-model="dashboardName"
             />
             <textarea
               id="note"
@@ -79,8 +80,9 @@
               rows="100"
               cols="50"
               placeholder="Description..."
+              v-model="dashboardDesc"
             />
-            <div class="create interactive-button">
+            <div class="create interactive-button" @click="create()">
               Create
             </div>
           </div>
@@ -92,10 +94,19 @@
               <img src="~assets/images/Icon.png" alt="" :id="'img' + i" />>
             </div>
             <div class="img-wrapper">
-              <img src="~assets/images/new-plant-placeholder.png" alt="" />
+              <img
+                v-if="plant.image === null"
+                src="~assets/images/new-plant-placeholder.png"
+                alt="plant image"
+              />
+              <img
+                v-else
+                :src="`data:image;base64,` + plant.image"
+                alt="plant image"
+              />
             </div>
             <div class="names">
-              <div class="name">{{ plant.givenName }}</div>
+              <div class="name">{{ plant.name }}</div>
               <div class="name">{{ plant.plantName }}</div>
             </div>
           </div>
@@ -106,11 +117,16 @@
 </template>
 
 <script>
+import { getCookie } from "../../static/cookie";
 export default {
+  props: ["plants"],
   data() {
     return {
+      dashboardName: "",
+      dashboardDesc: "",
       showModal: false,
-      plants: [
+      dashboardPlants: [],
+      plantsss: [
         {
           givenName: "Given Name",
           plantName: "Plant Name"
@@ -151,11 +167,36 @@ export default {
         checkMark.classList.remove("checked");
         checkMark.style.backgroundColor = "#aaaaaa";
         img.style.opacity = 0.5;
+
+        this.dashboardPlants.splice(i, 1);
       } else {
         checkMark.classList.add("checked");
         checkMark.style.backgroundColor = "#fbf7ea";
         img.style.opacity = 1;
+        this.dashboardPlants.push(this.plants[i]);
       }
+    },
+
+    async create() {
+      let authToken = getCookie("auth");
+      let id = authToken.split("=")[0];
+      let req = {
+        name: this.dashboardName,
+        description: this.dashboardDesc,
+        userPlants: this.dashboardPlants
+      };
+
+      console.log(req);
+
+      try {
+        await this.$axios
+          .post("https://orangebush.azurewebsites.net/Dashboard", req, {
+            headers: {
+              token: authToken
+            }
+          })
+          .then(res => console.log(`${res.status} ${res.statusText}`));
+      } catch (e) {}
     }
   }
 };
@@ -214,7 +255,7 @@ export default {
       width: 280px;
       border: none;
       text-align: left;
-      padding-left: 22px;
+      padding-left: 22px !important;
       background: white;
       outline: none !important;
       position: relative;
@@ -256,7 +297,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 18px;
+    margin: 18px !important;
     display: flex;
     width: 255px;
     height: 90px;
