@@ -408,6 +408,7 @@ export default {
     width: 100%;
     height: 100%;
     position: absolute;
+    bottom: 0;
     .background {
       width: inherit;
       height: inherit;
@@ -423,7 +424,7 @@ export default {
   align-items: center;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 90%;
   z-index: 2;
   // background: url("../assets/images/homepage_background.png") no-repeat center
   //   center;
@@ -496,10 +497,10 @@ export default {
 .green-footer {
   // animation: rise 1000ms ease-in;
   width: 100%;
-  height: 500px;
+  height: 50vh;
   background: #396c54;
   position: absolute;
-  bottom: -500px;
+  top: 80vh;
   margin-top: 100px !important;
   // z-index: 1 !important;
 

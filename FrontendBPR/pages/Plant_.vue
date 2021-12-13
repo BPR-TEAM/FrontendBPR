@@ -12,9 +12,9 @@
       </div>
       <div class="plant-data">
         <div class="tags">
-          <div class="first-tag"><Tag text="Species" /></div>
-          <div class="tag"><Tag text="Family" /></div>
-          <div class="tag"><Tag text="Family" /></div>
+          <div class="tag" v-for="tag in tags" :key="tag.id">
+            <Tag :text="tag.name" />
+          </div>
 
           <div class="add-this">
             <div>Add this plant</div>
@@ -140,6 +140,7 @@ export default {
         this.plantName = response.data.commonName;
         this.description = response.data.description;
         this.image = response.data.image;
+        this.tags = response.data.tags;
       });
   },
 
@@ -150,7 +151,8 @@ export default {
       image: "",
       description: "",
       component: "",
-      plantTagId: ""
+      plantTagId: "",
+      tags: []
     };
   },
   methods: {
@@ -203,8 +205,9 @@ export default {
       width: 100% !important;
       height: 10%;
       display: flex;
-      // position: relative;
 
+      position: relative;
+      left: 2vw;
       .first-tag {
         margin-left: 40px !important;
       }
@@ -244,8 +247,8 @@ export default {
       height: 10%;
       position: relative;
       font-size: 30px;
-      top: 5px;
-      left: 50px;
+      top: 1vh;
+      left: 3vw;
     }
 
     .plant-description {
@@ -257,8 +260,8 @@ export default {
       font-size: 22px;
       font-weight: 400;
       cursor: default;
-      top: 5px;
-      left: 50px;
+      top: 1vh;
+      left: 3vw;
       overflow-y: scroll;
     }
   }

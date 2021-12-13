@@ -72,22 +72,31 @@
                 <img src="~assets/images/Icon.png" alt="" :id="'img' + i" />>
               </div>
               <div class="img-wrapper">
-                <img src="~assets/images/new-plant-placeholder.png" alt="" />
+                <img
+                  v-if="plant.image !== null"
+                  :src="`data:image;base64,` + plant.image"
+                  alt=""
+                />
+                <img
+                  v-else
+                  src="~assets/images/new-plant-placeholder.png"
+                  alt=""
+                />
               </div>
               <div class="names">
-                <div class="name">{{ plant.givenName }}</div>
+                <div class="name">{{ plant.name }}</div>
                 <div class="name">{{ plant.plantName }}</div>
               </div>
             </div>
           </div>
         </div>
         <div class="second-half">
-          <!-- <Dropdown title="Type of graph" :items="addedPlants" /> -->
-          <div class="dropdown">
-            <div class="drop-title" @click="openDropdown()">
+          <!-- Dropdown for graphs -->
+          <div class="dropdown graphs">
+            <div class="drop-title" @click="openDropdownGraphs()">
               <div>Type of graph</div>
               <svg
-                id="Icon-drop"
+                id="Icon-drop-graph"
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
                 height="20"
@@ -116,9 +125,57 @@
             </div>
 
             <!-- <transition name="slide" appear> -->
-            <div class="menu" v-if="isOpen">
-              <div class="menu-item" v-for="item in items" :key="item.id">
-                <div class="item">{{ item.title }}</div>
+            <div class="menu" v-if="isGraphOpen">
+              <div class="menu-item" @click="graphType = 'Line'">
+                <div class="item">Line graph</div>
+              </div>
+              <div class="menu-item" @click="graphType = 'Bar'">
+                <div class="item">Bar graph</div>
+              </div>
+            </div>
+            <!-- </transition> -->
+          </div>
+          <!-- Dropdown for measurements -->
+          <div class="dropdown measurement">
+            <div class="drop-title" @click="openDropdownMeasurements()">
+              <div>Measurements</div>
+              <svg
+                id="Icon-drop-measurement"
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+              >
+                <rect
+                  id="Area"
+                  width="20"
+                  height="20"
+                  fill="none"
+                  opacity="0"
+                />
+                <g id="Icon-2" data-name="Icon" transform="translate(5 7.5)">
+                  <path
+                    id="Path"
+                    d="M5,7.5l5,5,5-5"
+                    transform="translate(-5 -7.5)"
+                    fill="none"
+                    stroke="#000"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.667"
+                  />
+                </g>
+              </svg>
+            </div>
+
+            <!-- <transition name="slide" appear> -->
+            <div class="menu measure" v-if="isMeasurementOpen">
+              <div
+                class="menu-item"
+                v-for="measurement in measurements"
+                :key="measurement.id"
+              >
+                <div class="item">{{ measurement }}</div>
               </div>
             </div>
             <!-- </transition> -->
@@ -132,35 +189,34 @@
 <script>
 import Dropdown from "../Dropdowns/Dropdown.vue";
 export default {
-  props: {
-    text: String
-  },
+  props: ["plants"],
   components: {
     Dropdown
   },
   data() {
     return {
+      graphType: "",
+      currentElement: "",
+      currentImg: "",
       showModal: false,
-      plants: [
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        },
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        },
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        },
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        }
+      addPlant: {},
+      measurements: [
+        "PH",
+        "Air Humidity",
+        "Soil Humidity",
+        "CO2",
+        "Temperature",
+        "Air pressure",
+        "Elevation",
+        "Soil Nitrogen",
+        "Soil Sulphur",
+        "Soil Potassium",
+        "Soil Magnesium",
+        "Soil Calcium",
+        "Soil Phosphorus"
       ],
-      addedPlants: [],
-      isOpen: false,
+      isGraphOpen: false,
+      isMeasurementOpen: false,
       graphs: [
         {
           title: "Line Graph"
@@ -190,21 +246,54 @@ export default {
     check(i) {
       let checkMark = document.getElementById("check" + i);
       let img = document.getElementById("img" + i);
+
       if (checkMark.classList.contains("checked")) {
         checkMark.classList.remove("checked");
         checkMark.style.backgroundColor = "#aaaaaa";
         img.style.opacity = 0.5;
-        this.addedPlants.splice(i, 1);
+        this.addPlant = {};
       } else {
         checkMark.classList.add("checked");
         checkMark.style.backgroundColor = "#fbf7ea";
         img.style.opacity = 1;
-        this.addedPlants.push(this.plants[i]);
+        this.addPlant = this.plants[i];
+
+        console.log(this.addPlant);
+        if (i === 0) {
+          this.currentElement = document.getElementById("check" + i);
+          this.currentImg = document.getElementById("img" + i);
+
+          this.currentElement.classList.add("checked");
+          console.log(this.currentElement);
+        } else if (
+          this.currentElement != undefined &&
+          this.currentImg != undefined
+        ) {
+          try {
+            this.currentElement.classList.remove("checked");
+            this.currentElement.style.backgroundColor = "#aaaaaa";
+            this.currentImg.style.opacity = 0.5;
+          } catch (e) {
+            console.error(e);
+          } finally {
+            this.currentElement = document.getElementById("check" + i);
+            this.currentImg = document.getElementById("img" + i);
+          }
+        }
       }
     },
-    openDropdown() {
-      this.isOpen = !this.isOpen;
-      let icon = document.getElementById("Icon-drop");
+    openDropdownGraphs() {
+      this.isGraphOpen = !this.isGraphOpen;
+      let icon = document.getElementById("Icon-drop-graph");
+      if (this.isOpen) {
+        icon.style.transform = "rotate(180deg)";
+      } else {
+        icon.style.transform = "rotate(360deg)";
+      }
+    },
+    openDropdownMeasurements() {
+      this.isMeasurementOpen = !this.isMeasurementOpen;
+      let icon = document.getElementById("Icon-drop-measurement");
       if (this.isOpen) {
         icon.style.transform = "rotate(180deg)";
       } else {
@@ -297,7 +386,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 18px;
+    margin: 18px !important;
     display: flex;
     width: 255px;
     height: 90px;
@@ -356,8 +445,12 @@ export default {
 
 .second-half {
   width: 60%;
+  height: 350px;
   align-self: center;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title-and-sub {
@@ -425,7 +518,10 @@ export default {
   -ms-user-select: none;
   user-select: none;
 }
-
+.graphs {
+  margin: 3rem 0 0 0 !important;
+  z-index: 10;
+}
 .drop-title {
   display: flex;
   align-items: center;
@@ -459,7 +555,7 @@ export default {
   animation: fade 100ms ease-out;
   color: black;
   .menu-item {
-    padding: 12px;
+    padding: 0.8rem !important;
     cursor: pointer;
     animation: slideItem 300ms ease-out;
 
@@ -469,5 +565,13 @@ export default {
       transition: background-color 0.4s ease-in;
     }
   }
+}
+.measure {
+  overflow-y: scroll;
+  height: 180px;
+}
+
+.measurement {
+  margin: 8rem 0 0 0 !important;
 }
 </style>

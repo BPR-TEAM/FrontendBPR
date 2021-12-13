@@ -128,7 +128,7 @@ export default {
   async fetch() {
     this.token = getCookie("auth");
     let route = $nuxt.$route.path;
-
+    let paramId = this.$route.query.id;
     if (route === "/profile") {
       try {
         await this.$axios
@@ -138,6 +138,22 @@ export default {
           .then(res => {
             this.notes = res.data;
             console.log(this.notes);
+          });
+      } catch (e) {}
+    } else {
+      try {
+        await this.$axios
+          .get(
+            `https://orangebush.azurewebsites.net/profile/notesbyplant?_plantId=${paramId}`,
+            {
+              headers: {
+                _token: this.token
+              }
+            }
+          )
+          .then(res => {
+            this.notes = res.data;
+            console.log(res);
           });
       } catch (e) {}
     }
