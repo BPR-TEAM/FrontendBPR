@@ -1,9 +1,9 @@
 <template>
   <div class="measurements-container">
-    <div class="content">
+    <div class="content" v-for="plant in data" :key="plant.id">
       <div class="left-side">
         <div class="head">
-          <div class="user-plant">User Plant Name</div>
+          <div class="user-plant">{{ plant.name }}</div>
           <div class="add-custom">
             <div class="text">Add a custom measurement to your plant</div>
             <div class="add-sign">
@@ -76,14 +76,61 @@
       <div class="right-side">
         <div class="table">
           <div class="headers">
-            <div class="type">CO2</div>
+            <div class="type" @click="isOpen = !isOpen">
+              <div class="type-text">
+                {{ currentType }}
+              </div>
+              <div class="drop">
+                <svg
+                  id="Icon-drop-graph"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                >
+                  <rect
+                    id="Area"
+                    width="20"
+                    height="20"
+                    fill="none"
+                    opacity="0"
+                  />
+                  <g id="Icon-2" data-name="Icon" transform="translate(5 7.5)">
+                    <path
+                      id="Path"
+                      d="M5,7.5l5,5,5-5"
+                      transform="translate(-5 -7.5)"
+                      fill="none"
+                      stroke="#000"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.667"
+                    />
+                  </g>
+                </svg>
+                <div class="menu" v-if="isOpen">
+                  <div
+                    class="menu-item"
+                    v-for="type in dataTypes"
+                    :key="type.id"
+                  >
+                    <div
+                      class="item"
+                      @click="changeArray(type, plant.measurements)"
+                    >
+                      {{ type }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="date">Date</div>
             <div class="delete"></div>
           </div>
           <div class="values">
             <div
               class="measurement"
-              v-for="measurement in data"
+              v-for="measurement in dataTypeArr"
               :key="measurement.id"
             >
               <div class="type-value">{{ measurement.value }}</div>
@@ -164,64 +211,107 @@
 </template>
 
 <script>
+import axios from "axios";
+import { getCookie } from "../../static/cookie";
 export default {
+  async created() {
+    let apiData = await this.getData();
+    this.populate(apiData);
+    console.log(this.co2);
+  },
   data() {
     return {
-      data: [
-        {
-          value: 0.2,
-          date: "04.03.2021 00:00"
-        },
-        {
-          value: 0.2,
-          date: "04.03.2021 00:00"
-        },
-        {
-          value: 0.2,
-          date: "04.03.2021 00:00"
-        },
-        {
-          value: 0.2,
-          date: "04.03.2021 00:00"
-        }
-      ]
+      currentType: "CO2",
+      isOpen: false,
+      data: [],
+      dataTypes: [],
+      dataTypeArr: []
     };
   },
   methods: {
     uploadFile() {
       let chooseFile = document.getElementById("choose-file");
-      let csvData;
-      var vm = this;
-      let csvToArray = (str, delimiter = ",") => {
-        const headers = str.slice(0, str.indexOf("\n")).split(delimiter);
-
-        const rows = str.slice(str.indexOf("\n") + 1).split("\n");
-
-        const arr = rows.map(function(row) {
-          const values = row.split(delimiter);
-          const el = headers.reduce(function(object, header, index) {
-            object[header] = values[index];
-            return object;
-          }, {});
-          return el;
-        });
-
-        return arr;
-      };
+      let auth = getCookie("auth");
       chooseFile.click();
       chooseFile.onchange = e => {
         const files = chooseFile.files[0];
 
         const reader = new FileReader();
 
-        reader.onload = function(e) {
+        reader.onload = async function(e) {
           const text = e.target.result;
-          const data = csvToArray(text);
-          console.log(data);
+
+          let csvData = text;
+          const char = '"';
+          csvData = char.concat(csvData);
+          csvData = csvData.concat(char);
+
+          console.log(csvData);
+          await axios
+            .post(
+              `https://orangebush.azurewebsites.net/Plant/MyPlant/15`,
+              csvData,
+              {
+                headers: {
+                  token: auth,
+                  "Content-Type": "application/json-patch+json"
+                }
+              }
+            )
+            .then(res => console.log(res.data));
         };
 
         reader.readAsText(files);
       };
+    },
+
+    populate(arr) {
+      console.log(arr);
+
+      arr.forEach(element => {
+        element.measurements.forEach(measurement => {
+          this.dataTypes.push(measurement.measurementDefinition.name);
+
+          if (measurement.measurementDefinition.name === this.dataTypes[0]) {
+            let obj = { value: measurement.value, date: measurement.date };
+            this.dataTypeArr.push(obj);
+          }
+        });
+      });
+
+      this.dataTypes = [...new Set(this.dataTypes)];
+    },
+
+    async getData() {
+      let auth = getCookie("auth");
+      let id = this.$route.query.id;
+      await axios
+        .get(
+          `https://orangebush.azurewebsites.net/Plant/MyPlant/all?plantId=${id}`,
+          {
+            headers: {
+              token: auth
+            }
+          }
+        )
+        .then(res => {
+          this.data = res.data;
+        });
+
+      return this.data;
+    },
+
+    changeArray(type, arr) {
+      this.currentType = type;
+      this.dataTypeArr = [];
+      arr.forEach(element => {
+        if (element.measurementDefinition.name === type) {
+          this.dataTypeArr.push({
+            value: element.value,
+            date: element.date
+          });
+        }
+      });
     }
   }
 };
@@ -254,12 +344,12 @@ export default {
   display: flex;
   .left-side {
     position: inherit;
-    width: 50%;
+    width: 40%;
     height: 100%;
   }
 
   .right-side {
-    width: 50%;
+    width: 60%;
     height: 100%;
   }
 }
@@ -281,10 +371,11 @@ export default {
 }
 
 .add-custom {
+  z-index: 10;
   display: flex;
   // align-items: center;
   position: absolute;
-  left: 70%;
+  left: 60%;
   width: 50%;
   top: 0;
   .text {
@@ -297,22 +388,44 @@ export default {
 .table {
   width: 100%;
   height: 245px;
+  overflow-y: scroll;
+
   .headers {
     display: flex;
     width: 100%;
     .type {
-      width: 40%;
+      width: 30%;
       height: 100%;
       background-color: #2b2a28;
-      padding: 1rem !important;
+      padding: 0.9rem !important;
       color: #fff3c7 !important;
       border-bottom: 1px solid #fff3c7;
+      display: flex;
+      position: relative;
+      .menu {
+        height: 120px;
+        width: 100% !important;
+        position: absolute;
+        background-color: #2b2824;
+        left: 0;
+        overflow-y: scroll;
+
+        .menu-item {
+          z-index: 10;
+          padding: 0.7rem !important;
+
+          &:hover {
+            background-color: #353029;
+            cursor: pointer;
+          }
+        }
+      }
     }
 
     .date {
       background-color: #1f1e1c;
       color: white;
-      width: 40% !important ;
+      width: 50% !important ;
       height: 100%;
       padding: 1rem !important;
       border-bottom: 1px solid #e5e5e5;
@@ -322,7 +435,7 @@ export default {
       background-color: transparent;
       width: 20%;
       height: 100%;
-      padding: 1.75rem;
+      padding: 1.75rem !important;
       border-bottom: 1px solid #e5e5e5;
     }
   }
@@ -337,13 +450,13 @@ export default {
       border-bottom: 1px solid white;
 
       .type-value {
-        width: 40% !important ;
+        width: 30% !important ;
 
         padding: 0.7rem !important;
       }
 
       .date-value {
-        width: 40% !important ;
+        width: 50% !important ;
 
         padding: 0.7rem !important;
       }

@@ -96,6 +96,9 @@
         <div class="header" @click="changeComponent('OverviewContainer')">
           Overview
         </div>
+        <div class="header" @click="changeComponent('MeasurementsCont')">
+          Data
+        </div>
       </div>
       <component class="component" v-bind:is="component"></component>
       <!-- <div class="header">Advice</div>
