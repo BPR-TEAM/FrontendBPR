@@ -7,8 +7,8 @@
     <LoginModal ref="login" />
     <RegistrationModal ref="registration" />
     <Note ref="note" />
-    <MeasurementsCont ref="measurements" />
-    <button class="interactive-button" @click="openModal('board')">
+    <Measurement ref="measurement" />
+    <button class="interactive-button" @click="openModal('measurement')">
       Log In
     </button>
     <br /><br />
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import Measurement from "../components/Modals/Measurement.vue";
 import LineChart from "../components/Charts/LineChart.vue";
 import Dropdown from "../components/Dropdowns/Dropdown.vue";
 import Vue from "vue";
@@ -130,7 +131,8 @@ export default {
     NewDashboard,
     NewBoard,
     Dropdown,
-    MeasurementsCont
+    MeasurementsCont,
+    Measurement
   },
 
   computed: {

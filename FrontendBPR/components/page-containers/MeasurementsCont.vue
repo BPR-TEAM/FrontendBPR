@@ -1,12 +1,13 @@
 <template>
   <div class="measurements-container">
+    <Measurement ref="measurement" :id="currentUserId" />
     <div class="content" v-for="plant in data" :key="plant.id">
       <div class="left-side">
         <div class="head">
           <div class="user-plant">{{ plant.name }}</div>
           <div class="add-custom">
             <div class="text">Add a custom measurement to your plant</div>
-            <div class="add-sign">
+            <div class="add-sign" @click="openModal('measurement', plant.id)">
               <svg
                 id="Circle_Button"
                 data-name="Circle Button"
@@ -212,12 +213,16 @@
 
 <script>
 import axios from "axios";
+import Measurement from "../Modals/Measurement.vue";
 import { getCookie } from "../../static/cookie";
+
 export default {
+  components: {
+    Measurement
+  },
   async created() {
     let apiData = await this.getData();
     this.populate(apiData);
-    console.log(this.co2);
   },
   data() {
     return {
@@ -225,7 +230,8 @@ export default {
       isOpen: false,
       data: [],
       dataTypes: [],
-      dataTypeArr: []
+      dataTypeArr: [],
+      currentUserId: ""
     };
   },
   methods: {
@@ -312,6 +318,10 @@ export default {
           });
         }
       });
+    },
+    openModal(modal, id) {
+      this.$refs[modal].open();
+      this.currentUserId = id;
     }
   }
 };

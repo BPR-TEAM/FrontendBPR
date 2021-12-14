@@ -60,8 +60,16 @@
       </div>
 
       <div class="graphs">
-        <div class="graph-item" v-for="graph in graphs" :key="graph.id">
-          <div class="graph-container"></div>
+        <div
+          class="graph-item"
+          v-for="(board, i) in dashboardData.boards"
+          :key="board.id"
+        >
+          <div
+            class="graph-container"
+            ref="graph"
+            :id="'graphContainer' + i"
+          ></div>
         </div>
       </div>
       <div class="plants">
@@ -225,37 +233,182 @@
 <script>
 import { getCookie } from "../static/cookie.js";
 import NewBoard from "../components/Modals/NewBoard.vue";
+import randomColor from "randomcolor";
+import Vue from "vue";
+import LineChart from "../components/Charts/LineChart.vue";
+import BarChart from "../components/Charts/BarChart.vue";
+const options = {
+  responsive: false,
+  maintainAspectRatio: false,
+  animation: {
+    animateRotate: false
+  },
+  plugins: {
+    title: {
+      text: "Temperature",
+      color: "#fff3c7",
+      display: true,
+      font: {
+        size: 18
+      }
+    }
+  },
+  scales: {
+    y: {
+      ticks: {
+        color: "#fff3c7",
+        font: {
+          size: 18
+        }
+      },
+      grid: {
+        color: "#fff3c7",
+        lineWidth: 0.5
+      }
+    },
+    x: {
+      ticks: {
+        color: "#fff3c7",
+        font: {
+          size: 18
+        }
+      },
+      grid: {
+        color: "#fff3c7",
+        lineWidth: 0.5
+      }
+    }
+  }
+};
 export default {
+  mounted() {
+    this.$nextTick(async function() {
+      // Code that will run only after the
+      // entire view has been rendered
+      let authToken = getCookie("auth");
+      let id = this.$route.query.id;
+
+      await this.$axios
+        .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
+          headers: {
+            token: authToken
+          }
+        })
+        .then(res => {
+          this.dashboardData = res.data;
+          this.plants = res.data.userPlants;
+          console.log(this.dashboardData);
+        });
+
+      //graph
+      let ComponentClass;
+      console.log(this.dashboardData);
+      this.dashboardData.boards.forEach((board, i) => {
+        if (this.getChart(board.type, board) === "Line") {
+          ComponentClass = Vue.extend(LineChart);
+        } else {
+          ComponentClass = Vue.extend(BarChart);
+        }
+        let instance = new ComponentClass({
+          propsData: {
+            options: options,
+            width: 700,
+            height: 450,
+            chartData: this.chartData
+          }
+        });
+        instance.$mount();
+
+        let graphContainer = document.getElementById(`graphContainer${i}`);
+        graphContainer.appendChild(instance.$el);
+      });
+    });
+  },
+
   components: {
-    NewBoard
+    NewBoard,
+    LineChart,
+    BarChart
   },
   layout: "default-with-nav",
-  async fetch() {
-    let authToken = getCookie("auth");
-    let id = this.$route.query.id;
+  // async fetch() {
+  //   let authToken = getCookie("auth");
+  //   let id = this.$route.query.id;
 
-    await this.$axios
-      .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
-        headers: {
-          token: authToken
-        }
-      })
-      .then(res => {
-        this.dashboardData = res.data;
-        this.plants = res.data.userPlants;
-        console.log(this.dashboardData);
-      });
-  },
+  //   await this.$axios
+  //     .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
+  //       headers: {
+  //         token: authToken
+  //       }
+  //     })
+  //     .then(res => {
+  //       this.dashboardData = res.data;
+  //       this.plants = res.data.userPlants;
+  //       console.log(this.dashboardData);
+  //     });
+  // },
   data() {
     return {
       graphs: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       plants: [],
-      dashboardData: ""
+      dashboardData: "",
+      component: "",
+      options,
+      chartData: {
+        labels: [],
+        datasets: [
+          {
+            backgroundColor: "rgb(76, 195, 192)",
+            label: "Min value",
+            data: [],
+            // fill: true
+            borderColor: "rgb(76, 195, 192)"
+          }
+        ]
+      }
     };
   },
   methods: {
     openModal() {
       this.$refs.newBoard.open();
+    },
+    getChart(type, board_) {
+      let chartDataType = type.split(",");
+      let graph = chartDataType[0];
+      let dataType = chartDataType[1];
+      this.chartData = {
+        labels: [],
+        datasets: []
+      };
+      this.dashboardData.userPlants.forEach(element => {
+        if (board_.plantId === element.plantId) {
+          // console.log(element);
+          let color = randomColor();
+          this.chartData.datasets.push({
+            backgroundColor: [color],
+            label: element.name,
+            data: [],
+            borderColor: [color]
+          });
+          element.measurements.forEach(measurement => {
+            if (measurement.measurementDefinition.name === dataType) {
+              this.chartData.datasets[
+                this.chartData.datasets.length - 1
+              ].data.push(measurement.value);
+
+              let day = new Date(measurement.date).getDay();
+              let month = new Date(measurement.date).getMonth();
+              let year = new Date(measurement.date).getFullYear();
+
+              let dateVal = `${day}/${month}/${year}`;
+
+              this.chartData.labels.push(dateVal);
+            }
+          });
+        }
+      });
+
+      return graph;
     }
   }
 };
@@ -316,8 +469,15 @@ export default {
     height: 30%;
     flex: 1 1 25%;
     width: 50%;
+    height: 50%;
     margin: 0 0 0 20px !important;
     background-color: #1f1e1c;
+    overflow-y: scroll;
+
+    .graph-container {
+      width: 100%;
+      height: 100%;
+    }
   }
   // :first-child {
   //   background-color: red;
