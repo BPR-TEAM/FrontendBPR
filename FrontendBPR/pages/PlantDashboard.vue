@@ -65,6 +65,7 @@
           v-for="(board, i) in dashboardData.boards"
           :key="board.id"
         >
+          <div class="title" :id="'title' + i"></div>
           <div
             class="graph-container"
             ref="graph"
@@ -245,7 +246,6 @@ const options = {
   },
   plugins: {
     title: {
-      text: "Temperature",
       color: "#fff3c7",
       display: true,
       font: {
@@ -289,7 +289,12 @@ export default {
       let id = this.$route.query.id;
 
       await this.$axios
-        .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
+        // .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
+        //   headers: {
+        //     token: authToken
+        //   }
+        // })
+        .get(`https://localhost:5001/Dashboard?id=${id}`, {
           headers: {
             token: authToken
           }
@@ -312,7 +317,7 @@ export default {
         let instance = new ComponentClass({
           propsData: {
             options: options,
-            width: 700,
+            width: 750,
             height: 450,
             chartData: this.chartData
           }
@@ -320,7 +325,9 @@ export default {
         instance.$mount();
 
         let graphContainer = document.getElementById(`graphContainer${i}`);
+        let title = document.getElementById(`title${i}`);
         graphContainer.appendChild(instance.$el);
+        title.innerHTML = this.plantNameTitle;
       });
     });
   },
@@ -350,6 +357,7 @@ export default {
   data() {
     return {
       graphs: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+      plantNameTitle: "",
       plants: [],
       dashboardData: "",
       component: "",
@@ -383,12 +391,16 @@ export default {
       this.dashboardData.userPlants.forEach(element => {
         if (board_.plantId === element.plantId) {
           // console.log(element);
+          this.plantNameTitle = `${element.commonName},${type.split(",")[1]}`;
           let color = randomColor();
           this.chartData.datasets.push({
             backgroundColor: [color],
             label: element.name,
             data: [],
-            borderColor: [color]
+            borderColor: [color],
+            plugins: {
+              title: dataType
+            }
           });
           element.measurements.forEach(measurement => {
             if (measurement.measurementDefinition.name === dataType) {
@@ -458,21 +470,34 @@ export default {
 .graphs {
   display: flex;
   flex-wrap: wrap;
-  flex-direction: row;
-  width: 85%;
+  // flex-direction: row;
+  justify-content: center;
+
+  width: 100%;
   position: relative;
   height: 100%;
-  left: 6%;
+  // left: 6%;
   margin-top: 2% !important;
+  overflow-y: scroll;
+
+  .title {
+    position: absolute;
+    font-size: 1.5rem;
+    color: white;
+    text-align: center;
+    // left: 40%;
+    padding: 0.7rem !important;
+  }
 
   .graph-item {
-    height: 30%;
-    flex: 1 1 25%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    flex-basis: 40% !important;
+    // height: 30%;
     width: 50%;
     height: 50%;
-    margin: 0 0 0 20px !important;
+    margin: 0 0 1.2rem 1.2rem !important;
     background-color: #1f1e1c;
-    overflow-y: scroll;
 
     .graph-container {
       width: 100%;

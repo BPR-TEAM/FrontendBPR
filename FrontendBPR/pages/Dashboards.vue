@@ -101,6 +101,11 @@ export default {
   async fetch() {
     let authToken = getCookie("auth");
 
+    // .get("https://localhost:5001/Plant/MyPlant/all", {
+    //   headers: {
+    //     token: authToken
+    //   }
+    // })
     await this.$axios
       .get("https://orangebush.azurewebsites.net/Plant/MyPlant/all", {
         headers: {
@@ -112,6 +117,12 @@ export default {
         console.log(res);
       });
 
+    // await this.$axios
+    //   .get("https://localhost:5001/Dashboard/all", {
+    //     headers: {
+    //       token: authToken
+    //     }
+    //   })
     await this.$axios
       .get("https://orangebush.azurewebsites.net/Dashboard/all", {
         headers: {

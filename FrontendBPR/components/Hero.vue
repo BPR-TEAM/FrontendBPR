@@ -1,5 +1,10 @@
 <template>
   <div class="hero-container">
+    <div class="loading-prediction" id="loading">
+      <span class="pred-text">
+        Wait while our experts try to figure out which plant it is…
+      </span>
+    </div>
     <div class="background-image">
       <img
         src="../assets/images/homepage_background.png"
@@ -10,16 +15,102 @@
     <div class="wrapper">
       <div class="brand-search-box">
         <div class="header-text">
-          Design is the silent ambassador of your brand
+          Orange bush helps you step-up your gardening game!
         </div>
         <div class="subheader">
           <div class="sub-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Start by searching the plant you desire to plant or that you own and
+            get to know more about it. Forgot the name?
+            <span style="color:#FAE595;">Click on the button below.</span>
           </div>
           <div class="search-bar">
-            <input type="text" class="input" name="txt" placeholder="Search" />
-            <div class="autocom-box">
+            <input
+              type="text"
+              class="input"
+              name="txt"
+              placeholder="Search"
+              id="search"
+              ref="search"
+            />
+            <span class="predict-text" id="predict"></span>
+            <div class="predict-image" @click="predictPlant()">
+              <input
+                type="file"
+                accept="image/*"
+                id="choose-file"
+                style="display:none;"
+              />
+              />
+              <svg
+                id="Circle_Button"
+                data-name="Circle Button"
+                xmlns="http://www.w3.org/2000/svg"
+                width="61"
+                height="61"
+                viewBox="0 0 61 61"
+              >
+                <rect
+                  id="Area"
+                  width="61"
+                  height="61"
+                  rx="30.5"
+                  fill="#fae595"
+                  opacity="0.87"
+                />
+                <g id="Icon" transform="translate(14.959 14.92)">
+                  <rect
+                    id="Area-2"
+                    data-name="Area"
+                    width="30"
+                    height="30"
+                    transform="translate(0.041 0.08)"
+                    fill="#3d7a5d"
+                    opacity="0"
+                  />
+                  <g
+                    id="Icon-2"
+                    data-name="Icon"
+                    transform="translate(3.956 3.956)"
+                  >
+                    <rect
+                      id="Rect"
+                      width="22.5"
+                      height="22.5"
+                      rx="2"
+                      fill="none"
+                      stroke="#0f0e0d"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2.5"
+                    />
+                    <circle
+                      id="Path"
+                      cx="1.875"
+                      cy="1.875"
+                      r="1.875"
+                      transform="translate(5 5)"
+                      fill="none"
+                      stroke="#0f0e0d"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2.5"
+                    />
+                    <path
+                      id="Path-2"
+                      data-name="Path"
+                      d="M26.25,18.75,20,12.5,6.25,26.25"
+                      transform="translate(-3.75 -3.75)"
+                      fill="none"
+                      stroke="#0f0e0d"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2.5"
+                    />
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div class="autocom-box invisible">
               <!-- here it the list inserted from javascript -->
             </div>
           </div>
@@ -313,24 +404,74 @@
 </template>
 
 <script>
+import axios from "axios";
+import { getPrediction } from "../static/prediction";
+import { setPrediction } from "../static/prediction";
+import { prediction } from "../static/prediction";
 export default {
   data() {
     let suggestions = [];
     let plantId;
-    return { suggestions, plantId };
+    let predict = prediction;
+    return { suggestions, plantId, predict };
   },
 
   mounted() {
     this.dynamicSearch();
   },
 
+  watch: {
+    prediction
+  },
+
   methods: {
+    predictPlant() {
+      let chooseFile = document.getElementById("choose-file");
+      chooseFile.click();
+      chooseFile.addEventListener("change", function() {
+        let userImage;
+        const files = chooseFile.files[0];
+        // console.log(files);
+        if (files) {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(files);
+          fileReader.addEventListener("load", async function() {
+            let char = "'";
+            userImage = this.result.split(",")[1];
+            userImage = char.concat(userImage);
+            userImage = userImage.concat(char);
+
+            let predictionTxt = document.getElementById("search");
+            // const searchWrapper = document.querySelector(".search-bar");
+            let loading = document.getElementById("loading");
+
+            try {
+              loading.style.display = "flex";
+              await axios
+                .post(
+                  "http://localhost:7071/api/FlowerPredictFunction",
+                  userImage
+                )
+                .then(res => {
+                  loading.style.display = "none";
+                  predictionTxt.value = res.data.predictedLabel.toUpperCase();
+                });
+            } catch (e) {}
+          });
+        }
+      });
+    },
+
+    changePredict(pred) {
+      this.predict = pred;
+    },
     dynamicSearch() {
       const searchWrapper = document.querySelector(".search-bar");
       const inputBox = searchWrapper.querySelector("input");
       const suggBox = searchWrapper.querySelector(".autocom-box");
 
       inputBox.onkeyup = async e => {
+        console.log("triggered");
         let userData = e.target.value;
         let searchData;
         let dynamicArray = [];
@@ -341,7 +482,8 @@ export default {
         } else {
           let res = await this.$axios
             .post(
-              `https://orangebush.azurewebsites.net/Plant/search?name=${userData}`,
+              // `https://orangebush.azurewebsites.net/Plant/search?name=${userData}`,
+              `https://localhost:5001/Plant/search?name=${userData}`,
               []
             )
             .catch(e => console.log(e.status));
@@ -396,6 +538,28 @@ export default {
 @import "~bulma/sass/utilities/mixins.sass";
 * {
   margin: 0 !important;
+}
+
+.loading-prediction {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  top: -10vh;
+  width: 100vw;
+  height: 155vh;
+  font-size: 3rem;
+  color: white;
+  background-color: #396c54;
+  position: absolute;
+  z-index: 20;
+  opacity: 0.9;
+
+  .pred-text {
+    z-index: 30;
+    padding: 5rem !important;
+    font-family: "Poppins", sans-serif;
+    filter: brightness(1.75) !important;
+  }
 }
 
 .hero-container {
@@ -461,6 +625,24 @@ export default {
   .search-bar {
     margin-top: 32px !important;
     z-index: 999;
+    position: relative;
+
+    .predict-text {
+      position: absolute;
+      width: 100%;
+      color: white;
+      top: 20%;
+      left: 130%;
+    }
+    .predict-image {
+      position: absolute;
+      display: flex;
+      right: -20%;
+      top: -10%;
+      margin: 0 0 0 0.4rem !important;
+      cursor: pointer;
+      z-index: relative;
+    }
     .input {
       width: 405px;
       height: 48px;
@@ -478,13 +660,15 @@ export default {
 
   .autocom-box {
     overflow-y: scroll;
-    height: 100%;
+    height: 300px;
+    width: 100%;
     z-index: 999;
     background: #fff;
     border-radius: 20px;
     margin-top: 8px !important;
     display: flex;
     flex-direction: column;
+    position: absolute;
 
     .active {
       opacity: 1 !important;

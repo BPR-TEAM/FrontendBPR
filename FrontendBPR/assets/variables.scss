@@ -29,7 +29,7 @@ $widescreen: 1216px;
 }
 
 .invisible {
-  display: none;
+  display: none !important;
 }
 //footer
 // .green-footer {

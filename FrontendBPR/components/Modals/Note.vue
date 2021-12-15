@@ -73,6 +73,7 @@
                   name="note"
                   rows="100"
                   cols="50"
+                  maxlength="250"
                   placeholder="What are you thinking about ?..."
                   v-model="note"
                 />

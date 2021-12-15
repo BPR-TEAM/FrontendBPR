@@ -18,7 +18,6 @@
 
         <div class="links">
           <nuxt-link class="nav-item" to="/">Home</nuxt-link>
-          <nuxt-link class="nav-item" to="/">About</nuxt-link>
           <nuxt-link class="nav-item" to="/profile">Profile</nuxt-link>
           <nuxt-link class="nav-item" to="/advice">Advices</nuxt-link>
           <nuxt-link class="nav-item" to="/dashboards">Dashboard</nuxt-link>

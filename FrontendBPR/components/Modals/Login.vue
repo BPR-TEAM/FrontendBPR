@@ -166,8 +166,10 @@ export default {
       };
 
       let authToken;
+
       await this.$axios
         .post("https://orangebush.azurewebsites.net/Auth/Login", user)
+        // .post("https://localhost:5001/Auth/Login", user)
         .then(response => {
           authToken = response.data;
           console.log(response.status);
