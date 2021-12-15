@@ -32,7 +32,6 @@
               id="search"
               ref="search"
             />
-            <span class="predict-text" id="predict"></span>
             <div class="predict-image" @click="predictPlant()">
               <input
                 type="file"
@@ -482,8 +481,7 @@ export default {
         } else {
           let res = await this.$axios
             .post(
-              // `https://orangebush.azurewebsites.net/Plant/search?name=${userData}`,
-              `https://localhost:5001/Plant/search?name=${userData}`,
+              `https://orangebush.azurewebsites.net/Plant/search?name=${userData}`,
               []
             )
             .catch(e => console.log(e.status));
