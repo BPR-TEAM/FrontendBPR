@@ -488,8 +488,6 @@ export default {
 
           searchData = res.data;
 
-          // console.log(searchData);
-
           if (searchData) {
             suggBox.classList.remove("invisible");
             if (userData) {

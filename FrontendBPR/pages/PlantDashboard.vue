@@ -289,12 +289,7 @@ export default {
       let id = this.$route.query.id;
 
       await this.$axios
-        // .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
-        //   headers: {
-        //     token: authToken
-        //   }
-        // })
-        .get(`https://localhost:5001/Dashboard?id=${id}`, {
+        .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
           headers: {
             token: authToken
           }
