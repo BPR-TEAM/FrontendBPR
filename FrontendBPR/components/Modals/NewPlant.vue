@@ -159,11 +159,6 @@
                 </g>
               </g>
             </svg>
-
-            <!-- <img src="~assets/images/Circle button.svg" alt="" /> -->
-            <!-- <label class="custom-file-upload">
-              <input type="file" />
-            </label> -->
           </div>
           <input
             type="file"
@@ -250,7 +245,8 @@ export default {
       let request = {
         plantId: id,
         name: this.plantName,
-        image: image.split(",")[1]
+        image: image.split(",")[1],
+        tags: this.tags
       };
 
       //TODO
@@ -260,7 +256,10 @@ export default {
             token: token
           }
         })
-        .then(res => console.log(res.status))
+        .then(res => {
+          console.log(res);
+          console.log(request);
+        })
         .catch(e => console.log(e.message));
     },
     getCookie(cname) {

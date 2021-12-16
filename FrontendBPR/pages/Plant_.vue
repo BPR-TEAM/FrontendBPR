@@ -101,22 +101,6 @@
         </div>
       </div>
       <component class="component" v-bind:is="component"></component>
-      <!-- <div class="header">Advice</div>
-      <div class="number-of-comm">16 comments</div>
-      <div class="advices-container">
-        <div v-for="advice in advices" :key="advice.id" class="advice-item">
-          <div class="profile">
-            <div class="profile-img">
-              <img src="../assets/images/yoda.jpg" alt="" />
-            </div>
-            <div class="profile-data">
-              <div class="name">{{ advice.name }}</div>
-              <div class="posted">{{ advice.posted }}</div>
-            </div>
-          </div>
-          <div class="description">{{ advice.description }}</div>
-        </div>
-      </div> -->
     </div>
   </div>
 </template>
@@ -124,6 +108,7 @@
 <script>
 import Tag from "../components/Tag.vue";
 import NewPlant from "../components/Modals/NewPlant.vue";
+import { authenticated } from "../middleware/authenticated.js";
 export default {
   components: {
     Tag,
@@ -159,17 +144,6 @@ export default {
     };
   },
   methods: {
-    // async getPlant() {
-    //   let paramId = this.$route.query.id;
-    //   await this.$axios
-    //     .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
-    //     .then(response => {
-    //       this.plantName = response.data.commonName;
-    //       this.description = response.data.description;
-    //       this.image = response.data.image;
-    //     });
-    // },
-
     openModal() {
       this.$refs["new-plant"].open();
     },

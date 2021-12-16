@@ -125,25 +125,7 @@ export default {
       dashboardName: "",
       dashboardDesc: "",
       showModal: false,
-      dashboardPlants: [],
-      plantsss: [
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        },
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        },
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        },
-        {
-          givenName: "Given Name",
-          plantName: "Plant Name"
-        }
-      ]
+      dashboardPlants: []
     };
   },
   methods: {
@@ -195,7 +177,10 @@ export default {
               token: authToken
             }
           })
-          .then(res => console.log(`${res.status} ${res.statusText}`));
+          .then(res => {
+            console.log(res.data);
+            window.location.reload();
+          });
       } catch (e) {}
     }
   }

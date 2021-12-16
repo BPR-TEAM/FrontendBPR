@@ -75,7 +75,7 @@
     <div class="dashboards">
       <div
         class="dashboard-item"
-        v-for="dashboard in dashboards"
+        v-for="(dashboard, i) in dashboards"
         :key="dashboard.name"
       >
         <div class="overlay">
@@ -87,6 +87,76 @@
         <div class="content-container">
           <Tag class="dashboard-name" :text="dashboard.name" />
           <div class="dashboard-description">{{ dashboard.description }}</div>
+          <div class="delete" @click="deleteDashboard(dashboard, i)">
+            <svg
+              id="Circle_Button"
+              data-name="Circle Button"
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 48 48"
+            >
+              <rect id="Area" width="48" height="48" rx="24" fill="#ffc7c7" />
+              <g id="Icon" transform="translate(14 14)">
+                <rect
+                  id="Area-2"
+                  data-name="Area"
+                  width="20"
+                  height="20"
+                  fill="#3d7a5d"
+                  opacity="0"
+                />
+                <g
+                  id="Icon-2"
+                  data-name="Icon"
+                  transform="translate(1.29 2.499)"
+                >
+                  <path
+                    id="Path"
+                    d="M2.5,5h15"
+                    transform="translate(-1.29 -2.499)"
+                    fill="none"
+                    stroke="#0f0e0d"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.667"
+                  />
+                  <path
+                    id="Path-2"
+                    data-name="Path"
+                    d="M15.833,5V16.667a1.666,1.666,0,0,1-1.666,1.666H5.833a1.666,1.666,0,0,1-1.666-1.666V5m2.5,0V3.333A1.666,1.666,0,0,1,8.333,1.667h3.334a1.666,1.666,0,0,1,1.666,1.666V5"
+                    transform="translate(-1.29 -2.499)"
+                    fill="none"
+                    stroke="#0f0e0d"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.667"
+                  />
+                  <line
+                    id="Line"
+                    y2="5"
+                    transform="translate(7.043 6.668)"
+                    fill="none"
+                    stroke="#0f0e0d"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.667"
+                  />
+                  <line
+                    id="Line-2"
+                    data-name="Line"
+                    y2="5"
+                    transform="translate(10.377 6.668)"
+                    fill="none"
+                    stroke="#0f0e0d"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.667"
+                  />
+                </g>
+              </g>
+            </svg>
+          </div>
         </div>
       </div>
     </div>
@@ -96,16 +166,13 @@
 <script>
 import { getCookie } from "../static/cookie.js";
 import NewDashboard from "../components/Modals/NewDashboard.vue";
+import { authenticated } from "../middleware/authenticated.js";
 import Tag from "../components/Tag.vue";
 export default {
+  middleware: authenticated,
   async fetch() {
     let authToken = getCookie("auth");
 
-    // .get("https://localhost:5001/Plant/MyPlant/all", {
-    //   headers: {
-    //     token: authToken
-    //   }
-    // })
     await this.$axios
       .get("https://orangebush.azurewebsites.net/Plant/MyPlant/all", {
         headers: {
@@ -117,12 +184,6 @@ export default {
         console.log(res);
       });
 
-    // await this.$axios
-    //   .get("https://localhost:5001/Dashboard/all", {
-    //     headers: {
-    //       token: authToken
-    //     }
-    //   })
     await this.$axios
       .get("https://orangebush.azurewebsites.net/Dashboard/all", {
         headers: {
@@ -146,6 +207,25 @@ export default {
   },
   layout: "default-with-nav",
   methods: {
+    async deleteDashboard(dashboard, i) {
+      let authToken = getCookie("auth");
+
+      try {
+        await this.$axios
+          .delete(
+            `https://orangebush.azurewebsites.net/Dashboard?id=${dashboard.id}`,
+            {
+              headers: {
+                token: authToken
+              }
+            }
+          )
+          .then(res => {
+            console.log(res.data);
+            location.reload();
+          });
+      } catch (error) {}
+    },
     openModal() {
       this.$refs.newDashboard.open();
     }
@@ -188,6 +268,14 @@ export default {
 
   .content-container {
     padding: 12px !important;
+
+    .delete {
+      position: absolute;
+      bottom: 5%;
+      right: 5%;
+      cursor: pointer;
+      z-index: 25;
+    }
   }
   .dashboard-item {
     flex: 1 1 25%;

@@ -332,7 +332,10 @@ export default {
               token: auth
             }
           })
-          .then(res => console.log(res.data))
+          .then(res => {
+            console.log(res.data);
+            wiindow.location.reload();
+          })
           .error(res => console.log(res));
       } catch (e) {}
     }

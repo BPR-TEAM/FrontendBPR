@@ -139,7 +139,7 @@
         </div>
         <div class="my-plants">
           <div class="plant" v-for="(plant, i) in plants" :key="plant.id">
-            <div class="remove-sign">
+            <div class="remove-sign" @click="removePlant(plant)">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="33"
@@ -233,6 +233,7 @@
 
 <script>
 import { getCookie } from "../static/cookie.js";
+import { authenticated } from "../middleware/authenticated.js";
 import NewBoard from "../components/Modals/NewBoard.vue";
 import randomColor from "randomcolor";
 import Vue from "vue";
@@ -281,6 +282,7 @@ const options = {
   }
 };
 export default {
+  middleware: authenticated,
   mounted() {
     this.$nextTick(async function() {
       // Code that will run only after the
@@ -332,23 +334,7 @@ export default {
     LineChart,
     BarChart
   },
-  layout: "default-with-nav",
-  // async fetch() {
-  //   let authToken = getCookie("auth");
-  //   let id = this.$route.query.id;
 
-  //   await this.$axios
-  //     .get(`https://orangebush.azurewebsites.net/Dashboard?id=${id}`, {
-  //       headers: {
-  //         token: authToken
-  //       }
-  //     })
-  //     .then(res => {
-  //       this.dashboardData = res.data;
-  //       this.plants = res.data.userPlants;
-  //       console.log(this.dashboardData);
-  //     });
-  // },
   data() {
     return {
       graphs: [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -372,6 +358,35 @@ export default {
     };
   },
   methods: {
+    async removePlant(plant) {
+      let authToken = getCookie("auth");
+      let id = this.$route.query.id;
+      let plantImg = plant.image;
+
+      let req = {
+        id: plant.id,
+        plantId: plant.plantId,
+        name: plant.name,
+        image: plantImg
+      };
+
+      console.log(req);
+
+      try {
+        await this.$axios
+          .delete(
+            `https://orangebush.azurewebsites.net/Dashboard/plants?id=${id}`,
+            {
+              headers: {
+                token: authToken,
+                "Content-Type": "application/json-patch+json"
+              },
+              data: req
+            }
+          )
+          .then(res => console.log(res.data));
+      } catch (e) {}
+    },
     openModal() {
       this.$refs.newBoard.open();
     },
@@ -547,6 +562,7 @@ export default {
       position: absolute;
       right: -1rem;
       top: -0.5rem;
+      cursor: pointer;
     }
   }
 }

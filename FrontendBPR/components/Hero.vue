@@ -404,8 +404,6 @@
 
 <script>
 import axios from "axios";
-import { getPrediction } from "../static/prediction";
-import { setPrediction } from "../static/prediction";
 import { prediction } from "../static/prediction";
 export default {
   data() {
@@ -441,7 +439,6 @@ export default {
             userImage = userImage.concat(char);
 
             let predictionTxt = document.getElementById("search");
-            // const searchWrapper = document.querySelector(".search-bar");
             let loading = document.getElementById("loading");
 
             try {

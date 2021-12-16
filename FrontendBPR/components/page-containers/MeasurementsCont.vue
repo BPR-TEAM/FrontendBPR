@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="add-file">
-          <div class="upload-icon" @click="uploadFile()">
+          <div class="upload-icon" @click="uploadFile(plant)">
             <img src="~assets/images/Circle Button.png" alt="upload" />
             <input
               type="file"
@@ -131,12 +131,12 @@
           <div class="values">
             <div
               class="measurement"
-              v-for="measurement in dataTypeArr"
+              v-for="(measurement, i) in dataTypeArr"
               :key="measurement.id"
             >
               <div class="type-value">{{ measurement.value }}</div>
               <div class="date-value">{{ measurement.date }}</div>
-              <div class="delete">
+              <div class="delete" @click="deleteMeasurement(measurement, i)">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -255,7 +255,7 @@ export default {
           console.log(csvData);
           await axios
             .post(
-              `https://orangebush.azurewebsites.net/Plant/MyPlant/15`,
+              `https://orangebush.azurewebsites.net/Plant/MyPlant/${plant.id}`,
               csvData,
               {
                 headers: {
@@ -279,7 +279,11 @@ export default {
           this.dataTypes.push(measurement.measurementDefinition.name);
 
           if (measurement.measurementDefinition.name === this.dataTypes[0]) {
-            let obj = { value: measurement.value, date: measurement.date };
+            let obj = {
+              value: measurement.value,
+              date: measurement.date,
+              id: measurement.id
+            };
             this.dataTypeArr.push(obj);
           }
         });
@@ -291,18 +295,20 @@ export default {
     async getData() {
       let auth = getCookie("auth");
       let id = this.$route.query.id;
-      await axios
-        .get(
-          `https://orangebush.azurewebsites.net/Plant/MyPlant/all?plantId=${id}`,
-          {
-            headers: {
-              token: auth
+      try {
+        await axios
+          .get(
+            `https://orangebush.azurewebsites.net/Plant/MyPlant/all?plantId=${id}`,
+            {
+              headers: {
+                token: auth
+              }
             }
-          }
-        )
-        .then(res => {
-          this.data = res.data;
-        });
+          )
+          .then(res => {
+            this.data = res.data;
+          });
+      } catch (error) {}
 
       return this.data;
     },
@@ -322,6 +328,27 @@ export default {
     openModal(modal, id) {
       this.$refs[modal].open();
       this.currentUserId = id;
+    },
+
+    async deleteMeasurement(measurement, i) {
+      let auth = getCookie("auth");
+      let id = measurement.id;
+
+      try {
+        await this.$axios
+          .delete(
+            `https://orangebush.azurewebsites.net/Plant/MyPlant/removeMeasurement/${id}`,
+            {
+              headers: {
+                token: auth
+              }
+            }
+          )
+          .then(res => {
+            console.log(res.data);
+            this.dataTypeArr.splice(1, i);
+          });
+      } catch (error) {}
     }
   }
 };
@@ -476,6 +503,7 @@ export default {
         justify-content: center;
         width: 20%;
         align-items: center;
+        cursor: pointer;
       }
     }
   }

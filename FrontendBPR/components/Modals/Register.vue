@@ -102,6 +102,7 @@
               placeholder="Email"
               ref="email"
             />
+
             <input
               class="password"
               type="password"
@@ -109,7 +110,17 @@
               name="password"
               placeholder="Password"
               ref="password"
+              v-on:keyup="checkPassword()"
+              v-model="password"
             />
+            <div class="password-check">
+              <meter
+                id="password-checker"
+                min="0"
+                max="4"
+                :value="value"
+              ></meter>
+            </div>
             <input class="birthday" type="date" id="birthday" name="birthday" />
 
             <div class="country-dropdown">
@@ -160,10 +171,30 @@ export default {
       user: {},
       showModal: false,
       selectedCountry: "",
-      items: countries.items
+      items: countries.items,
+      password: "",
+      value: 0
     };
   },
   methods: {
+    async checkPassword() {
+      let pass = this.password;
+      let char = "'";
+      pass = char.concat(pass);
+      pass = pass.concat(char);
+      console.log(pass);
+      try {
+        await this.$axios
+          .put(
+            "https://orangebush.azurewebsites.net/Auth/PasswordStrength",
+            [pass],
+            {
+              headers: { "Content-Type": "application/json-patch+json" }
+            }
+          )
+          .then(res => (this.value = res.data.score));
+      } catch (error) {}
+    },
     open() {
       this.showModal = true;
       const x = window.scrollX;
@@ -200,12 +231,10 @@ export default {
         await this.$axios
           .post("https://orangebush.azurewebsites.net/Auth/Register", user)
           .catch(e => console.log(e.message));
-      } catch (e) {
-        // console.log(res.code);
-        // console.log(res.message);
-      }
+      } catch (e) {}
       console.log(user);
       this.close();
+      window.location.reload();
     }
   },
   components: {
@@ -285,6 +314,18 @@ export default {
       background: white;
       outline: none !important;
     }
+
+    .password-check {
+      position: absolute;
+
+      top: 57%;
+      left: 45%;
+
+      #password-checker {
+        width: 150px;
+      }
+    }
+
     .country-dropdown {
       height: 28px !important;
       width: 328px;
@@ -294,17 +335,6 @@ export default {
       background: white;
       outline: none !important;
     }
-
-    // .country-dropdown {
-    //   height: 48px;
-    //   width: 328px;
-    //   border-radius: 11px;
-    //   border: 2px solid #3e3e3e;
-    //   text-align: left;
-    //   z-index: 99;
-    //   outline: none;
-    //   cursor: pointer;
-    // }
     .name-and-lastname {
       display: flex;
       .first-name {
@@ -472,16 +502,18 @@ export default {
     .first-name,
     .last-name,
     .email,
-    .password {
+    .password,
+    .username,
+    .birthday,
+    .country-dropdown {
       left: 8vw !important;
       width: 85vw !important;
       margin-top: 18px !important;
     }
 
-    .username,
-    .birthday,
-    .country-dropdown {
-      display: none;
+    .password-check {
+      top: 71% !important;
+      left: 8% !important;
     }
 
     .register {

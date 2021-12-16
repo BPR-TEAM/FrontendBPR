@@ -219,7 +219,10 @@ export default {
               }
             }
           )
-          .then(res => console.log(res.data));
+          .then(res => {
+            console.log(res.data);
+            window.location.reload();
+          });
       } catch (e) {}
     }
   }

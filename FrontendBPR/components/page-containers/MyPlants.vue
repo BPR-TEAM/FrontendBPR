@@ -7,6 +7,8 @@
           :commonName="plant.commonName"
           :image="plant.image"
           ref="profile-plant"
+          :plant="plant"
+          :tags="plant.tags"
         />
       </div>
     </div>
@@ -32,32 +34,12 @@ export default {
         this.plants = res.data;
         console.log(res);
       });
-
-    // this.getPlants(this.plants);
   },
   data() {
     return {
       tags: [1, 2, 3, 4, 5, 6, 7, 8, 9],
       plants: []
     };
-  },
-
-  methods: {
-    // getPlants(plants) {
-    //   plants.forEach(
-    //     plant =>
-    //       async function() {
-    //         await this.$axios
-    //           .get(
-    //             `https://orangebush.azurewebsites.net/Plant?id=${plant.plantId}`
-    //           )
-    //           .then(response => {
-    //             // plant.commonName = response.data.commonName;
-    //             console.log(response.data);
-    //           });
-    //       }
-    //   );
-    // }
   }
 };
 </script>

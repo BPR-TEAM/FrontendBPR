@@ -3,6 +3,7 @@
     <div class="number-of-comments">{{ advices.length }} Comments</div>
     <div class="add-advice-container">
       <textarea
+        v-if="route !== '/advice'"
         id="note"
         class="note-field"
         name="note"
@@ -11,7 +12,11 @@
         placeholder="Write an advice for other users..."
         v-model="adviceText"
       />
-      <div class="submit interactive-button" @click="submitAdvice()">
+      <div
+        class="submit interactive-button"
+        @click="submitAdvice()"
+        v-if="route !== '/advice'"
+      >
         Submit
       </div>
     </div>
@@ -25,14 +30,19 @@
           <img v-else :src="`data:image;base64,` + advice.creatorImage" />
         </div>
         <div class="profile-data">
-          <div class="name">{{ advice.creatorName }}</div>
+          <div class="tag-and-name">
+            <div class="name">{{ advice.creatorName }}</div>
+            <div class="tag" v-if="route === '/advice'">
+              <Tag :text="advice.tag.name" />
+            </div>
+          </div>
           <div class="posted">{{ advice.posted }}</div>
         </div>
       </div>
       <div class="description">{{ advice.description }}</div>
       <div class="rating-container">
         <div class="upvotes">
-          <div class="up-sign">
+          <div class="up-sign" @click="like(advice)">
             <svg
               id="Icon_"
               data-name="Icon "
@@ -89,7 +99,7 @@
           <div>{{ advice.likes }}</div>
         </div>
         <div class="downvotes">
-          <div class="down-sign">
+          <div class="down-sign" @click="dislike(advice)">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="18.333"
@@ -142,78 +152,65 @@
 
 <script>
 import { getCookie } from "../../static/cookie.js";
+import Tag from "../Tag.vue";
 export default {
+  components: {
+    Tag
+  },
   async fetch() {
     let userToken = getCookie("auth");
     let paramId = this.$route.query.id;
-    await this.$axios
-      .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
-      .then(response => {
-        this.plant = response.data;
-        console.log(`${response.status} ${response.statusText}`);
-      });
-
-    try {
+    let route = $nuxt.$route.path;
+    if (route !== "/advice") {
       await this.$axios
-        .get(`https://orangebush.azurewebsites.net/Advice?plantId=${paramId}`, {
-          headers: {
-            token: userToken
-          }
-        })
-        .then(res => {
-          this.advices = res.data;
-          console.log(res);
+        .get(`https://orangebush.azurewebsites.net/Plant?id=${paramId}`)
+        .then(response => {
+          this.plant = response.data;
+          console.log(`${response.status} ${response.statusText}`);
         });
-    } catch (e) {}
+
+      try {
+        await this.$axios
+          .get(
+            `https://orangebush.azurewebsites.net/Advice?plantId=${paramId}`,
+            {
+              headers: {
+                token: userToken
+              }
+            }
+          )
+          .then(res => {
+            this.advices = res.data;
+            console.log(res);
+          });
+      } catch (e) {}
+    } else {
+      try {
+        await this.$axios
+          .get("https://orangebush.azurewebsites.net/Advice/featured", {
+            headers: {
+              token: userToken
+            }
+          })
+          .then(res => {
+            this.advices = res.data;
+            console.log(res);
+          });
+      } catch (e) {}
+    }
   },
   data() {
     return {
-      advices: [
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua",
-          noUpvotes: 16,
-          noDownvotes: 12
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
-          noUpvotes: 16,
-          noDownvotes: 12
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
-          noUpvotes: 16,
-          noDownvotes: 12
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
-          noUpvotes: 16,
-          noDownvotes: 12
-        },
-        {
-          name: "Name",
-          posted: "5 hours ago",
-          description:
-            "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero",
-          noUpvotes: 16,
-          noDownvotes: 12
-        }
-      ],
+      advices: [],
       adviceText: "",
       plantTags: [],
-      plant: ""
+      plant: "",
+      route: ""
     };
+  },
+
+  mounted() {
+    this.route = $nuxt.$route.path;
   },
 
   methods: {
@@ -223,10 +220,6 @@ export default {
 
       let userToken = getCookie("auth");
 
-      const headers = {
-        token: userToken
-      };
-
       let req = {
         description: this.adviceText,
         tagId: this.plant.tags[0].id
@@ -234,7 +227,7 @@ export default {
       try {
         await this.$axios
           .post(
-            `https://orangebush.azurewebsites.net/Advice?plantId=${plantId}`,
+            `http://orangebush.azurewebsites.net/Advice?plantId=${plantId}`,
             req,
             {
               headers: {
@@ -243,6 +236,63 @@ export default {
             }
           )
           .then(res => console.log(res));
+      } catch (e) {}
+    },
+
+    async like(advice) {
+      let userToken = getCookie("auth");
+      let vote = 1;
+      console.log(userToken);
+
+      try {
+        await this.$axios
+          .put(
+            `https://orangebush.azurewebsites.net/Advice?adviceId=${advice.id}&vote=${vote}`,
+            [],
+            { headers: { token: userToken } }
+          )
+          .then(res => {
+            console.log(res.data);
+
+            if (res.data === "UserAdvice added") {
+              advice.likes++;
+            } else if (res.data === "UserAdvice removed") {
+              advice.likes--;
+            } else if (res.data === "UserAdvice type updated") {
+              advice.likes++;
+              advice.dislikes--;
+            }
+          });
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async dislike(advice) {
+      let userToken = getCookie("auth");
+      let vote = 0;
+      console.log(userToken);
+      try {
+        await this.$axios
+          .put(
+            `https://orangebush.azurewebsites.net/Advice?adviceId=${advice.id}&vote=${vote}`,
+            [],
+            {
+              headers: {
+                token: userToken
+              }
+            }
+          )
+          .then(res => {
+            console.log(res.data);
+            if (res.data === "UserAdvice added") {
+              advice.dislikes++;
+            } else if (res.data === "UserAdvice removed") {
+              advice.dislikes--;
+            } else if (res.data === "UserAdvice type updated") {
+              advice.dislikes++;
+              advice.likes--;
+            }
+          });
       } catch (e) {}
     }
   }
@@ -320,6 +370,14 @@ export default {
       height: 100%;
     }
   }
+  .tag-and-name {
+    display: flex;
+  }
+  .tag {
+    margin-left: 2rem !important;
+    position: absolute;
+    left: 30%;
+  }
   .profile {
     display: flex;
     margin-bottom: 10px !important;
@@ -362,6 +420,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
   }
 }
 

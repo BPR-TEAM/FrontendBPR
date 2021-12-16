@@ -75,13 +75,6 @@ export default {
             borderColor: "rgb(76, 195, 192)"
           },
           {
-            backgroundColor: "rgb(24, 175, 189)",
-            label: "Max value",
-            data: [30, 30, 30, 30, 30, 30],
-            // fill: true
-            borderColor: "rgb(24, 175, 189)"
-          },
-          {
             backgroundColor: "#fff3c7",
             data: [0, 11, 10, 25, 17, 1, 10],
             label: "Actual value",

@@ -1,9 +1,9 @@
 <template>
   <div class="my-container">
-    <div class="tag-container">
-      <Tag class="tag" text="Family" />
-      <Tag class="tag" text="Family" />
-      <Tag class="tag" text="Family" />
+    <div class="tag-wrap-container">
+      <div class="tag-content" v-for="tag in tags" :key="tag.id">
+        <Tag class="tag" :text="tag.name" />
+      </div>
     </div>
     <div class="plant-details">
       <div class="plant-image">
@@ -18,7 +18,7 @@
         <div class="given-name">{{ name }}</div>
         <div class="plant-name">{{ commonName }}</div>
       </div>
-      <div class="delete">
+      <div class="delete" @click="deletePlant(plant)">
         <svg
           id="Circle_Button"
           data-name="Circle Button"
@@ -90,10 +90,26 @@
 
 <script>
 import Tag from "../components/Tag.vue";
+import { getCookie } from "../static/cookie";
 export default {
-  props: ["name", "commonName", "image"],
+  props: ["name", "commonName", "image", "plant", "tags"],
   components: {
     Tag
+  },
+
+  methods: {
+    async deletePlant(plant) {
+      let auth = getCookie("auth");
+
+      try {
+        await this.$axios
+          .delete(
+            `https://orangebush.azurewebsites.net/Plant/Myplant?userPlantId=${plant.id}`,
+            { headers: { token: auth } }
+          )
+          .then(res => console.log(res.data));
+      } catch (e) {}
+    }
   }
 };
 </script>
@@ -142,17 +158,27 @@ export default {
     position: relative;
     top: 35px;
     left: 140px;
+    cursor: pointer;
   }
 }
-.tag-container {
-  position: relative;
-  left: 120px;
-  height: 100%;
-  z-index: 99;
-  display: block;
+.tag-wrap-container {
+  position: absolute;
+  left: 80%;
+  height: 80%;
+  width: 50%;
+  z-index: 999;
+
+  // display: block;
+  // flex-direction: column;
+  overflow-y: scroll;
 
   .tag {
     margin-bottom: 10px !important;
+  }
+
+  .tag-content {
+    height: 20%;
+    margin: 0 0 0.4rem 0 !important;
   }
 }
 </style>

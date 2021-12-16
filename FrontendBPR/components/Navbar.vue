@@ -16,14 +16,24 @@
       <div class="links-and-name">
         <div class="website-name">Orange Bush</div>
 
-        <div class="links">
+        <div class="links" v-if="token_">
           <nuxt-link class="nav-item" to="/">Home</nuxt-link>
           <nuxt-link class="nav-item" to="/profile">Profile</nuxt-link>
           <nuxt-link class="nav-item" to="/advice">Advices</nuxt-link>
           <nuxt-link class="nav-item" to="/dashboards">Dashboard</nuxt-link>
         </div>
+        <div class="links" v-else>
+          <nuxt-link class="nav-item" to="/">Home</nuxt-link>
+        </div>
       </div>
-      <div class="authentication">
+      <div class="authentication" v-if="token_">
+        <div class="auth-button">
+          <button class="interactive-button" @click="logOut()">
+            Log out
+          </button>
+        </div>
+      </div>
+      <div class="authentication" v-else>
         <div class="auth-button">
           <button class="interactive-button" @click="openModal('login')">
             Log In
@@ -42,11 +52,23 @@
 <script>
 import LoginModal from "../components/Modals/Login.vue";
 import RegisterModal from "../components/Modals/Register.vue";
+import { getCookie } from "../static/cookie";
 export default {
   components: {
     LoginModal,
     RegisterModal
   },
+
+  created() {
+    this.token_ = getCookie("auth");
+  },
+
+  data() {
+    return {
+      token_: ""
+    };
+  },
+
   methods: {
     openModal(modal) {
       this.$refs[modal].open();
@@ -55,13 +77,30 @@ export default {
       const navbarLinks = document.getElementsByClassName("links")[0];
       const hamburgerLines = document.getElementsByClassName("line");
       const navbarItems = document.getElementsByClassName("nav-item");
-      // const overlay = document.getElementsByClassName("mobile-overlay")[0];
 
       navbarLinks.classList.toggle("active");
       // overlay.classList.toggle("active");
       navbarItems.forEach(navbarItem => {
         navbarItem.classList.toggle("active");
       });
+    },
+
+    async logOut() {
+      let auth = getCookie("auth");
+      console.log("clocked");
+      try {
+        await this.$axios
+          .post("https://orangebush.azurewebsites.net/Auth/Logout", [], {
+            headers: {
+              token: auth
+            }
+          })
+          .then(res => {
+            console.log(res);
+            document.cookie = `auth=`;
+            window.location.reload();
+          });
+      } catch (error) {}
     }
   }
 };
