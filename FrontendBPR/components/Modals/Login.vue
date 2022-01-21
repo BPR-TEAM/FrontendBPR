@@ -175,7 +175,9 @@ export default {
         })
         .catch(e => console.log(e.status));
 
-      document.cookie = `auth=${authToken}`;
+      if (authToken !== undefined) {
+        document.cookie = `auth=${authToken}`;
+      }
       this.close();
       window.location.reload();
       console.log(authToken);

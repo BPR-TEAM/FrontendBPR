@@ -16,7 +16,7 @@
       <div class="links-and-name">
         <div class="website-name">Orange Bush</div>
 
-        <div class="links" v-if="token_">
+        <div class="links" v-if="token_ && token_ !== 'undefined'">
           <nuxt-link class="nav-item" to="/">Home</nuxt-link>
           <nuxt-link class="nav-item" to="/profile">Profile</nuxt-link>
           <nuxt-link class="nav-item" to="/advice">Advices</nuxt-link>
@@ -26,7 +26,7 @@
           <nuxt-link class="nav-item" to="/">Home</nuxt-link>
         </div>
       </div>
-      <div class="authentication" v-if="token_">
+      <div class="authentication" v-if="token_ && token_ !== 'undefined'">
         <div class="auth-button">
           <button class="interactive-button" @click="logOut()">
             Log out
@@ -87,7 +87,6 @@ export default {
 
     async logOut() {
       let auth = getCookie("auth");
-      console.log("clocked");
       try {
         await this.$axios
           .post("https://orangebush.azurewebsites.net/Auth/Logout", [], {
