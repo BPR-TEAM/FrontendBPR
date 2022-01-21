@@ -337,7 +337,7 @@ export default {
   transform: translate(-50%, -50%);
   z-index: 999;
   display: flex !important;
-  background: url("./assets/images/add-new-plant.png") no-repeat center center;
+  background: url("~assets/images/add-new-plant.png") no-repeat center center;
 
   width: 895px;
   height: 603px;

@@ -367,7 +367,7 @@ export default {
   border: 1px solid gray;
   width: 895px;
   height: 603px;
-  background: url("./assets/images/add-new-plant.png") no-repeat center center;
+  background: url("~assets/images/add-new-plant.png") no-repeat center center;
 
   padding: 25px;
 
