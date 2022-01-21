@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="add-file">
-          <div class="upload-icon" @click="uploadFile()">
+          <div class="upload-icon" @click="uploadFile(plant)">
             <img src="~assets/images/Circle Button.png" alt="upload" />
             <input
               type="file"
@@ -235,7 +235,7 @@ export default {
     };
   },
   methods: {
-    uploadFile() {
+    uploadFile(plant) {
       let chooseFile = document.getElementById("choose-file");
       let auth = getCookie("auth");
       chooseFile.click();
