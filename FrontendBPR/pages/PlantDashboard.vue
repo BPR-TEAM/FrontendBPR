@@ -282,6 +282,7 @@ const options = {
   }
 };
 export default {
+  layout: "default-with-nav",
   middleware: authenticated,
   mounted() {
     this.$nextTick(async function() {
