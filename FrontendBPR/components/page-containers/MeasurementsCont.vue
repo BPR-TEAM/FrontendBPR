@@ -60,7 +60,7 @@
           </div>
         </div>
         <div class="add-file">
-          <div class="upload-icon" @click="uploadFile(plant)">
+          <div class="upload-icon" @click="uploadFile()">
             <img src="~assets/images/Circle Button.png" alt="upload" />
             <input
               type="file"
