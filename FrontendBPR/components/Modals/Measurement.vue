@@ -196,12 +196,12 @@ export default {
     },
     async saveMeasurements() {
       let param = Number(this.$route.query.id);
-      let preffered = `${this.min}-${this.max}-${this.unit}`;
+      let preferred = `${this.min}-${this.max}-${this.unit}`;
       let req = {
         plantId: param,
         name: this.name,
         description: this.description,
-        prefferedRange: preffered,
+        preferredRange: preferred,
         userPlantId: this.id
       };
 

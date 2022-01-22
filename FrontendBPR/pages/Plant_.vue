@@ -115,6 +115,8 @@ export default {
     NewPlant
   },
 
+  middleware: authenticated,
+
   mounted() {
     this.component = () =>
       import(`../components/page-containers/AdviceContainer.vue`);

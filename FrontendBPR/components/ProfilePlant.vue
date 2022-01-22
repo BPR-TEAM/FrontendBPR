@@ -107,7 +107,10 @@ export default {
             `https://orangebush.azurewebsites.net/Plant/Myplant?userPlantId=${plant.id}`,
             { headers: { token: auth } }
           )
-          .then(res => console.log(res.data));
+          .then(res => {
+            console.log(res.data);
+            window.location.reload();
+          });
       } catch (e) {}
     }
   }

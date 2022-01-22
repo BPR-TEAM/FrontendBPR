@@ -331,6 +331,7 @@ export default {
     },
 
     async deleteMeasurement(measurement, i) {
+      console.log(this.dataTypeArr);
       let auth = getCookie("auth");
       let id = measurement.id;
 
@@ -347,6 +348,7 @@ export default {
           .then(res => {
             console.log(res.data);
             this.dataTypeArr.splice(1, i);
+            window.location.reload();
           });
       } catch (error) {}
     }
