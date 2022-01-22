@@ -445,7 +445,7 @@ export default {
               loading.style.display = "flex";
               await axios
                 .post(
-                  "http://localhost:7071/api/FlowerPredictFunction",
+                  "https://flowerpredictfunction.azurewebsites.net/api/FlowerPredictFunction",
                   userImage
                 )
                 .then(res => {
