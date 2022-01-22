@@ -450,6 +450,7 @@ export default {
                 )
                 .then(res => {
                   loading.style.display = "none";
+                  console.log(res.data);
                   predictionTxt.value = res.data.predictedLabel.toUpperCase();
                 });
             } catch (e) {}
