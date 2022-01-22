@@ -227,7 +227,7 @@ export default {
       try {
         await this.$axios
           .post(
-            `http://orangebush.azurewebsites.net/Advice?plantId=${plantId}`,
+            `https://orangebush.azurewebsites.net/Advice?plantId=${plantId}`,
             req,
             {
               headers: {
