@@ -425,14 +425,15 @@ export default {
     predictPlant() {
       let chooseFile = document.getElementById("choose-file");
       chooseFile.click();
-      chooseFile.addEventListener("input", function() {
+
+      chooseFile.onended = function() {
         let userImage;
         const files = chooseFile.files[0];
         // console.log(files);
         if (files) {
           const fileReader = new FileReader();
           fileReader.readAsDataURL(files);
-          fileReader.onloadend = async function() {
+          fileReader.onload = async function() {
             let char = "'";
             userImage = this.result.split(",")[1];
             userImage = char.concat(userImage);
@@ -456,7 +457,7 @@ export default {
             } catch (e) {}
           };
         }
-      });
+      };
     },
 
     changePredict(pred) {
