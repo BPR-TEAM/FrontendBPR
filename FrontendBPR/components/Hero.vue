@@ -432,7 +432,7 @@ export default {
         if (files) {
           const fileReader = new FileReader();
           fileReader.readAsDataURL(files);
-          fileReader.addEventListener("load", async function() {
+          fileReader.onloadend = async function() {
             let char = "'";
             userImage = this.result.split(",")[1];
             userImage = char.concat(userImage);
@@ -454,7 +454,7 @@ export default {
                   predictionTxt.value = res.data.predictedLabel.toUpperCase();
                 });
             } catch (e) {}
-          });
+          };
         }
       });
     },
