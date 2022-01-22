@@ -334,6 +334,7 @@ export default {
           })
           .then(res => {
             console.log(res.data);
+            this.close();
             wiindow.location.reload();
           })
           .error(res => console.log(res));

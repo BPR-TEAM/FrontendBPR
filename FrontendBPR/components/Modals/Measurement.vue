@@ -221,6 +221,7 @@ export default {
           )
           .then(res => {
             console.log(res.data);
+            this.close();
             window.location.reload();
           });
       } catch (e) {}

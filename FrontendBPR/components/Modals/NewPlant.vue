@@ -239,8 +239,6 @@ export default {
       const id = this.$route.query.id;
       const token = this.getCookie("auth");
       const image = document.getElementById("plant-preview").src;
-      const imageToConvert = document.getElementById("plant-preview");
-      const blob = new Blob([image]);
 
       let request = {
         plantId: id,
@@ -259,6 +257,7 @@ export default {
         .then(res => {
           console.log(res);
           console.log(request);
+          this.close();
         })
         .catch(e => console.log(e.message));
     },
