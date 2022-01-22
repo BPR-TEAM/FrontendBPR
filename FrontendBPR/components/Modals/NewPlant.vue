@@ -404,11 +404,12 @@ export default {
   position: relative;
   align-self: center;
   left: 8%;
+  bottom: 3%;
   // pointer-events: none;
 
   .add-image {
     width: 430px !important;
-    height: 330px !important;
+    height: 325px !important;
 
     .new-plant-image {
       position: relative;
