@@ -419,7 +419,7 @@ export default {
                 this.chartData.datasets.length - 1
               ].data.push(measurement.value);
 
-              let day = new Date(measurement.date).getDay();
+              let day = new Date(measurement.date).getDay() + 1;
               let month = new Date(measurement.date).getMonth() + 1;
               let year = new Date(measurement.date).getFullYear();
 
