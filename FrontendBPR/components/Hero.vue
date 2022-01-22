@@ -426,7 +426,7 @@ export default {
       let chooseFile = document.getElementById("choose-file");
       chooseFile.click();
 
-      chooseFile.onended = function() {
+      chooseFile.onchange = function() {
         let userImage;
         const files = chooseFile.files[0];
         // console.log(files);
