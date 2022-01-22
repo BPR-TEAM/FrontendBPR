@@ -425,7 +425,7 @@ export default {
     predictPlant() {
       let chooseFile = document.getElementById("choose-file");
       chooseFile.click();
-      chooseFile.addEventListener("change", function() {
+      chooseFile.addEventListener("input", function() {
         let userImage;
         const files = chooseFile.files[0];
         // console.log(files);
