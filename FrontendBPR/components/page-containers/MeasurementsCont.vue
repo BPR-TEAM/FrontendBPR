@@ -348,7 +348,7 @@ export default {
           .then(res => {
             console.log(res.data);
             this.dataTypeArr.splice(1, i);
-            window.location.reload();
+            location.reload();
           });
       } catch (error) {}
     }

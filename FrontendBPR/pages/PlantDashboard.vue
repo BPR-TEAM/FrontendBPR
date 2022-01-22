@@ -385,7 +385,7 @@ export default {
               data: req
             }
           )
-          .then(res => console.log(res.data));
+          .then(res => window.location.reload());
       } catch (e) {}
     },
     openModal() {
