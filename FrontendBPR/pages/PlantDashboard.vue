@@ -420,7 +420,7 @@ export default {
               ].data.push(measurement.value);
 
               let day = new Date(measurement.date).getDay();
-              let month = new Date(measurement.date).getMonth();
+              let month = new Date(measurement.date).getMonth() + 1;
               let year = new Date(measurement.date).getFullYear();
 
               let dateVal = `${day}/${month}/${year}`;
